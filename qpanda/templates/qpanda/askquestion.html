@@ -1,0 +1,16 @@
+{%  extends 'qpanda/base.html' %}
+
+{% block content %}
+    {% comment %}
+    I spent so long trying to figure out how to call a 'higher level' domain. It's a really complicated search
+    query. But yes. You can just use the linux '../'. And I realise now as I type this that I should have searched
+    'how to submit form to parent url'. Saying 'higher level domain' was showing stuff about top level domains.
+    {% endcomment %}
+    <form action="../question/" method="POST">
+        {% csrf_token %}
+        <p>Enter your question:</p>
+        {{ form.question_text }}
+        <input type="submit" value="Ask">
+    </form>
+
+{% endblock %}
