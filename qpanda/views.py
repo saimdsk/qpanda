@@ -36,12 +36,13 @@ def question(request):
         if form.is_valid():
             text = form.cleaned_data['question_text']
 
-        dt = timezone.now()
+        # hard coded for now, will fix later.
         yaseen = User.objects.get(username='yaseen')
-        q = Question(question_text=text, pub_date=dt, owner=yaseen)
+
+        q = Question.create(question_text=text, owner=yaseen)
         q.save()
 
-        return HttpResponse("The question you entered was: " + str(text) + "? at " + str(dt))
+        return HttpResponse("The question you entered was: " + q.question_text + "? at " + str(q.pub_date))
 
     context = {'text':text}
     return render(request, 'qpanda/question.html', context)
