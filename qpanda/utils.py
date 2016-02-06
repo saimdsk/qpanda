@@ -6,13 +6,6 @@ def gen_valid_pk():
     # removed t from allowed_chars that get_random_string() can take as a parameter because 't' can appear later on.
     # e.g. qpanda.co/t123456 is invalid, qpanda.co/1234t56 is okay.
 
-    # TODO Unique key collision
-    # I'm not sure whether I should do it here or in a view, but there is going to be the eventuality that this function
-    # will generate a pk that already exists in the database. I'm not sure if I should query the database everytime
-    # to see if the pk already exists. That will be superfluous because it will be for every single time this function
-    # is called. I could instead wait for a django.db.IntegrityError which will be raised when another question tries to
-    # use the same id. Yeah that makes more sense. I'll do that. I'm going to submit another fix first before I do that.
-
     pk = get_random_string(length=7)
     while pk[0] == 't':
         pk = get_random_string(length=7)
