@@ -19,7 +19,6 @@ class Question(models.Model):
     pub_date = models.DateTimeField('date published')
     owner = models.ForeignKey(User, null=True)
 
-
     @classmethod
     def create(cls, question_text, owner):
         # Django doesn't want you to screw around with an __init__ class method. So instead you can use a model manager
@@ -29,7 +28,6 @@ class Question(models.Model):
 
         q = cls(question_text=question_text, owner=owner, pub_date=timezone.now(), id=gen_valid_pk())
         return q
-
 
     def __unicode__(self):
         if self.owner is None:

@@ -55,8 +55,8 @@ def question(request):
 
         return HttpResponse("The question you entered was: " + q.question_text + "? at " + str(q.pub_date))
 
-    context = {'text':text}
-    return render(request, 'qpanda/question.html', context)
+    else:
+        return render(request, 'qpanda/index.html')
 
 def askedquestion(request, question_id):
 
