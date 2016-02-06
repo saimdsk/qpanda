@@ -1,11 +1,12 @@
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.utils import timezone
+from django.db import IntegrityError
 from django.contrib.auth.models import User
 
 from .forms import QuestionForm
 from .models import Question
+from utils import gen_valid_pk
 
 # Create your views here.
 
@@ -40,7 +41,17 @@ def question(request):
         yaseen = User.objects.get(username='yaseen')
 
         q = Question.create(question_text=text, owner=yaseen)
-        q.save()
+        try:
+            q.save()
+        except IntegrityError:
+            pk = gen_valid_pk()
+            while pk in Question.objects.filter(id=pk):
+                pk = gen_valid_pk()
+            q.save()
+        # there is a possibility (very slim) that gen_valid_pk() will generate the same unique key. If that happens when
+        # you try to call save an IntegrityError will be raised. We just keep calling gen_valid_pk() until a unique key
+        # is found. I don't want to check for this every time I generate a pk or in the model itself, so I'll include it
+        # here, but I don't think that the except block will ever be called.
 
         return HttpResponse("The question you entered was: " + q.question_text + "? at " + str(q.pub_date))
 
