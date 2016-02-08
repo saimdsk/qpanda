@@ -5,10 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Question Panda</title>
+    <link rel="stylesheet" type="text/css" href="{% static "qpanda.css" %}"/>
 </head>
 <body>
-    <img src="{% static "logo/v1/v0001-250x250.png" %}"/>
-    <h1>Welcome to Question Panda!</h1>
+    <div id="headline">
+        <img src="{% static "logo/v1/v0001-250x250.png" %}" id="logo"/>
+        <h1 id="heading">Question Panda</h1>
+    </div>
+
     {% block content %}
     {% endblock %}
 </body>

@@ -1,0 +1,28 @@
+div#headline {
+    text-align: center;
+}
+
+img#logo, h1#heading {
+    display: inline-block;
+}
+
+img#logo {
+    height: 100px;
+    width: auto;
+    vertical-align: middle;
+}
+
+h1#heading {
+    margin-left: 10px;
+    vertical-align: middle;
+    font-family: "Racing Sans One";
+    letter-spacing: -0.3px;
+    font-weight: 300;
+    font-size: 42px;
+    padding-bottom: 8px;
+    /* the padding bottom is needed because it feels more centered than using text-align center in the div */
+}
+
+body {
+    background-color: #effcff;
+}
