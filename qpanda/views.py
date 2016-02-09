@@ -59,6 +59,8 @@ def question(request):
         return render(request, 'qpanda/index.html')
 
 def askedquestion(request, question_id):
-
-    q = Question.objects.get(pk=question_id)
+    try:
+        q = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        return HttpResponse("Question id: '" + question_id + "' not found.")
     return HttpResponse("The question is: " + q.question_text)

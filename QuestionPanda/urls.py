@@ -22,5 +22,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^qpanda/', include('qpanda.urls')),
     url(r'^(?P<question_id>[a-zA-Z0-9]+)', views.askedquestion, name='askedquestion'),
-    url(r'^$', views.index, name='index'), #forward everything to qpanda.
+    url(r'^$', views.askquestion, name='askquestion'), #forward everything to qpanda.
 ]

@@ -6,7 +6,9 @@ from qpanda import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.askquestion, name='askquestion'),
+    # changed this to point straight to the askquestion page. We don't need to load a page, click a button, load another
+    # page before we actually do what we want to do.
 
     url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
 

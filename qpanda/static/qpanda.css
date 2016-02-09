@@ -23,6 +23,40 @@ h1#heading {
     /* the padding bottom is needed because it feels more centered than using text-align center in the div */
 }
 
+div#content {
+    margin: 0 auto;
+    max-width: 975px;
+    /* width chosen based on this article https://www.newfangled.com/optimal-site-width/ */
+}
+
+h3 {
+    font-size: 20px;
+    font-family: "Helvetica";
+    margin-bottom: 5px;
+}
+
 body {
     background-color: #effcff;
+}
+
+div#askarea {
+    width: 600px;
+    margin: 0 auto;
+    height: 40px;
+    text-align: center;;
+}
+
+input.askbar {
+    width: 400px;
+    height: inherit;
+    font-size: 20px;
+    vertical-align: middle;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+input#askbutton {
+    height: inherit;
+    width: 50px;
+    vertical-align: middle;
 }

@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Question Panda</title>
+    <link href='https://fonts.googleapis.com/css?family=Racing+Sans+One' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{% static "qpanda.css" %}"/>
 </head>
 <body>
@@ -13,7 +14,9 @@
         <h1 id="heading">Question Panda</h1>
     </div>
 
-    {% block content %}
-    {% endblock %}
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>

@@ -6,11 +6,14 @@
     query. But yes. You can just use the linux '../'. And I realise now as I type this that I should have searched
     'how to submit form to parent url'. Saying 'higher level domain' was showing stuff about top level domains.
     {% endcomment %}
-    <form action="../question/" method="POST">
+    <form action="/qpanda/question/" method="POST">
         {% csrf_token %}
-        <p>Enter your question:</p>
-        {{ form.question_text }}
-        <input type="submit" value="Ask">
+
+        <div id="askarea">
+            <h3>Enter your question:</h3>
+            {{ form.question_text }}
+            <input id="askbutton" type="submit" value="Ask">
+        </div>
     </form>
 
 {% endblock %}
