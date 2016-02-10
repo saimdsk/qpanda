@@ -32,7 +32,6 @@ div#content {
 h3 {
     font-size: 20px;
     font-family: "Helvetica";
-    margin-bottom: 5px;
 }
 
 body {
@@ -40,19 +39,29 @@ body {
 }
 
 div#askarea {
-    width: 600px;
-    margin: 0 auto;
+    width: 800px;
     height: 40px;
+    margin: 0 auto;
     text-align: center;;
 }
 
 input.askbar {
-    width: 400px;
+    width: 600px;
     height: inherit;
     font-size: 20px;
     vertical-align: middle;
     padding-left: 3px;
     padding-right: 3px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #7b7b7b;
+    /*  All this border stuff came about because firefox has a border-radius by default. I chose to override that but
+        I then discovered that the text input in firefox had a border but only on the top and left of the input text.
+        I spent maybe an hour trying to tinkering with different border settings but it never worked. My keywords
+        weren't working. The solution came about when I searched 'firefox input text shadow' and then it worked. So I'm
+        including this comment in case I ever run into this problem in the future again.
+
+        ctrl+f tags: "firefox" "input" "text" "border" "left" "top" "input text shadow" "input text left top border" */
 }
 
 input#askbutton {
