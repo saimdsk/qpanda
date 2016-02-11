@@ -1,5 +1,4 @@
-
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db import IntegrityError
 from django.contrib.auth.models import User
@@ -58,7 +57,8 @@ def question(request):
         # is found. I don't want to check for this every time I generate a pk or in the model itself, so I'll include it
         # here, but I don't think that the except block will ever be called.
 
-        return HttpResponse("The question you entered was: " + q.question_text + "? at " + str(q.pub_date))
+        return redirect('askedquestion', question_id=q.id)
+        # once the question has been successfully saved we redirect to the askedquestion view to display it.
 
     else:
         return render(request, 'qpanda/index.html')
