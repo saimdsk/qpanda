@@ -1,7 +1,16 @@
 header {
-    margin-top: 20px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     text-align: center;
+    color: white;
+    background-color: #205898;
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+    border-bottom-color: #464646;
+    margin-bottom: 20px;
 }
+
+/* I really like this colour and don't want to lose it. #2f6bb0 */
 
 img#logo, h1#heading {
     display: inline-block;
