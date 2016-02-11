@@ -7,30 +7,15 @@ from .forms import QuestionForm
 from .models import Question
 from utils import gen_valid_pk
 
-# Create your views here.
 
 def index(request):
     return render(request, 'qpanda/index.html')
     # return HttpResponse("WELCOME TO QUESTIONPANDA!")
 
 
-def detail(request, question_id):
-    return HttpResponse("You're looking at question %s." % question_id)
-
-
-def results(request, question_id):
-    return HttpResponse("You're looking at the results of question %s." % question_id)
-
-
-def vote(request, question_id):
-    return HttpResponse("You're voting on question %s." % question_id)
-
-
 def askquestion(request):
-    context = {'test':True, 'test2':'WORKING!'}
     form = QuestionForm()
-    context['form'] = form
-    return render(request, 'qpanda/askquestion.html', context)
+    return render(request, 'qpanda/askquestion.html', {'form':form})
     # return HttpResponse("Just checking to see if the templates are working correctly. If this displays, they are.")
 
 
