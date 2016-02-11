@@ -14,14 +14,18 @@ def index(request):
     return render(request, 'qpanda/index.html')
     # return HttpResponse("WELCOME TO QUESTIONPANDA!")
 
+
 def detail(request, question_id):
     return HttpResponse("You're looking at question %s." % question_id)
+
 
 def results(request, question_id):
     return HttpResponse("You're looking at the results of question %s." % question_id)
 
+
 def vote(request, question_id):
     return HttpResponse("You're voting on question %s." % question_id)
+
 
 def askquestion(request):
     context = {'test':True, 'test2':'WORKING!'}
@@ -29,6 +33,7 @@ def askquestion(request):
     context['form'] = form
     return render(request, 'qpanda/askquestion.html', context)
     # return HttpResponse("Just checking to see if the templates are working correctly. If this displays, they are.")
+
 
 def question(request):
     if request.method == 'POST':
@@ -58,9 +63,10 @@ def question(request):
     else:
         return render(request, 'qpanda/index.html')
 
+
 def askedquestion(request, question_id):
     try:
         q = Question.objects.get(pk=question_id)
     except Question.DoesNotExist:
         return HttpResponse("Question id: '" + question_id + "' not found.")
-    return HttpResponse("The question is: " + q.question_text)
+    return render(request, 'qpanda/askedquestion.html', {'question':q.question_text})
