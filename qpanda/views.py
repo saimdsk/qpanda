@@ -10,13 +10,11 @@ from utils import gen_valid_pk
 
 def index(request):
     return render(request, 'qpanda/index.html')
-    # return HttpResponse("WELCOME TO QUESTIONPANDA!")
 
 
 def askquestion(request):
     form = QuestionForm()
     return render(request, 'qpanda/askquestion.html', {'form':form})
-    # return HttpResponse("Just checking to see if the templates are working correctly. If this displays, they are.")
 
 
 def question(request):
@@ -29,20 +27,20 @@ def question(request):
         # hard coded for now, will fix later.
         yaseen = User.objects.get(username='yaseen')
 
-        q = Question.create(question_text=text, owner=yaseen)
+        question = Question.create(question_text=text, owner=yaseen)
         try:
-            q.save()
+            question.save()
         except IntegrityError:
             pk = gen_valid_pk()
             while pk in Question.objects.filter(id=pk):
                 pk = gen_valid_pk()
-            q.save()
+            question.save()
         # there is a possibility (very slim) that gen_valid_pk() will generate the same unique key. If that happens when
         # you try to call save an IntegrityError will be raised. We just keep calling gen_valid_pk() until a unique key
         # is found. I don't want to check for this every time I generate a pk or in the model itself, so I'll include it
         # here, but I don't think that the except block will ever be called.
 
-        return redirect('askedquestion', question_id=q.id)
+        return redirect('askedquestion', question_id=question.id)
         # once the question has been successfully saved we redirect to the askedquestion view to display it.
 
     else:
@@ -54,4 +52,5 @@ def askedquestion(request, question_id):
         q = Question.objects.get(pk=question_id)
     except Question.DoesNotExist:
         return HttpResponse("Question id: '" + question_id + "' not found.")
+
     return render(request, 'qpanda/askedquestion.html', {'question':q.question_text})
