@@ -81,16 +81,27 @@ input.askbar {
         ctrl+f tags: "firefox" "input" "text" "border" "left" "top" "input text shadow" "input text left top border" */
 }
 
-input#askbutton {
-    height: inherit;
+input.button {
+    padding: 10px 10px 10px 10px;
     vertical-align: middle;
     background-color: #37A9E5;
     color: white;
     font-size: 16px;
-    width: 60px;
     border-style: solid;
     border-width: 1px;
     border-color: #7b7b7b;
+    border-radius: 3px;
+}
+
+input.button:hover {
+    background-color: #319ad0;
+}
+
+input#askbutton {
+    height: inherit;
+    width: 60px;
+    padding: 0px 0px 0px 0px;
+    border-radius: 0px;
 }
 
 input#askbutton:hover {

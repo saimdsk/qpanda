@@ -6,4 +6,24 @@
         <h3>{{ question }}</h3>
     {% endif %}
 
+    <form action="/{{ question_id }}/answer/" method="POST">
+        {% csrf_token %}
+
+        <div id="answerarea">
+            <h4>Enter your answer:</h4>
+            {{ form.answer_text }}
+            <input class="button" type="submit" value="Answer">
+        </div>
+
+        {% if answers %}
+            <div>
+                <ul>
+                    {% for a in answers %}
+                        <li>{{ a.answer_text }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </form>
+
 {% endblock %}

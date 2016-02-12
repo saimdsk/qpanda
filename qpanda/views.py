@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.db import IntegrityError
 from django.contrib.auth.models import User
 
-from .forms import QuestionForm
-from .models import Question
+from .forms import QuestionForm, AnswerForm
+from .models import Question, Answer
 from utils import gen_valid_pk
 
 
@@ -56,4 +56,27 @@ def askedquestion(request, question_id):
     except Question.DoesNotExist:
         return HttpResponse("Question id: '" + question_id + "' not found.")
 
-    return render(request, 'qpanda/askedquestion.html', {'question':q.question_text})
+    context = {'question':q.question_text,
+               'form':AnswerForm(),
+               'question_id':q.id,
+               'answers':q.answer_set.all()}
+    return render(request, 'qpanda/askedquestion.html', context)
+
+
+def answerquestion(request, question_id):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+
+        if form.is_valid():
+            text = form.cleaned_data['answer_text']
+
+        try:
+            q = Question.objects.get(pk=question_id)
+        except Question.DoesNotExist:
+            return HttpResponse("Question id: '" + question_id + "' not found.")
+
+        a = Answer(question=q, answer_text=text)
+        a.save()
+
+        return redirect('askedquestion', question_id=question_id)
+
