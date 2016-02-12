@@ -1,6 +1,6 @@
 from django.forms import ModelForm, TextInput
 
-from .models import Question, PollChoice
+from .models import Question, Answer
 
 class QuestionForm(ModelForm):
     class Meta:
@@ -14,9 +14,8 @@ class QuestionForm(ModelForm):
         }
 
 
-class PollChoiceForm(ModelForm):
+class AnswerForm(ModelForm):
     class Meta:
-        model = PollChoice
-        fields = ['question', 'pollchoice_text', 'votes']
-
+        model = Answer
+        fields = ['answer_text']
 

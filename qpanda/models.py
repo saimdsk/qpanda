@@ -4,6 +4,7 @@ from django.utils import timezone
 
 from qpanda.utils import gen_valid_pk
 
+
 class Question(models.Model):
     id = models.CharField(primary_key=True, max_length=20, unique=True)
     # Instead of using numbers to identify questions, I will use random letters and numbers. Eventually qpanda.co will
@@ -36,7 +37,6 @@ class Question(models.Model):
             return self.owner.get_username() + "'s Question: " + self.question_text
 
 
-class PollChoice(models.Model):
+class Answer(models.Model):
     question = models.ForeignKey(Question)
-    pollchoice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
+    answer_text = models.TextField(verbose_name='Answer')
