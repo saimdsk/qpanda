@@ -4,9 +4,7 @@ header {
     text-align: center;
     color: white;
     background-color: #205898;
-    border-bottom-style: solid;
-    border-bottom-width: 3px;
-    border-bottom-color: #464646;
+    border-bottom: 3px solid rgba(91, 27, 27, 0.23);
     margin-bottom: 20px;
 }
 
@@ -14,6 +12,12 @@ header {
 
 img#logo, h1#heading {
     display: inline-block;
+}
+
+div#error {
+    width: 250px;
+    margin: 0 auto;
+    padding: 10px;
 }
 
 img#logo {
@@ -41,6 +45,10 @@ div#content {
 h4 {
     font-size: 20px;
     font-family: "Helvetica";
+}
+
+h3#error {
+    color: #cb0000;
 }
 
 body {

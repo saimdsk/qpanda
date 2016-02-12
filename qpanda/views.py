@@ -23,6 +23,9 @@ def question(request):
 
         if form.is_valid():
             text = form.cleaned_data['question_text']
+        else:
+            return render(request, 'qpanda/askquestion.html', {'error':'Please enter a valid question.',
+                                                               'form':QuestionForm()})
 
         # hard coded for now, will fix later.
         yaseen = User.objects.get(username='yaseen')
