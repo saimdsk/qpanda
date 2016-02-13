@@ -89,6 +89,15 @@ input.askbar {
         ctrl+f tags: "firefox" "input" "text" "border" "left" "top" "input text shadow" "input text left top border" */
 }
 
+div#answerbox {
+    width: 700px;
+    margin: 0 auto;
+}
+
+div#answerbuttonbox {
+    text-align: right;
+}
+
 input.button {
     padding: 10px 10px 10px 10px;
     vertical-align: middle;
@@ -105,6 +114,11 @@ input.button:hover {
     background-color: #319ad0;
 }
 
+textarea.answerbar {
+    width: inherit;
+    height: 100px;
+}
+
 input#askbutton {
     height: inherit;
     width: 60px;
@@ -114,4 +128,8 @@ input#askbutton {
 
 input#askbutton:hover {
     background-color: #319ad0;
+}
+
+div#answers {
+
 }

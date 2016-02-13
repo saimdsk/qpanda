@@ -18,21 +18,23 @@
     <form action="/{{ question_id }}/answer/" method="POST">
         {% csrf_token %}
 
-        <div id="answerarea">
+        <div id="answerbox">
             <h4>Enter your answer:</h4>
             {{ form.answer_text }}
-            <input class="button" type="submit" value="Answer">
-        </div>
-
-        {% if answers %}
-            <div>
-                <ul>
-                    {% for a in answers %}
-                        <li>{{ a.answer_text }}</li>
-                    {% endfor %}
-                </ul>
+            <div id="answerbuttonbox">
+                <input class="button" id="answerbutton" type="submit" value="Answer">
             </div>
-        {% endif %}
+        </div>
     </form>
+
+    {% if answers %}
+        <div id="answers">
+            <ul>
+                {% for a in answers %}
+                    <li>{{ a.answer_text }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 
 {% endblock %}
