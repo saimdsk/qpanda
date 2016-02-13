@@ -24,8 +24,8 @@ def question(request):
         if form.is_valid():
             text = form.cleaned_data['question_text']
         else:
-            return render(request, 'qpanda/askquestion.html', {'error':'Please enter a valid question.',
-                                                               'form':QuestionForm()})
+            return render(request, 'qpanda/askquestion.html', {'error': 'Please enter a valid question.',
+                                                               'form': QuestionForm()})
 
         # hard coded for now, will fix later.
         yaseen = User.objects.get(username='yaseen')
@@ -54,12 +54,12 @@ def askedquestion(request, question_id):
     try:
         q = Question.objects.get(pk=question_id)
     except Question.DoesNotExist:
-        return HttpResponse("Question id: '" + question_id + "' not found.")
+        return render(request, 'qpanda/askquestion.html', {'error': 'Question not found.', 'form': QuestionForm()})
 
-    context = {'question':q.question_text,
-               'form':AnswerForm(),
-               'question_id':q.id,
-               'answers':q.answer_set.all()}
+    context = {'question': q.question_text,
+               'form': AnswerForm(),
+               'question_id': q.id,
+               'answers': q.answer_set.all()}
     return render(request, 'qpanda/askedquestion.html', context)
 
 
@@ -67,16 +67,31 @@ def answerquestion(request, question_id):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
 
-        if form.is_valid():
-            text = form.cleaned_data['answer_text']
-
         try:
             q = Question.objects.get(pk=question_id)
         except Question.DoesNotExist:
-            return HttpResponse("Question id: '" + question_id + "' not found.")
+            return render(request, 'qpanda/askquestion.html', {'error': 'Question not found.', 'form': QuestionForm()})
+
+        if form.is_valid():
+            text = form.cleaned_data['answer_text']
+        else:
+            context = {'question': q.question_text,
+                       'form': AnswerForm(),
+                       'question_id': q.id,
+                       'answers': q.answer_set.all(),
+                       'error': 'Please enter a valid answer.'}
+            return render(request, 'qpanda/askedquestion.html', context)
 
         a = Answer(question=q, answer_text=text)
         a.save()
 
         return redirect('askedquestion', question_id=question_id)
 
+    # when the user just enters the url qpanda.co/abcdefg/answer without submitting anything
+    else:
+        try:
+            q = Question.objects.get(pk=question_id)
+        except Question.DoesNotExist:
+            return render(request, 'qpanda/askquestion.html', {'error': 'Question not found.', 'form': QuestionForm()})
+
+        return redirect('askedquestion', question_id=question_id)

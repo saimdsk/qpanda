@@ -6,6 +6,15 @@
         <h3>{{ question }}</h3>
     {% endif %}
 
+    {% if error %}
+        <div id="errorbox">
+            <div class="alert alert-danger" id="error">
+                <a href="#" class="close" id="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>{{ error }}</strong>
+            </div>
+        </div>
+    {%  endif %}
+
     <form action="/{{ question_id }}/answer/" method="POST">
         {% csrf_token %}
 
