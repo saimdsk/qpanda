@@ -29,9 +29,10 @@
 
     {% if answers %}
         <div id="answers">
-            <ul>
+            <h4>Answers</h4>
+            <ul class="list-group">
                 {% for a in answers %}
-                    <li>{{ a.answer_text }}</li>
+                    <li class="list-group-item">{{ a.answer_text }}<span id="timeasked">{{ a.pub_date }}</span></li>
                 {% endfor %}
             </ul>
         </div>

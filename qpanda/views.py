@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db import IntegrityError
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 from .forms import QuestionForm, AnswerForm
 from .models import Question, Answer
@@ -59,7 +60,7 @@ def askedquestion(request, question_id):
     context = {'question': q.question_text,
                'form': AnswerForm(),
                'question_id': q.id,
-               'answers': q.answer_set.all()}
+               'answers': q.answer_set.order_by('-pub_date')}
     return render(request, 'qpanda/askedquestion.html', context)
 
 
@@ -82,7 +83,7 @@ def answerquestion(request, question_id):
                        'error': 'Please enter a valid answer.'}
             return render(request, 'qpanda/askedquestion.html', context)
 
-        a = Answer(question=q, answer_text=text)
+        a = Answer(question=q, answer_text=text, pub_date=timezone.now())
         a.save()
 
         return redirect('askedquestion', question_id=question_id)

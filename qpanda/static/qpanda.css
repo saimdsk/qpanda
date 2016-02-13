@@ -91,7 +91,6 @@ input.askbar {
 
 div#answerbox {
     width: 700px;
-    margin: 0 auto;
 }
 
 div#answerbuttonbox {
@@ -131,5 +130,10 @@ input#askbutton:hover {
 }
 
 div#answers {
+    margin-top: 20px;
+    width: 700px;
+}
 
+span#timeasked {
+    float: right;
 }
