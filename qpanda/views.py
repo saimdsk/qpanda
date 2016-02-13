@@ -59,6 +59,7 @@ def askedquestion(request, question_id):
 
     context = {'question_text': q.question_text,
                'question_id': q.id,
+               'user_asking': q.owner.get_username(),
                'form': AnswerForm(),
                'answers': q.answer_set.order_by('-pub_date')}
     return render(request, 'qpanda/askedquestion.html', context)
