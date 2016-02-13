@@ -1,4 +1,5 @@
 {%  extends 'qpanda/base.html' %}
+{% load humanize %}
 
 {% block content %}
 
@@ -34,7 +35,7 @@
                 {% for a in answers %}
                     <li class="list-group-item">
                         {{ a.answer_text }}
-                        <span id="timeasked">{{ a.pub_date|timesince:time_now }} ago</span>
+                        <span id="timeasked">{{ a.pub_date|naturaltime }}</span>
                     </li>
                 {% endfor %}
             </ul>

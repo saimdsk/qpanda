@@ -59,7 +59,6 @@ def askedquestion(request, question_id):
 
     context = {'question_text': q.question_text,
                'question_id': q.id,
-               'time_now': timezone.now(),
                'form': AnswerForm(),
                'answers': q.answer_set.order_by('-pub_date')}
     return render(request, 'qpanda/askedquestion.html', context)
@@ -79,7 +78,6 @@ def answerquestion(request, question_id):
         else:
             context = {'question_text': q.question_text,
                        'question_id': q.id,
-                       'time_now': timezone.now(),
                        # Maybe I should just pass a question object, that only makes too much sense.
                        'form': AnswerForm(),
                        'answers': q.answer_set.all(),
