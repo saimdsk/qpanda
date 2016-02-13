@@ -59,6 +59,7 @@ def askedquestion(request, question_id):
 
     context = {'question_text': q.question_text,
                'question_id': q.id,
+               'question_date': q.pub_date,
                'user_asking': q.owner.get_username(),
                'form': AnswerForm(),
                'answers': q.answer_set.order_by('-pub_date')}
@@ -79,6 +80,7 @@ def answerquestion(request, question_id):
         else:
             context = {'question_text': q.question_text,
                        'question_id': q.id,
+                       'question_date': q.pub_date,
                        # Maybe I should just pass a question object, that only makes too much sense.
                        'form': AnswerForm(),
                        'answers': q.answer_set.all(),
