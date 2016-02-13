@@ -57,9 +57,10 @@ def askedquestion(request, question_id):
     except Question.DoesNotExist:
         return render(request, 'qpanda/askquestion.html', {'error': 'Question not found.', 'form': QuestionForm()})
 
-    context = {'question': q.question_text,
-               'form': AnswerForm(),
+    context = {'question_text': q.question_text,
                'question_id': q.id,
+               'time_now': timezone.now(),
+               'form': AnswerForm(),
                'answers': q.answer_set.order_by('-pub_date')}
     return render(request, 'qpanda/askedquestion.html', context)
 
@@ -76,9 +77,11 @@ def answerquestion(request, question_id):
         if form.is_valid():
             text = form.cleaned_data['answer_text']
         else:
-            context = {'question': q.question_text,
-                       'form': AnswerForm(),
+            context = {'question_text': q.question_text,
                        'question_id': q.id,
+                       'time_now': timezone.now(),
+                       # Maybe I should just pass a question object, that only makes too much sense.
+                       'form': AnswerForm(),
                        'answers': q.answer_set.all(),
                        'error': 'Please enter a valid answer.'}
             return render(request, 'qpanda/askedquestion.html', context)
