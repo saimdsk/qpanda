@@ -14,6 +14,16 @@ img#logo, h1#heading {
     display: inline-block;
 }
 
+a#header {
+    color:inherit;
+}
+
+a#header:focus, a#header:hover {
+    text-decoration: none;
+}
+/* Because we put the header inside an <a> tag we need to overrride the default bootstrap and user css settings.*/
+
+
 div#errorbox {
     text-align: center;
 }
