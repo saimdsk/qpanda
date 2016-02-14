@@ -36,7 +36,7 @@
                 {% for a in answers %}
                     <li class="list-group-item">
                         {{ a.answer_text }}
-                        <span id="timeasked">{{ a.pub_date|naturaltime }}</span>
+                        <span id="timeasked" title="{{ a.pub_date }}">{{ a.pub_date|naturaltime }}</span>
                     </li>
                 {% endfor %}
             </ul>
