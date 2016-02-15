@@ -8,39 +8,18 @@ function csrfSafeMethod(method) {
 }
 
 $(document).ready(function() {
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    if ($("#tzset").val() === 'FALSE') {
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
             }
-        },
-        success: function(response) {
-            console.log('ajax response: ' + response);
-        }
-    });
-
-    $("#ajaxthingtest").click( function() {
-        console.log("click working");
-        $.post("/tz/", {'usertz':getTimezoneName()},  function(data, status) {
-            console.log("status is: " + status);
         });
-        $("#usertz").text(getTimezoneName());
-        //alert("AJAXWORKING!");
-    });
+
+        $.post("/tz/", {'usertz':getTimezoneName()});
+    }
 });
-
-
-function yaseenstart() {
-    //sleepFor(5000);
-    console.log('something');
-    //post('/tz/', {'usertz':getTimezoneName(), 'csrfmiddlewaretoken':getCookie('csrftoken')});
-    return false;
-}
-
-function sleepFor( sleepDuration ){
-    var now = new Date().getTime();
-    while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
-}
 
 function getCookie(name) {
     var cookieValue = null;
@@ -131,31 +110,4 @@ function getTimezoneName() {
     if (780 == so && 780 == wo) return 'Pacific/Enderbury';
     if (840 == so && 840 == wo) return 'Pacific/Kiritimati';
     return 'US/Pacific';
-}
-
-function post(path, params) {
-    method =  "post"; // Set method to post by default if not specified.
-
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
-    var form = document.createElement("form");
-    form.setAttribute("method", method);
-    form.setAttribute("action", path);
-
-    for (var key in params) {
-        if (params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-
-            form.appendChild(hiddenField);
-        }
-    }
-
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form)
-
-    return false;
 }

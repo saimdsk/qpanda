@@ -4,11 +4,9 @@ from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-import pytz
-
 from .forms import QuestionForm, AnswerForm
 from .models import Question, Answer
-from utils import gen_valid_pk
+from utils import gen_valid_pk, get_usertz
 
 
 def index(request):
@@ -16,8 +14,7 @@ def index(request):
 
 
 def askquestion(request):
-    form = QuestionForm()
-    return render(request, 'qpanda/askquestion.html', {'form':form})
+    return render(request, 'qpanda/askquestion.html', {'form': QuestionForm()})
 
 
 def question(request):
@@ -27,8 +24,9 @@ def question(request):
         if form.is_valid():
             text = form.cleaned_data['question_text']
         else:
-            return render(request, 'qpanda/askquestion.html', {'error': 'Please enter a valid question.',
-                                                               'form': QuestionForm()})
+            context = {'error': 'Please enter a valid question.',
+                       'form': QuestionForm()}
+            return render(request, 'qpanda/askquestion.html', context)
 
         # hard coded for now, will fix later.
         yaseen = User.objects.get(username='yaseen')
@@ -57,14 +55,18 @@ def askedquestion(request, question_id):
     try:
         q = Question.objects.get(pk=question_id)
     except Question.DoesNotExist:
-        return render(request, 'qpanda/askquestion.html', {'error': 'Question not found.', 'form': QuestionForm()})
+        context = {'error': 'Question not found.',
+                   'form': QuestionForm()}
+        return render(request, 'qpanda/askquestion.html', context)
 
     context = {'question_text': q.question_text,
                'question_id': q.id,
                'question_date': q.pub_date,
                'user_asking': q.owner.get_username(),
                'form': AnswerForm(),
-               'answers': q.answer_set.order_by('-pub_date')}
+               'answers': q.answer_set.order_by('-pub_date'),
+               'usertz': get_usertz(request)}
+
     return render(request, 'qpanda/askedquestion.html', context)
 
 
@@ -75,7 +77,9 @@ def answerquestion(request, question_id):
         try:
             q = Question.objects.get(pk=question_id)
         except Question.DoesNotExist:
-            return render(request, 'qpanda/askquestion.html', {'error': 'Question not found.', 'form': QuestionForm()})
+            context = {'error': 'Question not found.',
+                       'form': QuestionForm()}
+            return render(request, 'qpanda/askquestion.html', context)
 
         if form.is_valid():
             text = form.cleaned_data['answer_text']
@@ -84,9 +88,11 @@ def answerquestion(request, question_id):
                        'question_id': q.id,
                        'question_date': q.pub_date,
                        # Maybe I should just pass a question object, that only makes too much sense.
+                       'user_asking': q.owner.get_username(),
                        'form': AnswerForm(),
-                       'answers': q.answer_set.all(),
-                       'error': 'Please enter a valid answer.'}
+                       'answers': q.answer_set.order_by('-pub_date'),
+                       'usertz': get_usertz(request)}
+
             return render(request, 'qpanda/askedquestion.html', context)
 
         a = Answer(question=q, answer_text=text, pub_date=timezone.now())
@@ -96,11 +102,6 @@ def answerquestion(request, question_id):
 
     # when the user just enters the url qpanda.co/abcdefg/answer without submitting anything
     else:
-        try:
-            q = Question.objects.get(pk=question_id)
-        except Question.DoesNotExist:
-            return render(request, 'qpanda/askquestion.html', {'error': 'Question not found.', 'form': QuestionForm()})
-
         return redirect('askedquestion', question_id=question_id)
 
 
@@ -108,12 +109,11 @@ def settz(request):
     if request.method == 'POST':
         try:
             usertz = request.POST['usertz']
-            print 'usertz is: ' + usertz
+            request.session['usertz'] = usertz
         except KeyError:
-            print 'trycatch failed.'
-
-        # usertz = request.POST.get('usertz')
-        # request.session['usertz'] = usertz
+            pass
 
     # this view is called on an AJAX POST. We don't need to return anything. So we just return success code HTTP 200.
+    # TODO status code change
+    # I should probably change the status code depending on what happens here.
     return HttpResponse(status=200)

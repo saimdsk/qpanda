@@ -1,5 +1,7 @@
 {%  extends 'qpanda/base.html' %}
 {% load humanize %}
+{% load tz %}
+{% get_current_timezone as TIME_ZONE %}
 
 {% block content %}
 
@@ -36,7 +38,15 @@
                 {% for a in answers %}
                     <li class="list-group-item">
                         {{ a.answer_text }}
-                        <span id="timeasked" title="{{ a.pub_date }}">{{ a.pub_date|naturaltime }}</span>
+                        {% if usertz %}
+                            <span id="timeasked" title="{{ a.pub_date }} ({{ usertz }})">
+                                {{ a.pub_date|naturaltime }}
+                            </span>
+                        {% else %}
+                            <span id="timeasked" title="{{ a.pub_date }} (UTC)">
+                                {{ a.pub_date|naturaltime }}
+                            </span>
+                        {% endif %}
                     </li>
                 {% endfor %}
             </ul>

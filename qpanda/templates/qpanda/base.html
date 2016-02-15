@@ -26,9 +26,8 @@
     <div id="content">
         {% block content %}
         {% endblock %}
-    </div>
 
-    <input type="button" id="ajaxthingtest" value="AJAX">
-    <h3 id="usertz"></h3>
+        <input type="hidden" id="tzset" value="{{ usertz|default:"FALSE"}}">
+    </div>
 </body>
 </html>

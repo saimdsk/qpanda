@@ -1,4 +1,7 @@
 from django.utils.crypto import get_random_string
+from django.utils import timezone
+
+import pytz
 
 def gen_valid_pk():
     # We don't want a primary key for a Question to start with the letter t, as questions which start with t will be
@@ -10,3 +13,22 @@ def gen_valid_pk():
     while pk[0] == 't':
         pk = get_random_string(length=7)
     return pk
+
+
+def get_usertz(request):
+    tz = None
+    try:
+        tz = request.session['usertz']
+    except KeyError:
+        pass
+
+    return tz
+
+
+class TimezoneMiddleware(object):
+    def process_request(self, request):
+        tzname = request.session.get('usertz')
+        if tzname:
+            timezone.activate(pytz.timezone(tzname))
+        else:
+            timezone.deactivate()
