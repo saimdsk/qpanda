@@ -4,6 +4,8 @@ from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+import pytz
+
 from .forms import QuestionForm, AnswerForm
 from .models import Question, Answer
 from utils import gen_valid_pk
@@ -100,3 +102,18 @@ def answerquestion(request, question_id):
             return render(request, 'qpanda/askquestion.html', {'error': 'Question not found.', 'form': QuestionForm()})
 
         return redirect('askedquestion', question_id=question_id)
+
+
+def settz(request):
+    if request.method == 'POST':
+        try:
+            usertz = request.POST['usertz']
+            print 'usertz is: ' + usertz
+        except KeyError:
+            print 'trycatch failed.'
+
+        # usertz = request.POST.get('usertz')
+        # request.session['usertz'] = usertz
+
+    # this view is called on an AJAX POST. We don't need to return anything. So we just return success code HTTP 200.
+    return HttpResponse(status=200)
