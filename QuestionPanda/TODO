@@ -1,0 +1,9 @@
+TODO Add user to answers
+TODO Allow user registers and logins
+TODO Change pk of how answers work
+TODO Only display 10 most recent answers and AJAX on next page
+TODO Add passwords for protected questions
+TODO Allow questions that expire
+TODO Allow voting on answers
+TODO Allow thread owner to delete answers
+TODO Allow editing of answers (by answerer not threadowner, threadowner can only delete)
