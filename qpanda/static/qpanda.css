@@ -14,7 +14,7 @@ img#logo, h1#heading {
     display: inline-block;
 }
 
-div#container {
+div#content {
     display: inline-block;
     max-width: inherit;
     width: 100%;
@@ -61,7 +61,7 @@ h1#heading {
     the heading with the logo */
 }
 
-div#content {
+div#container {
     margin: 0 auto;
     max-width: 975px;
     /* width chosen based on this article https://www.newfangled.com/optimal-site-width/ */

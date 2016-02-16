@@ -3,54 +3,67 @@
 {% load tz %}
 {% get_current_timezone as TIME_ZONE %}
 
-{% block maincontent %}
+{% block container %}
 
-    {% if question_text %}
-        <h3 id="question_text">{{ question_text }}</h3>
-        <p id="userasking">Asked by <a id="username">{{ user_asking }}</a> {{ question_date|naturaltime }}</p>
-    {% endif %}
+    <div id="content">
+        <div id="maincontent">
+            {% block maincontent %}
+                {% if question_text %}
+                    <h3 id="question_text">{{ question_text }}</h3>
+                    <p id="userasking">Asked by <a id="username">{{ user_asking }}</a> {{ question_date|naturaltime }}</p>
+                {% endif %}
 
-    {% if error %}
-        <div id="errorbox">
-            <div class="alert alert-danger" id="error">
-                <a href="#" class="close" id="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>{{ error }}</strong>
-            </div>
+                {% if error %}
+                    <div id="errorbox">
+                        <div class="alert alert-danger" id="error">
+                            <a href="#" class="close" id="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>{{ error }}</strong>
+                        </div>
+                    </div>
+                {%  endif %}
+
+                <form action="/{{ question_id }}/answer/" method="POST">
+                    {% csrf_token %}
+
+                    <div id="answerbox">
+                        <h4>Enter your answer:</h4>
+                        {{ form.answer_text }}
+                        <div id="answerbuttonbox">
+                            <input class="button" id="answerbutton" type="submit" value="Answer">
+                        </div>
+                    </div>
+                </form>
+
+                {% if answers %}
+                    <div id="answers">
+                        <h4>Answers</h4>
+                        <ul class="list-group">
+                            {% for a in answers %}
+                                <li class="list-group-item">
+                                    {{ a.answer_text }}
+                                    {% if usertz %}
+                                        <span id="timeasked" title="{{ a.pub_date }} ({{ usertz }})">
+                                            {{ a.pub_date|naturaltime }}
+                                        </span>
+                                    {% else %}
+                                        <span id="timeasked" title="{{ a.pub_date }} (UTC)">
+                                            {{ a.pub_date|naturaltime }}
+                                        </span>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% endblock %}
         </div>
-    {%  endif %}
 
-    <form action="/{{ question_id }}/answer/" method="POST">
-        {% csrf_token %}
-
-        <div id="answerbox">
-            <h4>Enter your answer:</h4>
-            {{ form.answer_text }}
-            <div id="answerbuttonbox">
-                <input class="button" id="answerbutton" type="submit" value="Answer">
-            </div>
+        <div id="sidebar">
+            {% block sidebar %}
+                <h4>Sidebar</h4>
+            {% endblock %}
         </div>
-    </form>
+    </div>
 
-    {% if answers %}
-        <div id="answers">
-            <h4>Answers</h4>
-            <ul class="list-group">
-                {% for a in answers %}
-                    <li class="list-group-item">
-                        {{ a.answer_text }}
-                        {% if usertz %}
-                            <span id="timeasked" title="{{ a.pub_date }} ({{ usertz }})">
-                                {{ a.pub_date|naturaltime }}
-                            </span>
-                        {% else %}
-                            <span id="timeasked" title="{{ a.pub_date }} (UTC)">
-                                {{ a.pub_date|naturaltime }}
-                            </span>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
 
 {% endblock %}

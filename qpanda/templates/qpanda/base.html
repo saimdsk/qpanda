@@ -23,18 +23,20 @@
         </a>
     </header>
 
-    <div id="content">
-        <div id="container">
-            <div id="maincontent">
-                {% block maincontent %}
-                {% endblock %}
+    <div id="container">
+        {% block container %}
+            <div id="content">
+                <div id="maincontent">
+                    {% block maincontent %}
+                    {% endblock %}
+                </div>
+                <div id="sidebar">
+                    {% block sidebar %}
+                        <h4>Sidebar</h4>
+                    {% endblock %}
+                </div>
             </div>
-            <div id="sidebar">
-                {% block sidebar %}
-                    <h4>Sidebar</h4>
-                {% endblock %}
-            </div>
-        </div>
+        {% endblock %}
 
         <input type="hidden" id="tzset" value="{{ usertz|default:"FALSE"}}">
     </div>
