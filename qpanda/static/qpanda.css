@@ -60,15 +60,17 @@ div#content {
     /* width chosen based on this article https://www.newfangled.com/optimal-site-width/ */
 }
 
-div#maincontent, div#sidebar {
+div#maincontent {
     float: left;
 }
 
 div#sidebar {
+    float: right;
     margin-left: 10px;
     background-color: #ffffff;
     padding: 10px 10px 10px 10px;
     border: solid 1px #7b7b7b;
+    width: 200px;
 }
 h4 {
     font-size: 20px;
