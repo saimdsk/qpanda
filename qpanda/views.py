@@ -14,7 +14,8 @@ def index(request):
 
 
 def askquestion(request):
-    return render(request, 'qpanda/askquestion.html', {'form': QuestionForm()})
+    return render(request, 'qpanda/askquestion.html', {'form': QuestionForm(),
+                                                       'usertz': get_usertz(request)})
 
 
 def question(request):

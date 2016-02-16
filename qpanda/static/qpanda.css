@@ -60,6 +60,16 @@ div#content {
     /* width chosen based on this article https://www.newfangled.com/optimal-site-width/ */
 }
 
+div#maincontent, div#sidebar {
+    float: left;
+}
+
+div#sidebar {
+    margin-left: 10px;
+    background-color: #ffffff;
+    padding: 10px 10px 10px 10px;
+    border: solid 1px #7b7b7b;
+}
 h4 {
     font-size: 20px;
     font-family: "Helvetica";
@@ -87,9 +97,7 @@ input.askbar {
     vertical-align: middle;
     padding-left: 3px;
     padding-right: 3px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #7b7b7b;
+    border: solid 1px #7b7b7b;
     /*  All this border stuff came about because firefox has a border-radius by default. I chose to override that but
         I then discovered that the text input in firefox had a border but only on the top and left of the input text.
         I spent maybe an hour trying to tinkering with different border settings but it never worked. My keywords

@@ -1,3 +1,4 @@
+TODO Store user timezone in cookie instead of hidden input element
 TODO Add user to answers
 TODO Allow user registers and logins
 TODO Change pk of how answers work
