@@ -14,6 +14,12 @@ img#logo, h1#heading {
     display: inline-block;
 }
 
+div#container {
+    display: inline-block;
+    max-width: inherit;
+    width: 100%;
+}
+
 a#header {
     color:inherit;
 }
@@ -51,7 +57,8 @@ h1#heading {
     letter-spacing: -0.8px;
     font-size: 46px;
     padding-bottom: 18px;
-    /* the padding bottom is needed because it feels more centered than using text-align center in the div */
+    /* Due to the font styling and the h3 margins in bootstrap we need to include padding in order to correctly align
+    the heading with the logo */
 }
 
 div#content {
@@ -62,15 +69,17 @@ div#content {
 
 div#maincontent {
     float: left;
+    width: 73%;
+    padding-right: 10px;
 }
 
 div#sidebar {
     float: right;
-    margin-left: 10px;
     background-color: #ffffff;
     padding: 10px 10px 10px 10px;
     border: solid 1px #7b7b7b;
-    width: 200px;
+    width: 27%;
+    height: 500px;
 }
 h4 {
     font-size: 20px;
@@ -109,8 +118,12 @@ input.askbar {
         ctrl+f tags: "firefox" "input" "text" "border" "left" "top" "input text shadow" "input text left top border" */
 }
 
+h3#question_text {
+    margin-top: 0px;
+}
+
 div#answerbox {
-    width: 700px;
+    width: 100%;
 }
 
 div#answerbuttonbox {
@@ -123,9 +136,7 @@ input.button {
     background-color: #37A9E5;
     color: white;
     font-size: 16px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #7b7b7b;
+    border: solid 1px #7b7b7b;
     border-radius: 3px;
 }
 
@@ -151,7 +162,6 @@ input#askbutton:hover {
 
 div#answers {
     margin-top: 20px;
-    width: 700px;
 }
 
 span#timeasked {

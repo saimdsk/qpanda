@@ -6,7 +6,7 @@
 {% block maincontent %}
 
     {% if question_text %}
-        <h3>{{ question_text }}</h3>
+        <h3 id="question_text">{{ question_text }}</h3>
         <p id="userasking">Asked by <a id="username">{{ user_asking }}</a> {{ question_date|naturaltime }}</p>
     {% endif %}
 
