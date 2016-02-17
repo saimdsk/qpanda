@@ -42,11 +42,11 @@
                                 <li class="list-group-item">
                                     {{ a.answer_text }}
                                     {% if usertz %}
-                                        <span class="timeasked" title="{{ a.pub_date|date:"U" }}">
+                                        <span class="timeasked" title="{{ a.pub_date|date:"r" }}">
                                             {{ a.pub_date|naturaltime }}
                                         </span>
                                     {% else %}
-                                        <span class="timeasked" title="{{ a.pub_date|date:"U" }}">
+                                        <span class="timeasked" title="{{ a.pub_date|date:"r" }}">
                                             {{ a.pub_date|naturaltime }}
                                         </span>
                                     {% endif %}

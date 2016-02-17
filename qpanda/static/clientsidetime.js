@@ -3,15 +3,12 @@
  */
 
 $(document).ready(function() {
-    /*
-    Instead of using timezones, we pass seconds since the epoch to js (using a template filter). We multiply it by 1000
-    because javascript can calculate the date based on MILLISECONDS since the epoch. And boom! Done. No need for all the
-    other code!
-     */
+    // Instead of even using seconds/milliseconds since epoch django can convert datetimefield to an RFC 2822 compliant
+    // formatted date, which javascript can use to construct a date. Even easier than before!
 
     $('span.timeasked').each(function(i, obj) {
-        var secssinceepoch = $(this).attr('title');
-        var d = new Date(secssinceepoch * 1000);
+        var jsdatestring = $(this).attr('title');
+        var d = new Date(jsdatestring);
 
         $(this).attr('title', d);
     });
