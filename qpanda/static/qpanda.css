@@ -164,6 +164,6 @@ div#answers {
     margin-top: 20px;
 }
 
-span#timeasked {
+span.timeasked {
     float: right;
 }
