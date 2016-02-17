@@ -8,7 +8,13 @@
             {% block maincontent %}
                 {% if question_text %}
                     <h3 id="question_text">{{ question_text }}</h3>
-                    <p id="userasking">Asked by <a id="username">{{ user_asking }}</a> {{ question_date|naturaltime }}</p>
+                    <p id="userasking">
+                        Asked by
+                            <a id="username">{{ user_asking }}</a>
+                            <span class="time" title="{{ question_date|date:"r" }}">
+                                {{ question_date|naturaltime }}
+                            </span>
+                    </p>
                 {% endif %}
 
                 {% if error %}
@@ -40,7 +46,7 @@
                             {% for a in answers %}
                                 <li class="list-group-item">
                                     {{ a.answer_text }}
-                                    <span class="timeasked" title="{{ a.pub_date|date:"r" }}">
+                                    <span class="time timeasked" title="{{ a.pub_date|date:"r" }}">
                                         {{ a.pub_date|naturaltime }}
                                     </span>
                                 </li>
