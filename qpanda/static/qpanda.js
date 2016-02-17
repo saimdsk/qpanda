@@ -10,6 +10,9 @@ $(document).ready(function() {
         var jsdatestring = $(this).attr('title');
         var d = new Date(jsdatestring);
 
+        console.log('jsdatestring: ' + jsdatestring);
+        console.log('converted date: ' + d);
+
         $(this).attr('title', d);
     });
 });

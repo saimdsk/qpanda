@@ -6,7 +6,7 @@ from django.utils import timezone
 
 from .forms import QuestionForm, AnswerForm
 from .models import Question, Answer
-from utils import gen_valid_pk, get_usertz
+from utils import gen_valid_pk
 
 
 def index(request):
@@ -14,8 +14,7 @@ def index(request):
 
 
 def askquestion(request):
-    return render(request, 'qpanda/askquestion.html', {'form': QuestionForm(),
-                                                       'usertz': get_usertz(request)})
+    return render(request, 'qpanda/askquestion.html', {'form': QuestionForm()})
 
 
 def question(request):
@@ -65,8 +64,7 @@ def askedquestion(request, question_id):
                'question_date': q.pub_date,
                'user_asking': q.owner.get_username(),
                'form': AnswerForm(),
-               'answers': q.answer_set.order_by('-pub_date'),
-               'usertz': get_usertz(request)}
+               'answers': q.answer_set.order_by('-pub_date')}
 
     return render(request, 'qpanda/askedquestion.html', context)
 
@@ -91,8 +89,7 @@ def answerquestion(request, question_id):
                        # Maybe I should just pass a question object, that only makes too much sense.
                        'user_asking': q.owner.get_username(),
                        'form': AnswerForm(),
-                       'answers': q.answer_set.order_by('-pub_date'),
-                       'usertz': get_usertz(request)}
+                       'answers': q.answer_set.order_by('-pub_date')}
 
             return render(request, 'qpanda/askedquestion.html', context)
 
@@ -105,16 +102,3 @@ def answerquestion(request, question_id):
     else:
         return redirect('askedquestion', question_id=question_id)
 
-
-def settz(request):
-    if request.method == 'POST':
-        try:
-            usertz = request.POST['usertz']
-            request.session['usertz'] = usertz
-        except KeyError:
-            pass
-
-    # this view is called on an AJAX POST. We don't need to return anything. So we just return success code HTTP 200.
-    # TODO status code change
-    # I should probably change the status code depending on what happens here.
-    return HttpResponse(status=200)
