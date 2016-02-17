@@ -7,11 +7,8 @@ $(document).ready(function() {
     // formatted date, which javascript can use to construct a date. Even easier than before!
 
     $('span.timeasked').each(function(i, obj) {
-        var jsdatestring = $(this).attr('title');
-        var d = new Date(jsdatestring);
-
-        console.log('jsdatestring: ' + jsdatestring);
-        console.log('converted date: ' + d);
+        var rfc2822datestring = $(this).attr('title');
+        var d = new Date(rfc2822datestring);
 
         $(this).attr('title', d);
     });
