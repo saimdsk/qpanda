@@ -14,6 +14,10 @@
                             <span class="time" title="{{ question_date|date:"r" }}">
                                 {{ question_date|naturaltime }}
                             </span>
+                            <button class="share" title="Share">
+                                <span class="glyphicon glyphicon-share"></span>
+                            </button>
+                            <span><input type="hidden" value="qpanda.co/{{ question_id }}/" id="sharelink"/></span>
                     </p>
                 {% endif %}
 

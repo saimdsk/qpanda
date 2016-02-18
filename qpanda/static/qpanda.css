@@ -121,6 +121,15 @@ h3#question_text {
     margin-top: 0px;
 }
 
+button.share {
+    border: none;
+    background-color: inherit;
+}
+
+button.share:hover {
+    color: #319ad0;
+}
+
 div#answerbox {
     width: 100%;
 }

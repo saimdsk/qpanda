@@ -12,4 +12,9 @@ $(document).ready(function() {
 
         $(this).attr('title', d);
     });
+
+    $('button.share').click(function() {
+        $('#sharelink').attr('type', 'text');
+        $('#sharelink').select();
+    });
 });
