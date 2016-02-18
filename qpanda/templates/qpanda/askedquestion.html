@@ -27,11 +27,10 @@
                 {%  endif %}
 
 
-                    {% csrf_token %}
-
                 <div id="answerbox">
                     <h4>Enter your answer:</h4>
                     <form action="/{{ question_id }}/answer/" method="POST">
+                        {% csrf_token %}
                         {{ form.answer_text }}
                         <div id="answerbuttonbox">
                             <input class="button" id="answerbutton" type="submit" value="Answer">
