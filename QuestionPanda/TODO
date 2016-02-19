@@ -7,3 +7,8 @@ TODO Allow questions that expire
 TODO Allow voting on answers
 TODO Allow thread owner to delete answers
 TODO Allow editing of answers (by answerer not threadowner, threadowner can only delete)
+
+I wrote a blogpost describing how to localise time client side instead of doing it server side here:
+http://yaseenkadir.tumblr.com/post/139552261122/localised-datetime-in-django
+
+So I did do some work, but didn't exactly further the project. I want to keep the commit streak going though!
