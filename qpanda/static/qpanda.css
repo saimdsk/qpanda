@@ -81,6 +81,24 @@ div#sidebar {
     width: 27%;
     height: 500px;
 }
+
+p.aboveinput {
+    margin-top: 5px;
+    margin-bottom: 1px;
+}
+
+input.sidebar {
+    width: 100%;
+}
+
+input.wd50 {
+    width: 49%;
+}
+
+div#registerlogin {
+    margin-top: 3px;
+}
+
 h4 {
     font-family: "Helvetica";
 }
@@ -134,18 +152,25 @@ div#answerbox {
     width: 100%;
 }
 
-div#answerbuttonbox {
+div.rightalign {
     text-align: right;
 }
 
 input.button {
-    padding: 10px 10px 10px 10px;
     vertical-align: middle;
     background-color: #37A9E5;
     color: white;
-    font-size: 16px;
     border: solid 1px #7b7b7b;
     border-radius: 3px;
+}
+
+input.lgbutton {
+    padding: 10px 10px 10px 10px;
+    font-size: 16px;
+}
+input.smbutton {
+    padding: 5px 5px 5px 5px;
+    font-size: 14px;
 }
 
 input.button:hover {
