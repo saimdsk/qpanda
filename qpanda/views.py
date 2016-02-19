@@ -87,6 +87,7 @@ def answerquestion(request, question_id):
                        'question_id': q.id,
                        'question_date': q.pub_date,
                        # Maybe I should just pass a question object, that only makes too much sense.
+                       'error': 'Please enter a valid answer.',
                        'user_asking': q.owner.get_username(),
                        'form': AnswerForm(),
                        'answers': q.answer_set.order_by('-pub_date')[:10]}
