@@ -66,17 +66,7 @@
         </div>
 
         <div id="sidebar">
-            {% block sidebar %}
-                <h4>Sidebar</h4>
-                <p class="aboveinput">Username</p>
-                <input type="text" id="username" class="sidebar" placeholder="Username"/>
-                <p class="aboveinput">Password</p>
-                <input type="password" id="password" class="sidebar" placeholder="Password"/>
-                <div id="registerlogin">
-                    <input type="submit" class="button smbutton wd50" value="Login"/>
-                    <input type="submit" class="button smbutton wd50" value="Register"/>
-                </div>
-            {% endblock %}
+            {% include "qpanda/sidebar.html" %}
         </div>
     </div>
 

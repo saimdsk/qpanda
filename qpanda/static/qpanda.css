@@ -64,12 +64,13 @@ h1#heading {
 div#container {
     margin: 0 auto;
     max-width: 975px;
+    min-width: 850px;
     /* width chosen based on this article https://www.newfangled.com/optimal-site-width/ */
 }
 
 div#maincontent {
     float: left;
-    width: 73%;
+    width: 76%;
     padding-right: 10px;
 }
 
@@ -78,7 +79,7 @@ div#sidebar {
     background-color: #ffffff;
     padding: 10px 10px 10px 10px;
     border: solid 1px #7b7b7b;
-    width: 27%;
+    width: 23%;
     height: 500px;
 }
 
@@ -88,15 +89,17 @@ p.aboveinput {
 }
 
 input.sidebar {
+    min-width: 180px;
     width: 100%;
 }
 
-input.wd50 {
+input.wd49 {
     width: 49%;
 }
 
 div#registerlogin {
-    margin-top: 3px;
+    margin-top: 7px;
+    text-align: center;
 }
 
 h4 {
