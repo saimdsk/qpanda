@@ -64,7 +64,7 @@ def askedquestion(request, question_id):
                'question_date': q.pub_date,
                'user_asking': q.owner.get_username(),
                'form': AnswerForm(),
-               'answers': q.answer_set.order_by('-pub_date')}
+               'answers': q.answer_set.order_by('-pub_date')[:10]}
 
     return render(request, 'qpanda/askedquestion.html', context)
 
@@ -89,7 +89,7 @@ def answerquestion(request, question_id):
                        # Maybe I should just pass a question object, that only makes too much sense.
                        'user_asking': q.owner.get_username(),
                        'form': AnswerForm(),
-                       'answers': q.answer_set.order_by('-pub_date')}
+                       'answers': q.answer_set.order_by('-pub_date')[:10]}
 
             return render(request, 'qpanda/askedquestion.html', context)
 
