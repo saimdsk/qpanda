@@ -17,4 +17,11 @@ $(document).ready(function() {
         $('#sharelink').attr('type', 'text');
         $('#sharelink').select();
     });
+
+    $('input#register').click(function() {
+        // There is one form for login or register because that's awesome UX. If we are registering a user, upon
+        // clicking register we will display a hidden element and focus on it for the user to confirm their password.
+        $('div#hiddenregister').css('display', 'block');
+        $('input#confirmpassword').focus();
+    });
 });

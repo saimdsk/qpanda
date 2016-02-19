@@ -88,6 +88,10 @@ p.aboveinput {
     margin-bottom: 1px;
 }
 
+div#hiddenregister {
+    display: none;
+}
+
 input.sidebar {
     min-width: 180px;
     width: 100%;

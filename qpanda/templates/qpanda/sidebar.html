@@ -4,8 +4,12 @@
     <input type="text" id="username" class="sidebar" placeholder="Username"/>
     <p class="aboveinput">Password</p>
     <input type="password" id="password" class="sidebar" placeholder="Password"/>
+    <div id="hiddenregister">
+        <p class="aboveinput">Confirm password</p>
+        <input type="password" id="confirmpassword" class="sidebar" placeholder="Confirm password"/>
+    </div>
     <div id="registerlogin">
         <input type="submit" class="button smbutton wd49" value="Login"/>
-        <input type="submit" class="button smbutton wd49" value="Register"/>
+        <input type="submit" class="button smbutton wd49" id="register" value="Register"/>
     </div>
 {% endblock %}
