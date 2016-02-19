@@ -14,6 +14,11 @@
                             <span class="time" title="{{ question_date|date:"r" }}">
                                 {{ question_date|naturaltime }}
                             </span>
+                            {% comment %}
+                            Share button works by expanding a hidden input element. When the button is clicked the
+                            element is expanded and changed to input type=text. The value contains the url and will be
+                            highlighted and ready to be copy-pasted.
+                            {% endcomment %}
                             <button class="share" title="Share">
                                 <span class="glyphicon glyphicon-share"></span>
                             </button>
