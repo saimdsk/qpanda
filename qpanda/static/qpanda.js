@@ -14,14 +14,27 @@ $(document).ready(function() {
     });
 
     $('button.share').click(function() {
-        $('#sharelink').attr('type', 'text');
-        $('#sharelink').select();
+        var sharelink = $('#sharelink');
+        sharelink.attr('type', 'text');
+        sharelink.select();
     });
 
     $('input#register').click(function() {
         // There is one form for login or register because that's awesome UX. If we are registering a user, upon
         // clicking register we will display a hidden element and focus on it for the user to confirm their password.
+
         $('div#hiddenregister').css('display', 'block');
         $('input#confirmpassword').focus();
+        // display the confirm password input field and give it focus.
+
+        $('form#authenticate').attr('action', '/register/');
+        // change the submit action to call qpanda.co/register/ instead of qpanda.co/login/.
+
+        $(this).attr('type', 'hidden');
+        $('input#hiddenregisterbutton').attr('type', 'submit');
+        // input#register is a button and not submit, because when we click it we want to display the confirm password
+        // input field. However on a second click of register (once the confirmpassword field has been filled) we want
+        // to actually submit the form. So what we do is hide the button and display and identical looking submit.
     });
+
 });
