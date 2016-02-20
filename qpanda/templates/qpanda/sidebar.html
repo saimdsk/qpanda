@@ -2,6 +2,7 @@
     <h4>Welcome to QuestionPanda!</h4>
     <p class="aboveinput">Username</p>
     <form id="authenticate" action="/login/">
+        {% csrf_token %}
         <input type="text" id="username" class="sidebar" placeholder="Username"/>
         <p class="aboveinput">Password</p>
         <input type="password" id="password" class="sidebar" placeholder="Password"/>
