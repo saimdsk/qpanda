@@ -103,3 +103,16 @@ def answerquestion(request, question_id):
     else:
         return redirect('askedquestion', question_id=question_id)
 
+
+def login(request):
+    print 'in login view'
+    return HttpResponse("LOGIN")
+
+
+def register(request):
+    print 'in register view'
+    if request.method == 'POST':
+        print 'username: ' + request.POST.get('username')
+        print 'password: ' + request.POST.get('password')
+    return HttpResponse("REGISTER")
+

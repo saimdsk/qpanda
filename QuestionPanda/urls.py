@@ -21,6 +21,8 @@ from qpanda import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^qpanda/', include('qpanda.urls')),
+    url(r'^login/', views.login, name='login'),
+    url(r'^register/', views.register, name='register'),
     url(r'^(?P<question_id>[a-zA-Z0-9]+)/answer/', views.answerquestion, name='answerquestion'),
     url(r'^(?P<question_id>[a-zA-Z0-9]+)', views.askedquestion, name='askedquestion'),
     url(r'^$', views.askquestion, name='askquestion'), #forward everything to qpanda.
