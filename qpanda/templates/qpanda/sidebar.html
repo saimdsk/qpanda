@@ -1,11 +1,11 @@
 {% block sidebar %}
     <h4>Welcome to QuestionPanda!</h4>
     <p class="aboveinput">Username</p>
-    <form id="authenticate" action="/login/">
+    <form id="authenticate" action="/login/" method="POST">
         {% csrf_token %}
-        <input type="text" id="username" class="sidebar" placeholder="Username"/>
+        <input type="text" id="username" name="username" class="sidebar" placeholder="Username"/>
         <p class="aboveinput">Password</p>
-        <input type="password" id="password" class="sidebar" placeholder="Password"/>
+        <input type="password" id="password" name="password" class="sidebar" placeholder="Password"/>
         <div id="hiddenregister">
             <p class="aboveinput">Confirm password</p>
             <input type="password" id="confirmpassword" class="sidebar" placeholder="Confirm password"/>
