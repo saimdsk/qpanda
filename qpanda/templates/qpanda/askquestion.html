@@ -18,12 +18,26 @@
 
     <form action="/qpanda/question/" method="POST">
         {% csrf_token %}
-
         <div id="askarea">
             <h4>Enter your question:</h4>
-            {{ form.question_text }}
-            <input class="button" id="askbutton" type="submit" value="Ask">
+            <div id="askline">
+                {{ form.question_text }}
+                <input class="button" id="askbutton" type="submit" value="Ask">
+            </div>
         </div>
     </form>
+
+    <div id="homepagelogin">
+        <h3>Signup/Login</h3>
+        {% if registererror %} {% comment %}registererror sounds funny. Register-err-err.{% endcomment %}
+            <div id="errorbox">
+                <div class="alert alert-danger" id="error">
+                    <a href="#" class="close" id="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>{{ registererror }}</strong>
+                </div>
+            </div>
+        {%  endif %}
+        {% include 'qpanda/registerloginform.html' %}
+    </div>
 
 {% endblock %}

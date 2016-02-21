@@ -1,19 +1,9 @@
 {% block sidebar %}
     <h4>Welcome to QuestionPanda!</h4>
-    <p class="aboveinput">Username</p>
-    <form id="authenticate" action="/login/" method="POST">
-        {% csrf_token %}
-        <input type="text" id="username" name="username" class="sidebar" placeholder="Username"/>
-        <p class="aboveinput">Password</p>
-        <input type="password" id="password" name="password" class="sidebar" placeholder="Password"/>
-        <div id="hiddenregister">
-            <p class="aboveinput">Confirm password</p>
-            <input type="password" id="confirmpassword" class="sidebar" placeholder="Confirm password"/>
-        </div>
-        <div id="registerlogin">
-            <input type="submit" class="button smbutton wd49" id="login" value="Login"/>
-            <input type="button" class="button smbutton wd49" id="register" value="Register"/>
-            <input type="hidden" class="button smbutton wd49" id="hiddenregisterbutton" value="Register"/>
-        </div>
-    </form>
+    {% comment %}
+    //TODO include an if/else block.
+    If the user is logged in obviously don't display a registerlogin form, display other user stuff that you can do.
+    If you're not logged in, display the registerlogin form.
+    {% endcomment %}
+    {% include 'qpanda/registerloginform.html' %}
 {% endblock %}

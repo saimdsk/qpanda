@@ -112,7 +112,24 @@ def login(request):
 def register(request):
     print 'in register view'
     if request.method == 'POST':
-        print 'username: ' + request.POST.get('username')
-        print 'password: ' + request.POST.get('password')
-    return HttpResponse("REGISTER")
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
+        # there has to a better way to check if the username and password is valid.
+        # TODO Fix username/password validation e.g. no symbols in username.
+        # TODO Add Try/Except block to see if username already exists in db.
+
+        # I can store len(username) in a variable instead of calling it twice.
+        if len(username) == 0 or len(password) == 0:
+            if len(username) == 0:
+                errormsg = 'Please enter a valid username.'
+            else:
+                errormsg = 'Please enter a valid password.'
+            context = {'form': QuestionForm(),
+                       'registererror': errormsg}
+            return render(request, 'qpanda/askquestion.html', context)
+
+        else:
+            u = User.objects.create_user(username=username)
+            u.set_password(password)
+    return HttpResponse("REGISTER")
