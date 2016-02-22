@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-from .forms import QuestionForm, AnswerForm
+from .forms import QuestionForm, AnswerForm, UserForm
 from .models import Question, Answer
 from utils import gen_valid_pk
 
@@ -14,7 +14,8 @@ def index(request):
 
 
 def askquestion(request):
-    return render(request, 'qpanda/askquestion.html', {'form': QuestionForm()})
+    return render(request, 'qpanda/askquestion.html', {'questionform': QuestionForm(),
+                                                       'userform': UserForm()})
 
 
 def question(request):
@@ -25,7 +26,8 @@ def question(request):
             text = form.cleaned_data['question_text']
         else:
             context = {'error': 'Please enter a valid question.',
-                       'form': QuestionForm()}
+                       'questionform': QuestionForm(),
+                       'userform': UserForm()}
             return render(request, 'qpanda/askquestion.html', context)
 
         # hard coded for now, will fix later.
@@ -56,15 +58,17 @@ def askedquestion(request, question_id):
         q = Question.objects.get(pk=question_id)
     except Question.DoesNotExist:
         context = {'error': 'Question not found.',
-                   'form': QuestionForm()}
+                   'questionform': QuestionForm(),
+                   'userform': UserForm()}
         return render(request, 'qpanda/askquestion.html', context)
 
     context = {'question_text': q.question_text,
                'question_id': q.id,
                'question_date': q.pub_date,
                'user_asking': q.owner.get_username(),
-               'form': AnswerForm(),
-               'answers': q.answer_set.order_by('-pub_date')[:10]}
+               'answerform': AnswerForm(),
+               'answers': q.answer_set.order_by('-pub_date')[:10],
+               'userform': UserForm()}
 
     return render(request, 'qpanda/askedquestion.html', context)
 
@@ -89,8 +93,9 @@ def answerquestion(request, question_id):
                        # Maybe I should just pass a question object, that only makes too much sense.
                        'error': 'Please enter a valid answer.',
                        'user_asking': q.owner.get_username(),
-                       'form': AnswerForm(),
-                       'answers': q.answer_set.order_by('-pub_date')[:10]}
+                       'answerform': AnswerForm(),
+                       'answers': q.answer_set.order_by('-pub_date')[:10],
+                       'userform': UserForm()}
 
             return render(request, 'qpanda/askedquestion.html', context)
 
@@ -115,9 +120,11 @@ def register(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        # there has to a better way to check if the username and password is valid.
         # TODO Fix username/password validation e.g. no symbols in username.
         # TODO Add Try/Except block to see if username already exists in db.
+
+        # using the userform will now check if it is valid, however I think I need to include a try/except block still.
+        # should now be able to use form.is_valid() like the other views.
 
         # I can store len(username) in a variable instead of calling it twice.
         if len(username) == 0 or len(password) == 0:

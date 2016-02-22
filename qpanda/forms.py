@@ -1,6 +1,25 @@
 from django.forms import ModelForm, TextInput, Textarea
+from django.contrib.auth.models import User
 
 from .models import Question, Answer
+
+
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password']
+        widgets = {
+            'username': TextInput(attrs={'class': 'authenticate',
+                                         'id': 'username',
+                                         'placeholder': 'Username',
+                                         'type': 'input'}),
+            'password': TextInput(attrs={'class': 'authenticate',
+                                         'id': 'password',
+                                         'placeholder': 'Password',
+                                         'type': 'password'})
+            # password should perhaps use PasswordInput instead of TextInput. Need to look research differences.
+        }
+
 
 class QuestionForm(ModelForm):
     class Meta:

@@ -92,7 +92,7 @@ div#hiddenregister {
     display: none;
 }
 
-input.sidebar {
+input.authenticate {
     min-width: 180px;
     width: 100%;
 }

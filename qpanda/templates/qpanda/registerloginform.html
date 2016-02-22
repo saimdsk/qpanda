@@ -1,9 +1,9 @@
 <form id="authenticate" action="/login/" method="POST">
     {% csrf_token %}
     <p class="aboveinput">Username</p>
-    <input type="text" id="username" name="username" class="sidebar" placeholder="Username"/>
+    {{ userform.username }}
     <p class="aboveinput">Password</p>
-    <input type="password" id="password" name="password" class="sidebar" placeholder="Password"/>
+    {{ userform.password }}
     <div id="hiddenregister">
         <p class="aboveinput">Confirm password</p>
         <input type="password" id="confirmpassword" class="sidebar" placeholder="Confirm password"/>

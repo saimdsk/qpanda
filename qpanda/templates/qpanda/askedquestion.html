@@ -40,7 +40,7 @@
                     <h4>Enter your answer:</h4>
                     <form action="/{{ question_id }}/answer/" method="POST">
                         {% csrf_token %}
-                        {{ form.answer_text }}
+                        {{ answerform.answer_text }}
                         <div class="rightalign">
                             <input class="button lgbutton" id="answerbutton" type="submit" value="Answer">
                         </div>
