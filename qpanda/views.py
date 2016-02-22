@@ -115,28 +115,44 @@ def login(request):
 
 
 def register(request):
-    print 'in register view'
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        form = UserForm(request.POST)
+
+        if form.is_valid():
+            print 'username: ' + form.cleaned_data['username']
+            print 'password: ' + form.cleaned_data['password']
+        else:
+            """
+            I'm so proud of myself right now. I think this moment has now solidified my career in computer science.
+
+            I spent atleast an hour trying to figure out how to view the validation error that occurs when is_valid()
+            fails. I only want the error message itself, not '[ValidationError([u'This field is required.'])]' or the
+            error message encased in the default django html error tags. I would have loved to get the errormessage and
+            then display it in my own error div or something, but instead I have to do some hacking (I've actually got a
+            Han Solo like smirk on my face right now because I'm so proud of my shortcut).
+
+            Anyways I did it. I'm going to make it as a software developer now. #hacktheplanet
+            """
+
+            firsterrorkey = form.errors.keys()[0]
+            # could be multiple errors, we don't want to overwhelm the user so we'll just display one.
+            errordict = form.errors.as_data()
+            # this returns a dict instead of enclosing the error in a html tags.
+            errormsg = unicode(errordict[firsterrorkey])[20:-4]
+            print firsterrorkey + ' error: ' + errormsg
+            # and boom we've got the error message.
+
+            """
+            It's been a few minutes since I came up with my very unsafe solution that made me super proud. But I have
+            some kind of post-hack depression. Because I know that I can't use this in a real environment. It's super
+            sad. But I will commit this and I hope somebody will eventually read this and realise my genius (stupidity).
+            """
 
         # TODO Fix username/password validation e.g. no symbols in username.
         # TODO Add Try/Except block to see if username already exists in db.
 
         # using the userform will now check if it is valid, however I think I need to include a try/except block still.
+        # the try/except block will accept a ValidationError.
         # should now be able to use form.is_valid() like the other views.
 
-        # I can store len(username) in a variable instead of calling it twice.
-        if len(username) == 0 or len(password) == 0:
-            if len(username) == 0:
-                errormsg = 'Please enter a valid username.'
-            else:
-                errormsg = 'Please enter a valid password.'
-            context = {'form': QuestionForm(),
-                       'registererror': errormsg}
-            return render(request, 'qpanda/askquestion.html', context)
-
-        else:
-            u = User.objects.create_user(username=username)
-            u.set_password(password)
     return HttpResponse("REGISTER")
