@@ -1,3 +1,6 @@
+import re
+
+from django import forms
 from django.forms import ModelForm, TextInput, Textarea
 from django.contrib.auth.models import User
 
@@ -19,6 +22,34 @@ class UserForm(ModelForm):
                                          'type': 'password'})
             # password should perhaps use PasswordInput instead of TextInput. Need to look research differences.
         }
+
+    def clean_username(self):
+        # when form.is_valid() is called, clean_username will also be called allowing for custom validation.
+
+        data = self.cleaned_data['username']
+        rules = re.compile(u'^[a-zA-Z-_][a-zA-Z0-9-_]{4,}$')
+        # username must start with a letter or '-' or '_'.
+        # It can only contain letters, numbers, '-', and '_'.
+        # It must be atleast 5 characters long.
+            # we use {4,} because it only checks that the closest [] is x characters long.
+        if rules.match(data) is None:
+            # failed the regex.
+            if len(data) < 5:
+                raise forms.ValidationError('Username is not long enough.')
+            elif unicode.isnumeric(data[0]):
+                raise forms.ValidationError('Username must start with a letter, hyphen, or underscore.')
+            else:
+                raise forms.ValidationError('Username can only contain letters, numbers, hyphens, or underscores.')
+
+        return data
+
+    def clean_password(self):
+        data = self.cleaned_data['password']
+
+        if len(data) < 6:
+            raise forms.ValidationError('Password is not long enough.')
+
+        return data
 
 
 class QuestionForm(ModelForm):
