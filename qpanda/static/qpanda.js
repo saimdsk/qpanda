@@ -37,6 +37,38 @@ $(document).ready(function() {
         // to actually submit the form. So what we do is hide the button and display and identical looking submit.
     });
 
+    $('input#passwordfield').on('input', function() {
+        passwordsmatch()
+    });
+
+    $('input#confirmpasswordfield').on('input', function() {
+        passwordsmatch()
+    });
+
+    function passwordsmatch() {
+        var password1 = $('input#passwordfield').val();
+        var password2 = $('input#confirmpasswordfield').val();
+
+        var thething = $('#registerfeedback');
+
+        if (password2.length == 0) {
+            thething.css('display', 'none');
+        }
+
+        else if (password1 != password2) {
+            thething.attr('class', 'glyphicon glyphicon-remove form-control-feedback fade in');
+            thething.css('display', 'block');
+            thething.css('color', '#a94442')
+        }
+
+        else {
+            thething.attr('class', 'glyphicon glyphicon-ok form-control-feedback fade in');
+            thething.css('display', 'block');
+            thething.css('color', '#3c763d')
+        }
+    }
+
+
     $('input#hiddenregisterbutton').click(function(event) {
         var username = $('input#usernamefield');
         var password1 = $('input#passwordfield');

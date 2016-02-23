@@ -1,3 +1,11 @@
+/*
+Colors:
+Success green: #3c763d
+Dark blue: #205898;
+Dark grey: #7b7b7b
+Error red: #a94442
+*/
+
 header {
     padding-top: 30px;
     padding-bottom: 20px;
@@ -23,7 +31,7 @@ a#header {
     color:inherit;
 }
 
-a#header:focus, a#header:hover {
+header a:focus, header a:hover {
     text-decoration: none;
 }
 /* Because we put the header inside an <a> tag we need to overrride the default bootstrap and user css settings.*/
@@ -38,6 +46,12 @@ div {
 
 div.marginless {
     margin-top: 0px;
+}
+
+span#registerfeedback {
+    display: none;
+    margin-top: 6px;
+    line-height: 1;
 }
 
 a#close {
