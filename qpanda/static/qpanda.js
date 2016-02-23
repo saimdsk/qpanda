@@ -24,7 +24,7 @@ $(document).ready(function() {
         // clicking register we will display a hidden element and focus on it for the user to confirm their password.
 
         $('div#hiddenregister').css('display', 'block');
-        $('input#confirmpassword').focus();
+        $('input#confirmpasswordfield').focus();
         // display the confirm password input field and give it focus.
 
         $('form#authenticate').attr('action', '/register/');
@@ -38,17 +38,37 @@ $(document).ready(function() {
     });
 
     $('input#hiddenregisterbutton').click(function(event) {
+        var username = $('input#usernamefield');
         var password1 = $('input#passwordfield');
         var password2 = $('input#confirmpasswordfield');
 
-        var registrationerrordiv = $('div#registererrorbox');
-        var registrationerrortext = $('strong#errortext');
+        var re = '/^[a-zA-Z-_][a-zA-Z0-9-_]{4,}$/';
+
+        if (username.val().length < 5) {
+            registrationerror('Username needs to be atleast 5 characters adlsssssssssssssssllllllllllllll.');
+        }
+
+        if (re.match(username.val())) {
+            registrationerror('Username can only contain')
+        }
+
         if (password1.val() != password2.val()) {
-            console.log('here');
-            registrationerrortext.text('Passwords do not match.');
-            registrationerrordiv.css('display', 'block');
-            event.preventDefault();
+            registrationerror('Passwords do not match.');
+        }
+
+        if(password1.val().length < 6) {
+            registrationerror('Password needs to be atleast 6 characters.')
         }
     });
 
+    function registrationerror(text) {
+        $('strong#errortext').text(text);
+        $('div#registererrorbox').css('display', 'block');
+        event.preventDefault();
+    }
+
+    $('a.jshide').click(function() {
+        // We use the bootstrap alerts to display our other errors. When we submit the form we want to validate
+        $('div#registererrorbox').hide();
+    });
 });

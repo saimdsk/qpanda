@@ -36,6 +36,10 @@ div {
     margin-top: 10px;
 }
 
+div.marginless {
+    margin-top: 0px;
+}
+
 a#close {
     margin-left: 10px   ;
 }

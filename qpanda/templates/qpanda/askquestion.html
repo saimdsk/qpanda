@@ -6,38 +6,39 @@
     query. But yes. You can just use the linux '../'. And I realise now as I type this that I should have searched
     'how to submit form to parent url'. Saying 'higher level domain' was showing stuff about top level domains.
     {% endcomment %}
-
-    {% if error %}
-        <div class="centercontents">
-            <div class="alert alert-danger" id="error">
-                <a href="#" class="close" id="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>{{ error }}</strong>
-            </div>
-        </div>
-    {%  endif %}
-
-    <form action="/qpanda/question/" method="POST">
-        {% csrf_token %}
-        <div id="askarea" class="centercontents">
-            <h4>Enter your question:</h4>
-            <div id="askline">
-                {{ questionform.question_text }}
-                <input class="button" id="askbutton" type="submit" value="Ask">
-            </div>
-        </div>
-    </form>
-
-    <div id="homepagelogin">
-        <h3>Signup/Login</h3>
-        {% if registererror %} {% comment %}registererror sounds funny. Register-err-err.{% endcomment %}
+    <div id="content">
+        {% if error %}
             <div class="centercontents">
-                <div class="alert alert-danger" id="error">
+                <div class="alert alert-danger fade in" id="error">
                     <a href="#" class="close" id="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <strong>{{ registererror }}</strong>
+                    <strong>{{ error }}</strong>
                 </div>
             </div>
         {%  endif %}
-        {% include 'qpanda/registerloginform.html' %}
+
+        <form action="/qpanda/question/" method="POST">
+            {% csrf_token %}
+            <div id="askarea" class="centercontents">
+                <h4>Enter your question:</h4>
+                <div id="askline">
+                    {{ questionform.question_text }}
+                    <input class="button" id="askbutton" type="submit" value="Ask">
+                </div>
+            </div>
+        </form>
+
+        <div id="homepagelogin">
+            <h3>Signup/Login</h3>
+            {% if registererror %} {% comment %}registererror sounds funny. Register-err-err.{% endcomment %}
+                <div class="centercontents">
+                    <div class="alert alert-danger fade in" id="error">
+                        <a href="#" class="close" id="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>{{ registererror }}</strong>
+                    </div>
+                </div>
+            {%  endif %}
+            {% include 'qpanda/registerloginform.html' %}
+        </div>
     </div>
 
 {% endblock %}

@@ -1,5 +1,4 @@
 TODO Add user to answers
-TODO Allow user registers and logins
 TODO Change pk of how answers work
 TODO Only display 10 most recent answers and AJAX on next page
 TODO Add passwords for protected questions
