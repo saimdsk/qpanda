@@ -13,14 +13,14 @@ class UserForm(ModelForm):
         fields = ['username', 'password']
         widgets = {
             'username': TextInput(attrs={'class': 'authenticate',
-                                         'id': 'username',
+                                         'id': 'usernamefield',
                                          'placeholder': 'Username',
                                          'type': 'input'}),
             'password': TextInput(attrs={'class': 'authenticate',
-                                         'id': 'password',
+                                         'id': 'passwordfield',
                                          'placeholder': 'Password',
                                          'type': 'password'})
-            # password should perhaps use PasswordInput instead of TextInput. Need to look research differences.
+            # password should perhaps use PasswordInput instead of TextInput. Need to research the differences.
         }
 
     def clean_username(self):

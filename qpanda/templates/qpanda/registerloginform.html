@@ -4,13 +4,19 @@
     {{ userform.username }}
     <p class="aboveinput">Password</p>
     {{ userform.password }}
-    <div id="hiddenregister">
+    <div class="displaynone" id="hiddenregister">
         <p class="aboveinput">Confirm password</p>
-        <input type="password" id="confirmpassword" class="authenticate" placeholder="Confirm password"/>
+        <input type="password" id="confirmpasswordfield" class="authenticate" placeholder="Confirm password"/>
     </div>
-    <div id="registerlogin">
-        <input type="submit" class="button smbutton wd49" id="login" value="Login"/>
-        <input type="button" class="button smbutton wd49" id="register" value="Register"/>
+    <div id="registerlogin" class="centercontents">
+        <input type="submit" class="button smbutton wd49" id="loginbutton" value="Login"/>
+        <input type="button" class="button smbutton wd49" id="registerbutton" value="Register"/>
         <input type="hidden" class="button smbutton wd49" id="hiddenregisterbutton" value="Register"/>
     </div>
 </form>
+<div id="registererrorbox" class="displaynone centercontents">
+    <div class="alert alert-danger" id="error">
+        <a href="#" class="close" id="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong id="errortext">You didn't enter the form correctly.</strong>
+    </div>
+</div>

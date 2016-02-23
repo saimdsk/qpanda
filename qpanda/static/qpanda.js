@@ -19,7 +19,7 @@ $(document).ready(function() {
         sharelink.select();
     });
 
-    $('input#register').click(function() {
+    $('input#registerbutton').click(function() {
         // There is one form for login or register because that's awesome UX. If we are registering a user, upon
         // clicking register we will display a hidden element and focus on it for the user to confirm their password.
 
@@ -35,6 +35,20 @@ $(document).ready(function() {
         // input#register is a button and not submit, because when we click it we want to display the confirm password
         // input field. However on a second click of register (once the confirmpassword field has been filled) we want
         // to actually submit the form. So what we do is hide the button and display and identical looking submit.
+    });
+
+    $('input#hiddenregisterbutton').click(function(event) {
+        var password1 = $('input#passwordfield');
+        var password2 = $('input#confirmpasswordfield');
+
+        var registrationerrordiv = $('div#registererrorbox');
+        var registrationerrortext = $('strong#errortext');
+        if (password1.val() != password2.val()) {
+            console.log('here');
+            registrationerrortext.text('Passwords do not match.');
+            registrationerrordiv.css('display', 'block');
+            event.preventDefault();
+        }
     });
 
 });

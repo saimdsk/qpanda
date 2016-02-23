@@ -124,23 +124,17 @@ def register(request):
             u.set_password(form.cleaned_data['password'])
             # we use set_password because that calls the hash function, using password= in the User constructor doesn't.
             u.save()
-            print 'username: ' + form.cleaned_data['username']
-            print 'password: ' + form.cleaned_data['password']
+
+            return HttpResponse('User: ' + u.username + ' with password: ' + u.password + ' created.')
+
         else:
             firsterrorkey = form.errors.keys()[0]
             # could be multiple errors, we don't want to overwhelm the user so we'll just display one.
             errordict = form.errors.as_data()
             # this returns a dict instead of enclosing the error in a html tags.
             errormsg = unicode(errordict[firsterrorkey])[20:-4]
-            print firsterrorkey + ' error: ' + errormsg
             # and boom we've got the error message.
+            print errormsg
 
-
-        # TODO Fix username/password validation e.g. no symbols in username.
-        # TODO Add Try/Except block to see if username already exists in db.
-
-        # using the userform will now check if it is valid, however I think I need to include a try/except block still.
-        # the try/except block will accept a ValidationError.
-        # should now be able to use form.is_valid() like the other views.
 
     return HttpResponse("REGISTER")

@@ -8,7 +8,7 @@
     {% endcomment %}
 
     {% if error %}
-        <div id="errorbox">
+        <div class="centercontents">
             <div class="alert alert-danger" id="error">
                 <a href="#" class="close" id="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>{{ error }}</strong>
@@ -18,7 +18,7 @@
 
     <form action="/qpanda/question/" method="POST">
         {% csrf_token %}
-        <div id="askarea">
+        <div id="askarea" class="centercontents">
             <h4>Enter your question:</h4>
             <div id="askline">
                 {{ questionform.question_text }}
@@ -30,7 +30,7 @@
     <div id="homepagelogin">
         <h3>Signup/Login</h3>
         {% if registererror %} {% comment %}registererror sounds funny. Register-err-err.{% endcomment %}
-            <div id="errorbox">
+            <div class="centercontents">
                 <div class="alert alert-danger" id="error">
                     <a href="#" class="close" id="close" data-dismiss="alert" aria-label="close">&times;</a>
                     <strong>{{ registererror }}</strong>
