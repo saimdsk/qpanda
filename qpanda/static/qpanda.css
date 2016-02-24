@@ -36,10 +36,6 @@ header a:focus, header a:hover {
 }
 /* Because we put the header inside an <a> tag we need to overrride the default bootstrap and user css settings.*/
 
-div#errorbox {
-
-}
-
 div {
     margin-top: 10px;
 }
@@ -115,8 +111,33 @@ strong#errortext {
     font-size: 12px;
 }
 
+/*
+    Apparently input[type="text"] will override the styling rules of input.class. So instead we combine the id (which
+    will override everything else) with the class to overrride the input[type="text"] border style.
+*/
+input#confirmpasswordfield.confirmpasswordfieldsuccess {
+    border: solid 1px #67b168;
+}
+
+input.confirmpasswordfieldsuccess:focus {
+    /* I totally stole this from bootstrap */
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #3c763d;
+    outline: none;
+}
+
+input#confirmpasswordfield.confirmpasswordfielderror {
+    border: solid 1px #a94442;
+}
+
+input.confirmpasswordfielderror:focus {
+    /* I totally stole this from bootstrap */
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #a94442;
+    outline: none;
+}
+
 input[type="text"], input[type="password"] {
     height: 32px;
+    border: solid 1px #7b7b7b;
 }
 
 input.authenticate {
@@ -173,14 +194,6 @@ input.askbar {
     vertical-align: middle;
     padding-left: 3px;
     padding-right: 3px;
-    border: solid 1px #7b7b7b;
-    /*  All this border stuff came about because firefox has a border-radius by default. I chose to override that but
-        I then discovered that the text input in firefox had a border but only on the top and left of the input text.
-        I spent maybe an hour trying to tinkering with different border settings but it never worked. My keywords
-        weren't working. The solution came about when I searched 'firefox input text shadow' and then it worked. So I'm
-        including this comment in case I ever run into this problem in the future again.
-
-        ctrl+f tags: "firefox" "input" "text" "border" "left" "top" "input text shadow" "input text left top border" */
 }
 
 h3#question_text {

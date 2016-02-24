@@ -3,10 +3,10 @@
  */
 
 $(document).ready(function() {
-    // Instead of even using seconds/milliseconds since epoch django can convert datetimefield to an RFC 2822 compliant
-    // formatted date, which javascript can use to construct a date. Even easier than before!
-
+    
     $('span.time').each(function(i, obj) {
+        // Instead of even using seconds/milliseconds since epoch django can convert datetimefield to an RFC 2822 compliant
+        // formatted date, which javascript can use to construct a date. Even easier than before!
         var rfc2822datestring = $(this).attr('title');
         var d = new Date(rfc2822datestring);
 
@@ -46,25 +46,27 @@ $(document).ready(function() {
     });
 
     function passwordsmatch() {
-        var password1 = $('input#passwordfield').val();
-        var password2 = $('input#confirmpasswordfield').val();
+        var password1 = $('input#passwordfield');
+        var password2 = $('input#confirmpasswordfield');
 
-        var thething = $('#registerfeedback');
+        var registerfeedback = $('#registerfeedback');
 
-        if (password2.length == 0) {
-            thething.css('display', 'none');
+        if (password2.val().length == 0) {
+            registerfeedback.css('display', 'none');
         }
 
-        else if (password1 != password2) {
-            thething.attr('class', 'glyphicon glyphicon-remove form-control-feedback fade in');
-            thething.css('display', 'block');
-            thething.css('color', '#a94442')
+        else if (password1.val() != password2.val()) {
+            registerfeedback.attr('class', 'glyphicon glyphicon-remove form-control-feedback fade in');
+            registerfeedback.css('display', 'block');
+            registerfeedback.css('color', '#a94442');
+            password2.attr('class', 'authenticate confirmpasswordfielderror');
         }
 
         else {
-            thething.attr('class', 'glyphicon glyphicon-ok form-control-feedback fade in');
-            thething.css('display', 'block');
-            thething.css('color', '#3c763d')
+            registerfeedback.attr('class', 'glyphicon glyphicon-ok form-control-feedback fade in');
+            registerfeedback.css('display', 'block');
+            registerfeedback.css('color', '#3c763d');
+            password2.attr('class', 'authenticate confirmpasswordfieldsuccess');
         }
     }
 
@@ -77,23 +79,24 @@ $(document).ready(function() {
         var re = '/^[a-zA-Z-_][a-zA-Z0-9-_]{4,}$/';
 
         if (username.val().length < 5) {
-            registrationerror('Username needs to be atleast 5 characters adlsssssssssssssssllllllllllllll.');
+            registrationerror(event, 'Username needs to be atleast 5 characters adlsssssssssssssssllllllllllllll.');
+            // TODO Figure out how to deal with a long error message.
         }
 
-        if (re.match(username.val())) {
-            registrationerror('Username can only contain')
+        else if (!re.match(username.val())) {
+            registrationerror(event, 'Username can only contain letters, numbers, underscores, and hyphens.')
         }
 
-        if (password1.val() != password2.val()) {
-            registrationerror('Passwords do not match.');
+        else if (password1.val() != password2.val()) {
+            registrationerror(event, 'Passwords do not match.');
         }
 
-        if(password1.val().length < 6) {
-            registrationerror('Password needs to be atleast 6 characters.')
+        else if(password1.val().length < 6) {
+            registrationerror(event, 'Password needs to be atleast 6 characters.')
         }
     });
 
-    function registrationerror(text) {
+    function registrationerror(event, text) {
         $('strong#errortext').text(text);
         $('div#registererrorbox').css('display', 'block');
         event.preventDefault();
