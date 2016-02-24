@@ -50,8 +50,7 @@ div.marginless {
 
 span#registerfeedback {
     display: none;
-    margin-top: 6px;
-    line-height: 1;
+    height: 32px;
 }
 
 a#close {
@@ -115,6 +114,11 @@ p.aboveinput {
 strong#errortext {
     font-size: 12px;
 }
+
+input[type="text"], input[type="password"] {
+    height: 32px;
+}
+
 input.authenticate {
     min-width: 180px;
     width: 100%;

@@ -15,7 +15,7 @@ class UserForm(ModelForm):
             'username': TextInput(attrs={'class': 'authenticate',
                                          'id': 'usernamefield',
                                          'placeholder': 'Username',
-                                         'type': 'input'}),
+                                         'type': 'text'}),
             'password': TextInput(attrs={'class': 'authenticate',
                                          'id': 'passwordfield',
                                          'placeholder': 'Password',
