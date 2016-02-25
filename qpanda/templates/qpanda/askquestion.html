@@ -10,7 +10,7 @@
         {% if error %}
             <div class="centercontents">
                 <div class="alert alert-danger fade in" id="error">
-                    <a href="#" class="close" id="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <button class="close" id="close" data-dismiss="alert" aria-label="close">&times;</button>
                     <strong>{{ error }}</strong>
                 </div>
             </div>
@@ -32,7 +32,7 @@
             {% if registererror %} {% comment %}registererror sounds funny. Register-err-err.{% endcomment %}
                 <div class="centercontents">
                     <div class="alert alert-danger fade in" id="error">
-                        <a href="#" class="close" id="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <button class="close" id="close" data-dismiss="alert" aria-label="close">&times;</button>
                         <strong>{{ registererror }}</strong>
                     </div>
                 </div>

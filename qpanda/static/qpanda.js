@@ -76,14 +76,14 @@ $(document).ready(function() {
         var password1 = $('input#passwordfield');
         var password2 = $('input#confirmpasswordfield');
 
-        var re = '/^[a-zA-Z-_][a-zA-Z0-9-_]{4,}$/';
+        var re = /^[a-zA-Z-_][a-zA-Z0-9-_]{4,}$/;
 
         if (username.val().length < 5) {
             registrationerror(event, 'Username needs to be atleast 5 characters adlsssssssssssssssllllllllllllll.');
             // TODO Figure out how to deal with a long error message.
         }
 
-        else if (!re.match(username.val())) {
+        else if (!re.test(username.val())) {
             registrationerror(event, 'Username can only contain letters, numbers, underscores, and hyphens.')
         }
 
@@ -102,8 +102,19 @@ $(document).ready(function() {
         event.preventDefault();
     }
 
-    $('a.jshide').click(function() {
+    $('.jshide').click(function() {
         // We use the bootstrap alerts to display our other errors. When we submit the form we want to validate
         $('div#registererrorbox').hide();
     });
+
+    /*
+    To be totally honest. I wrote a little bit of javascript years ago. I'm guessing that I'm ordering the components
+    of my code horribly. But I promise I'll fix it eventually. I'm just learning on the fly, and unfortunately the
+    javascript is going to be the most loosely-organised and hacked together part of this project.
+     */
+
+    $('.close[data-dismiss="alert"]').click(function() {
+        $(this).parent().remove();
+        // This is based on consideration 1. We don't need all of boostrap.js just for this functionality.
+    })
 });

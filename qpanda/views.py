@@ -97,6 +97,12 @@ def answerquestion(request, question_id):
                        'answers': q.answer_set.order_by('-pub_date')[:10],
                        'userform': UserForm()}
 
+            # TODO Redirect to askedquestion and figure out how pass error data.
+            # this still loads qpanda.co/abc1234/answer. Reloading this page will resubmit the invalid form data.
+            # Instead we should just hand redirect this to askedquestion. I don't like it when a website tells me that
+            # when I'm reloading a page, I'm resubmitting data. Fix this. I did spend time earlier trying to figure out
+            # how to redirect and pass an error but gave up, because it became too difficult. I think I need to
+            # reattempt finding a solution.
             return render(request, 'qpanda/askedquestion.html', context)
 
         a = Answer(question=q, answer_text=text, pub_date=timezone.now())
