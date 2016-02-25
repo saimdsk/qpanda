@@ -1,0 +1,7 @@
+Considerations that need to be made.
+
+1. Do I need the bootstrap javascript script?
+The only reason I have included it is because of the bootstrap alerts (I'm using alerts to display error messages). You
+need javascript to close the alert. However I can just include that functionality in qpanda.js instead of using the full
+bootstrap.js. As I type this, I realise that the answer is pretty clear. I should just include the functionality in
+qpanda.js.
