@@ -25,9 +25,11 @@ def question(request):
         if form.is_valid():
             text = form.cleaned_data['question_text']
         else:
-            context = {'error': 'Please enter a valid question.',
+            context = {'mainerror': 'Please enter a valid question.',
                        'questionform': QuestionForm(),
                        'userform': UserForm()}
+            # Refer to the to-do (yes I changed it so my IDE doesn't show this as a to-do) about using a redirect
+            # instead of rendering a page that will resubmit invalid form data if the user reloads the page.
             return render(request, 'qpanda/askquestion.html', context)
 
         # hard coded for now, will fix later.
@@ -57,7 +59,7 @@ def askedquestion(request, question_id):
     try:
         q = Question.objects.get(pk=question_id)
     except Question.DoesNotExist:
-        context = {'error': 'Question not found.',
+        context = {'mainerror': 'Question not found.',
                    'questionform': QuestionForm(),
                    'userform': UserForm()}
         return render(request, 'qpanda/askquestion.html', context)
@@ -80,7 +82,7 @@ def answerquestion(request, question_id):
         try:
             q = Question.objects.get(pk=question_id)
         except Question.DoesNotExist:
-            context = {'error': 'Question not found.',
+            context = {'mainerror': 'Question not found.',
                        'form': QuestionForm()}
             return render(request, 'qpanda/askquestion.html', context)
 
@@ -91,7 +93,7 @@ def answerquestion(request, question_id):
                        'question_id': q.id,
                        'question_date': q.pub_date,
                        # Maybe I should just pass a question object, that only makes too much sense.
-                       'error': 'Please enter a valid answer.',
+                       'mainerror': 'Please enter a valid answer.',
                        'user_asking': q.owner.get_username(),
                        'answerform': AnswerForm(),
                        'answers': q.answer_set.order_by('-pub_date')[:10],

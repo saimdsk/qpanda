@@ -26,13 +26,8 @@
                     </p>
                 {% endif %}
 
-                {% if error %}
-                    <div class="centercontents">
-                        <div class="alert alert-danger fade in" id="error">
-                            <button class="close" id="close" data-dismiss="alert" aria-label="close">&times;</button>
-                            <strong>{{ error }}</strong>
-                        </div>
-                    </div>
+                {% if mainerror %}
+                    {% include 'qpanda/mainerror.html' %}
                 {%  endif %}
 
 

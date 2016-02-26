@@ -7,13 +7,8 @@
     'how to submit form to parent url'. Saying 'higher level domain' was showing stuff about top level domains.
     {% endcomment %}
     <div id="content">
-        {% if error %}
-            <div class="centercontents">
-                <div class="alert alert-danger fade in" id="error">
-                    <button class="close" id="close" data-dismiss="alert" aria-label="close">&times;</button>
-                    <strong>{{ error }}</strong>
-                </div>
-            </div>
+        {% if mainerror %}
+            {% include 'qpanda/mainerror.html' %}
         {%  endif %}
 
         <form action="/qpanda/question/" method="POST">
