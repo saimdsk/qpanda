@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db import IntegrityError
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.utils import timezone
 
@@ -117,9 +118,23 @@ def answerquestion(request, question_id):
         return redirect('askedquestion', question_id=question_id)
 
 
-def login(request):
-    print 'in login view'
-    return HttpResponse("LOGIN")
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        # do I need to add a try/except block here for a KeyError?
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return HttpResponse("You are now logged in as: " + user.username)
+        else:
+            return HttpResponse("Incorrect username/password.")
+
+    else:
+        # Display a page that a user can use to login. This can be the same as the one in the register view.
+        print 'have to include something in this else if block.'
+        return HttpResponse("Have to do something.")
 
 
 def register(request):
@@ -127,13 +142,13 @@ def register(request):
         form = UserForm(request.POST)
 
         if form.is_valid():
-            u = User.objects.create_user(username=form.cleaned_data['username'])
+            user = User.objects.create_user(username=form.cleaned_data['username'])
             # form.is_valid() checks to make sure that the username is unique, so we don't need to check.
-            u.set_password(form.cleaned_data['password'])
+            user.set_password(form.cleaned_data['password'])
             # we use set_password because that calls the hash function, using password= in the User constructor doesn't.
-            u.save()
+            user.save()
 
-            return HttpResponse('User: ' + u.username + ' with password: ' + u.password + ' created.')
+            return HttpResponse('User: ' + user.username + ' with password: ' + user.password + ' created.')
 
         else:
             firsterrorkey = form.errors.keys()[0]
@@ -144,5 +159,8 @@ def register(request):
             # and boom we've got the error message.
             print errormsg
 
+    else:
+        # need to write a regular register page where a user can sign up at. Not the main page.
+        print 'have to include something in this if/else block.'
 
     return HttpResponse("REGISTER")

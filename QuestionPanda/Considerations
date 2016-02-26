@@ -1,7 +1,22 @@
 Considerations that need to be made.
 
+
 1. Do I need the bootstrap javascript script?
 The only reason I have included it is because of the bootstrap alerts (I'm using alerts to display error messages). You
 need javascript to close the alert. However I can just include that functionality in qpanda.js instead of using the full
 bootstrap.js. As I type this, I realise that the answer is pretty clear. I should just include the functionality in
 qpanda.js.
+
+
+2. Remove the confirm password input from html form on login?
+Regardless of value, any input fields inside a form will be sent along with the POST request. For simplicity/UX I
+merged the login and register form. Instead of being separated they are the same form, but clicking the register button
+will change the action url to /register/ instead of /login/. But because they are the same form all 3 (the 3rd one being
+the confirmpasswordfield) user editable elements will be sent, even when we only need 2 (for login). Logins are going to
+occur far more often than registers and removing that 3rd input element will be more bandwidth efficient.
+
+The are 2 possible implementations to remove the 3rd input field:
+    a.  In qpanda.js add the 3rd input field when the user clicks the register button. This is done client side and will
+        also save server bandwidth (a very little bit, but still a saving).
+    b.  Send all 3 input fields from the server but on clicking the login button have qpanda.js remove the 3rd input
+        field, so that it is not sent in the POST request.
