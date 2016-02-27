@@ -1,9 +1,8 @@
 {% block sidebar %}
     <h4>Welcome to QuestionPanda!</h4>
-    {% comment %}
-    //TODO include an if/else block.
-    If the user is logged in obviously don't display a registerlogin form, display other user stuff that you can do.
-    If you're not logged in, display the registerlogin form.
-    {% endcomment %}
-    {% include 'qpanda/registerloginform.html' %}
+    {% if user.is_authenticated %}
+        <p>Welcome {{ user.username }}</p>
+    {% else %}
+        {% include 'qpanda/registerloginform.html' %}
+    {% endif %}
 {% endblock %}
