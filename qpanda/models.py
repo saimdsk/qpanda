@@ -41,3 +41,4 @@ class Answer(models.Model):
     question = models.ForeignKey(Question)
     answer_text = models.TextField(verbose_name='Answer')
     pub_date = models.DateTimeField('date published')
+    owner = models.ForeignKey(User, null=True)
