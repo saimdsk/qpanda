@@ -48,10 +48,16 @@
                         <ul class="list-group">
                             {% for a in answers %}
                                 <li class="list-group-item">
+                                    {% comment %}
+                                    We need to swap out from using the bootstrap list. If we're going to include a link
+                                    to a specific answer, edit links, username links, etc. We need to make changes in
+                                    order to customise the look of the site.
+                                    {% endcomment %}
                                     {{ a.answer_text }}
                                     <span class="time timeasked" title="{{ a.pub_date|date:"r" }}">
                                         {{ a.pub_date|naturaltime }}
                                     </span>
+                                    <a id="username">{{ a.owner.get_username|default:"Anonymous" }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
