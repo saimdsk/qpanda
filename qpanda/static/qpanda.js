@@ -27,12 +27,7 @@ $(document).ready(function() {
         $('input#confirmpasswordfield').focus();
         // display the confirm password input field and give it focus.
 
-        $('form#authenticate').attr('action', '/register/');
-        // TODO Fix register redirect.
-        // We included a next GET parameter for login but because we are changing the action method here, we need to add
-        // the get parameter. I think we just need to find what follows after a question mark and append that like
-        // $('form#authenticate').attr('action', '/registernext=' + getGetParams()).
-        // change the submit action to call qpanda.co/register/ instead of qpanda.co/login/.
+        $('form#authenticate').attr('action', '/register/?next=' + window.location.pathname);
 
         $(this).attr('type', 'hidden');
         $('input#hiddenregisterbutton').attr('type', 'submit');
@@ -120,5 +115,5 @@ $(document).ready(function() {
     $('.close[data-dismiss="alert"]').click(function() {
         $(this).parent().remove();
         // This is based on consideration 1. We don't need all of boostrap.js just for this functionality.
-    })
+    });
 });

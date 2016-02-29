@@ -155,13 +155,17 @@ def register(request):
         form = UserForm(request.POST)
 
         if form.is_valid():
-            user = User.objects.create_user(username=form.cleaned_data['username'])
-            # form.is_valid() checks to make sure that the username is unique, so we don't need to check.
-            user.set_password(form.cleaned_data['password'])
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            user = User.objects.create_user(username=username)
+            user.set_password(raw_password=password)
             # we use set_password because that calls the hash function, using password= in the User constructor doesn't.
             user.save()
 
-            return HttpResponse('User: ' + user.username + ' with password: ' + user.password + ' created.')
+            loggedinuser = authenticate(username=username, password=password)
+            login(request, loggedinuser)
+            return nextURL(request)
 
         else:
             firsterrorkey = form.errors.keys()[0]
