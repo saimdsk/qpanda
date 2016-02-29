@@ -14,9 +14,17 @@ def index(request):
     return render(request, 'qpanda/index.html')
 
 
+def handler404(request, error='Something went wrong...'):
+    context = {'mainerror': error,
+               'questionform': QuestionForm(),
+               'userform': UserForm()}
+    return render(request, 'qpanda/askquestion.html', context)
+
+
 def askquestion(request):
     return render(request, 'qpanda/askquestion.html', {'questionform': QuestionForm(),
                                                        'userform': UserForm()})
+
 
 def nextURL(request):
     nexturl = request.GET.get('next')
@@ -34,12 +42,7 @@ def question(request):
         if form.is_valid():
             text = form.cleaned_data['question_text']
         else:
-            context = {'mainerror': 'Please enter a valid question.',
-                       'questionform': QuestionForm(),
-                       'userform': UserForm()}
-            # Refer to the to-do (yes I changed it so my IDE doesn't show this as a to-do) about using a redirect
-            # instead of rendering a page that will resubmit invalid form data if the user reloads the page.
-            return render(request, 'qpanda/askquestion.html', context)
+            return handler404(request, error='Please enter a valid question.')
 
         # hard coded for now, will fix later.
         yaseen = User.objects.get(username='yaseen')
@@ -61,24 +64,19 @@ def question(request):
         # once the question has been successfully saved we redirect to the askedquestion view to display it.
 
     else:
-        return render(request, 'qpanda/index.html')
+        return redirect('askquestion')
 
 
 def askedquestion(request, question_id):
     try:
-        q = Question.objects.get(pk=question_id)
+        question = Question.objects.get(pk=question_id)
     except Question.DoesNotExist:
-        context = {'mainerror': 'Question not found.',
-                   'questionform': QuestionForm(),
-                   'userform': UserForm()}
-        return render(request, 'qpanda/askquestion.html', context)
+        return handler404(request, error='Question not found.')
 
-    context = {'question_text': q.question_text,
-               'question_id': q.id,
-               'question_date': q.pub_date,
-               'user_asking': q.owner.get_username(),
+    context = {'question': question,
+               'user_asking': question.owner.get_username(),
                'answerform': AnswerForm(),
-               'answers': q.answer_set.order_by('-pub_date')[:10],
+               'answers': question.answer_set.order_by('-pub_date')[:10],
                'userform': UserForm()}
 
     return render(request, 'qpanda/askedquestion.html', context)
@@ -89,23 +87,18 @@ def answerquestion(request, question_id):
         form = AnswerForm(request.POST)
 
         try:
-            q = Question.objects.get(pk=question_id)
+            question = Question.objects.get(pk=question_id)
         except Question.DoesNotExist:
-            context = {'mainerror': 'Question not found.',
-                       'form': QuestionForm()}
-            return render(request, 'qpanda/askquestion.html', context)
+            return handler404(request, error='Question not found.')
 
         if form.is_valid():
             text = form.cleaned_data['answer_text']
         else:
-            context = {'question_text': q.question_text,
-                       'question_id': q.id,
-                       'question_date': q.pub_date,
-                       # Maybe I should just pass a question object, that only makes too much sense.
+            context = {'question': question,
                        'mainerror': 'Please enter a valid answer.',
-                       'user_asking': q.owner.get_username(),
+                       'user_asking': question.owner.get_username(),
                        'answerform': AnswerForm(),
-                       'answers': q.answer_set.order_by('-pub_date')[:10],
+                       'answers': question.answer_set.order_by('-pub_date')[:10],
                        'userform': UserForm()}
 
             # TODO Redirect to askedquestion and figure out how pass error data.
@@ -116,7 +109,7 @@ def answerquestion(request, question_id):
             # reattempt finding a solution.
             return render(request, 'qpanda/askedquestion.html', context)
 
-        a = Answer(question=q, answer_text=text, pub_date=timezone.now())
+        a = Answer(question=question, answer_text=text, pub_date=timezone.now())
         a.save()
 
         return redirect('askedquestion', question_id=question_id)

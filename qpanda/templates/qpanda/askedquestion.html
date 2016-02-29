@@ -6,13 +6,13 @@
     <div id="content">
         <div id="maincontent">
             {% block maincontent %}
-                {% if question_text %}
-                    <h3 id="question_text">{{ question_text }}</h3>
+                {% if question %}
+                    <h3 id="question_text">{{ question.question_text }}</h3>
                     <p id="userasking">
                         Asked by
                             <a id="username">{{ user_asking }}</a>
-                            <span class="time" title="{{ question_date|date:"r" }}">
-                                {{ question_date|naturaltime }}
+                            <span class="time" title="{{ question.pub_date|date:"r" }}">
+                                {{ question.pub_date|naturaltime }}
                             </span>
                             {% comment %}
                             Share button works by expanding a hidden input element. When the button is clicked the
@@ -22,7 +22,7 @@
                             <button class="share" title="Share">
                                 <span class="glyphicon glyphicon-share"></span>
                             </button>
-                            <span><input type="hidden" value="qpanda.co/{{ question_id }}/" id="sharelink"/></span>
+                            <span><input type="hidden" value="qpanda.co/{{ question.pk }}/" id="sharelink"/></span>
                     </p>
                 {% endif %}
 
@@ -33,7 +33,7 @@
 
                 <div id="answerbox">
                     <h4>Enter your answer:</h4>
-                    <form action="/{{ question_id }}/answer/" method="POST">
+                    <form action="/{{ question.pk }}/answer/" method="POST">
                         {% csrf_token %}
                         {{ answerform.answer_text }}
                         <div class="rightalign">
