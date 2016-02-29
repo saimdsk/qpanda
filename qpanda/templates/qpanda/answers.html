@@ -1,0 +1,35 @@
+{% load humanize %}
+
+<div id="answers">
+    <h4>Answers</h4>
+    <ul class="list-group">
+        {% for a in answers %}
+            <li class="list-group-item">
+                {% comment %}
+                We need to swap out from using the bootstrap list. If we're going to include a link
+                to a specific answer, edit links, username links, etc. We need to make changes in
+                order to customise the look of the site.
+                {% endcomment %}
+                <div>
+                    {{ a.answer_text }}
+                </div>
+
+                <div class="answerfooter">
+                    {% comment %}
+                    The template system actually does some error checking and exception handling.
+                    Even when the owner is None it will know to not call get_username. It will
+                    return nothing and the default filter will be used instead.
+                    {% endcomment %}
+                    {% if a.owner %}
+                        <a id="username">{{ a.owner.get_username|default:"Anonymous" }}</a>
+                    {% else %}
+                        <span>Anonymous</span>
+                    {% endif %}
+                    <span class="time timeasked" title="{{ a.pub_date|date:"r" }}">
+                        {{ a.pub_date|naturaltime }}
+                    </span>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

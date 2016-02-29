@@ -1,4 +1,9 @@
-TODO Change how answers are displayed
+TODO Redirect to the appropriate url.
+i.e. If a user logs out from askedquestion we should log them out and then return to that same question. Same for if
+they login from askedquesiton. For our views that do work but do not display anything, we should redirect the user to
+the page that they called. This can be done by passing a next url parameter. Explained here:
+https://stackoverflow.com/questions/16750464/django-redirect-after-login-not-working-next-not-posting
+
 TODO Change pk of how answers work
 TODO Only display 10 most recent answers and AJAX on next page
 TODO Add passwords for protected questions

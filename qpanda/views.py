@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db import IntegrityError
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.utils import timezone
 
@@ -135,6 +135,11 @@ def user_login(request):
         # Display a page that a user can use to login. This can be the same as the one in the register view.
         print 'have to include something in this else if block.'
         return HttpResponse("Have to do something.")
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('askquestion')
 
 
 def register(request):

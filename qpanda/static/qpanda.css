@@ -149,6 +149,10 @@ input.wd49 {
     width: 49%;
 }
 
+input.wd100 {
+    width: 100%;
+}
+
 h3 {
     margin-bottom: 8px;
 }

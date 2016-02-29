@@ -22,18 +22,20 @@
             </div>
         </form>
 
-        <div id="homepagelogin">
-            <h3>Signup/Login</h3>
-            {% if registererror %} {% comment %}registererror sounds funny. Register-err-err.{% endcomment %}
-                <div class="centercontents">
-                    <div class="alert alert-danger fade in" id="error">
-                        <button class="close" id="close" data-dismiss="alert" aria-label="close">&times;</button>
-                        <strong>{{ registererror }}</strong>
+        {% if not user.is_authenticated %}
+            <div id="homepagelogin">
+                <h3>Signup/Login</h3>
+                {% if registererror %} {% comment %}registererror sounds funny. Register-err-err.{% endcomment %}
+                    <div class="centercontents">
+                        <div class="alert alert-danger fade in" id="error">
+                            <button class="close" id="close" data-dismiss="alert" aria-label="close">&times;</button>
+                            <strong>{{ registererror }}</strong>
+                        </div>
                     </div>
-                </div>
-            {%  endif %}
-            {% include 'qpanda/registerloginform.html' %}
-        </div>
+                {%  endif %}
+                {% include 'qpanda/registerloginform.html' %}
+            </div>
+        {% endif %}
     </div>
 
 {% endblock %}
