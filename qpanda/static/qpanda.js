@@ -28,6 +28,10 @@ $(document).ready(function() {
         // display the confirm password input field and give it focus.
 
         $('form#authenticate').attr('action', '/register/');
+        // TODO Fix register redirect.
+        // We included a next GET parameter for login but because we are changing the action method here, we need to add
+        // the get parameter. I think we just need to find what follows after a question mark and append that like
+        // $('form#authenticate').attr('action', '/registernext=' + getGetParams()).
         // change the submit action to call qpanda.co/register/ instead of qpanda.co/login/.
 
         $(this).attr('type', 'hidden');

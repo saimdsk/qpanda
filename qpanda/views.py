@@ -18,6 +18,14 @@ def askquestion(request):
     return render(request, 'qpanda/askquestion.html', {'questionform': QuestionForm(),
                                                        'userform': UserForm()})
 
+def nextURL(request):
+    nexturl = request.GET.get('next')
+
+    if nexturl is not None:
+        return redirect(nexturl)
+    else:
+        return redirect('askquestion')
+
 
 def question(request):
     if request.method == 'POST':
@@ -127,7 +135,7 @@ def user_login(request):
 
         if user is not None:
             login(request, user)
-            return HttpResponse("You are now logged in as: " + user.username)
+            return nextURL(request)
         else:
             return HttpResponse("Incorrect username/password.")
 
@@ -139,7 +147,7 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    return redirect('askquestion')
+    return nextURL(request)
 
 
 def register(request):
