@@ -8,9 +8,13 @@
             {% block maincontent %}
                 {% if question %}
                     <h3 id="question_text">{{ question.question_text }}</h3>
-                    <p id="userasking">
+                    <p>
                         Asked by
-                            <a id="username">{{ user_asking }}</a>
+                            {% if question.owner %}
+                                <a id="username">{{ question.owner.get_username|default:"Anonymous" }}</a>
+                            {% else %}
+                                Anonymous
+                            {% endif %}
                             <span class="time" title="{{ question.pub_date|date:"r" }}">
                                 {{ question.pub_date|naturaltime }}
                             </span>

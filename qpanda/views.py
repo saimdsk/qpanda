@@ -44,10 +44,13 @@ def question(request):
         else:
             return handler404(request, error='Please enter a valid question.')
 
-        # hard coded for now, will fix later.
-        yaseen = User.objects.get(username='yaseen')
+        if request.user.is_authenticated():
+            owner = request.user
+        else:
+            owner = None
 
-        question = Question.create(question_text=text, owner=yaseen)
+        question = Question.create(question_text=text, owner=owner)
+
         try:
             question.save()
         except IntegrityError:
@@ -74,7 +77,6 @@ def askedquestion(request, question_id):
         return handler404(request, error='Question not found.')
 
     context = {'question': question,
-               'user_asking': question.owner.get_username(),
                'answerform': AnswerForm(),
                'answers': question.answer_set.order_by('-pub_date')[:10],
                'userform': UserForm()}
@@ -109,7 +111,12 @@ def answerquestion(request, question_id):
             # reattempt finding a solution.
             return render(request, 'qpanda/askedquestion.html', context)
 
-        a = Answer(question=question, answer_text=text, pub_date=timezone.now())
+        if request.user.is_authenticated():
+            owner = request.user
+        else:
+            owner = None
+
+        a = Answer(question=question, answer_text=text, pub_date=timezone.now(), owner=owner)
         a.save()
 
         return redirect('askedquestion', question_id=question_id)
