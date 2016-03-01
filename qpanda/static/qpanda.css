@@ -138,6 +138,8 @@ input.confirmpasswordfielderror:focus {
 input[type="text"], input[type="password"] {
     height: 32px;
     border: solid 1px #7b7b7b;
+    padding-left: 3px;
+    padding-right: 3px;
 }
 
 input.authenticate {
@@ -226,7 +228,7 @@ input.button {
     background-color: #37A9E5;
     color: white;
     border: solid 1px #7b7b7b;
-    border-radius: 3px;
+    /* Removed rounded buttons. Still unsure of that change though.*/
 }
 
 input.lgbutton {
