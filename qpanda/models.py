@@ -32,9 +32,9 @@ class Question(models.Model):
 
     def __unicode__(self):
         if self.owner is None:
-            return "Question: " + self.question_text
+            return self.pk + ' - anon - ' + self.question_text
         else:
-            return self.owner.get_username() + "'s Question: " + self.question_text
+            return self.pk + ' - ' + self.owner.get_username() + ' - ' + self.question_text
 
 
 class Answer(models.Model):
@@ -42,3 +42,15 @@ class Answer(models.Model):
     answer_text = models.TextField(verbose_name='Answer')
     pub_date = models.DateTimeField('date published')
     owner = models.ForeignKey(User, null=True)
+
+    def __unicode__(self):
+        if self.owner is None:
+            return self.question.pk + ' - anon - ' + self.answer_text
+        else:
+            # we truncate the answer to so that a single answer will not take up a large section of the admin page.
+            message = self.question.pk + ' - ' + self.owner.get_username() + ' - ' + self.answer_text[:81]
+            if len(self.answer_text) > 80:
+                message += '...'
+
+            return message
+
