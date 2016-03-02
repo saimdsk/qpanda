@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from .forms import QuestionForm, AnswerForm, UserForm
 from .models import Question, Answer
-from utils import gen_valid_pk
+from utils import gen_valid_pk, json_encode_answer
 
 
 def index(request):
@@ -181,3 +181,27 @@ def register(request):
         print 'have to include something in this if/else block.'
 
     return HttpResponse("REGISTER")
+
+
+def ajax_more_answers(request, question_id):
+    if request.is_ajax():
+        try:
+            question = Question.objects.get(pk=question_id)
+        except Question.DoesNotExist:
+            return HttpResponse(status=404)
+
+        from_answer = int(request.GET.get('from'))
+        if from_answer is None:
+            from_answer = 0
+
+        answers = question.answer_set.order_by('-pub_date')[from_answer:]
+
+        encoded = json_encode_answer(answers)
+        response = JsonResponse(encoded)
+
+        return response
+
+    else:
+        return handler404(request)
+
+

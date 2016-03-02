@@ -116,4 +116,78 @@ $(document).ready(function() {
         $(this).parent().remove();
         // This is based on consideration 1. We don't need all of boostrap.js just for this functionality.
     });
+
+    $('input#getmoreanswers').click(function() {
+        dest = window.location.pathname;
+
+        /*
+        window.location.pathname returns whats in the address bar following the .com .co or whatever TLD we're using. If
+        however if we don't add the trailing slash the ajax request will be made to qpanda.co/1234567moreanswers. That's
+        why we check for the slash.
+        */
+
+        if (dest[dest.length -1] !== '/') {
+            dest += '/'
+        }
+
+        /*
+        TODO: Do some math to check what comments to load.
+        We have it set to get from answer 10 onwards. We need to change that. We need to check what comment the user is
+        currently at, get 10 more from that, and append a get parameter to the address bar so that if the user refreshes
+        the page, they will load the answers they were currently reading.
+         */
+        $.getJSON(dest + 'moreanswers/?from=10', function(data, status) {
+            if (status == 'success') {
+                deserialise(data)
+            } else {
+                console.log('AJAX request to ' + dest + ' failed...');
+            }
+        });
+    });
+
+    function deserialise(data) {
+        console.log('deserialise');
+        data2 = data['answers'];
+        keys = Object.keys(data2);
+
+        output = '';
+
+        for (var i=0; i < keys.length; i++) {
+            key = keys[i];
+            user = data2[key];
+
+            // We are just outputting whats in answers.html again pretty much.
+            if (i == 0) {
+                output += '<ul class="list-group" id="answerlist">';
+            }
+
+            output += '<li class="list-group-item">';
+            output += '<div>' + user.answer_text + '</div>';
+            output += '<div class="answerfooter">';
+
+            if (user.username != '') {
+                output +='<a id="username">' + user.username + '</a>';
+            }
+            else {
+                output += '<span>Anonymous</span>';
+            }
+
+            d = new Date(user.pub_date);
+            datespan = '<span class="time timeasked" title="' + d + '">x hours ago</span>';
+
+            output += datespan;
+            output += '</div></li>';
+
+            if (i == keys.length-1) {
+                output += '</ul>';
+                $('ul#answerlist').replaceWith(output);
+            }
+
+            // Leaving these console.logs in case they are needed in the future...
+            console.log('username: ' + user.username);
+            console.log('answer text: ' + user.answer_text);
+            console.log('pub_date: ' + user.pub_date);
+            console.log('locale date: ' + d);
+        }
+    }
 });

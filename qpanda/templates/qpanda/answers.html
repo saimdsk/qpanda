@@ -2,7 +2,7 @@
 
 <div id="answers">
     <h4>Answers</h4>
-    <ul class="list-group">
+    <ul class="list-group" id="answerlist">
         {% for a in answers %}
             <li class="list-group-item">
                 {% comment %}
@@ -32,4 +32,6 @@
             </li>
         {% endfor %}
     </ul>
+
+    <input type="button" id="getmoreanswers" class="button lgbutton wd100" value="More Answers"/>
 </div>

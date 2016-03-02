@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^login/', views.user_login, name='user_login'),
     url(r'^logout/', views.user_logout, name='user_logout'),
     url(r'^register/', views.register, name='register'),
+    url(r'^(?P<question_id>[a-zA-Z0-9]+)/moreanswers', views.ajax_more_answers, name='ajax_more_answers'),
     url(r'^(?P<question_id>[a-zA-Z0-9]+)/answer/', views.answerquestion, name='answerquestion'),
     url(r'^(?P<question_id>[a-zA-Z0-9]+)', views.askedquestion, name='askedquestion'),
     url(r'^$', views.askquestion, name='askquestion'), #forward everything to qpanda.
