@@ -20,6 +20,17 @@ $(document).ready(function() {
     });
 
     $('input#registerbutton').click(function() {
+        /*
+        We're programmers and we use our keyboards very often. As much as possible actually. Using the keyboard is just
+        much easier than switching back and forth between the mouse/touchpad and keyboard. When I submit forms I love
+        typing [tab] typing [tab] typing [tab] typing [tab]... and so on until [enter]. So with our form I investigated
+        how it worked. I knew that I was going to run into the problem where if a user clicked on register but actually
+        wanted to log in.
+
+        Because the login submit is closest to the form I realised that if a user clicked register but pressed enter
+        after filling in the password form, it would call login and not register. However because I'm changing the form
+        action attribute either button will still submit to /register/.
+         */
         // There is one form for login or register because that's awesome UX. If we are registering a user, upon
         // clicking register we will display a hidden element and focus on it for the user to confirm their password.
 
@@ -30,6 +41,7 @@ $(document).ready(function() {
         $('form#authenticate').attr('action', '/register/?next=' + window.location.pathname);
 
         $(this).attr('type', 'hidden');
+        $('input#loginbutton').attr('type', 'hidden');
         $('input#hiddenregisterbutton').attr('type', 'submit');
         // input#register is a button and not submit, because when we click it we want to display the confirm password
         // input field. However on a second click of register (once the confirmpassword field has been filled) we want
@@ -55,7 +67,7 @@ $(document).ready(function() {
             registerfeedback.css('display', 'none');
         }
 
-        else if (password1.val() != password2.val()) {
+        else if (!credentialsValid()) {
             registerfeedback.attr('class', 'glyphicon glyphicon-remove form-control-feedback fade in');
             registerfeedback.css('display', 'block');
             registerfeedback.css('color', '#a94442');
@@ -67,41 +79,66 @@ $(document).ready(function() {
             registerfeedback.css('display', 'block');
             registerfeedback.css('color', '#3c763d');
             password2.attr('class', 'authenticate confirmpasswordfieldsuccess');
+            password2.attr('title', 'Credentials are valid.')
         }
     }
 
 
     $('input.checkregistration').click(function(event) {
+        credentialsValid(true, event);
+    });
+
+    function credentialsValid(eventoccurred, event) {
         var username = $('input#usernamefield');
         var password1 = $('input#passwordfield');
         var password2 = $('input#confirmpasswordfield');
 
         var re = /^[a-zA-Z-_][a-zA-Z0-9-_]{4,}$/;
 
+        errormessage = '';
+
         if (username.val().length < 5) {
-            registrationerror(event, 'Username needs to be atleast 5 characters adlsssssssssssssssllllllllllllll.');
+            errormessage = 'Username needs to be atleast 5 characters.';
             // TODO Figure out how to deal with a long error message.
         }
-
         else if (!re.test(username.val())) {
-            registrationerror(event, 'Username can only contain letters, numbers, underscores, and hyphens.')
+            errormessage = 'Username can only contain letters, numbers, underscores, and hyphens.';
         }
-
         else if (password1.val() != password2.val()) {
-            registrationerror(event, 'Passwords do not match.');
+            errormessage = 'Passwords do not match.';
+        }
+        else if(password1.val().length < 6) {
+            errormessage = 'Password needs to be atleast 6 characters.';
+        }
+        else {
+            return true;
         }
 
-        else if(password1.val().length < 6) {
-            registrationerror(event, 'Password needs to be atleast 6 characters.')
+        if (eventoccurred) {
+            registrationerror(true, event, errormessage);
         }
-    });
+        else {
+            registrationerror(false, event, errormessage)
+        }
+        return false;
+    }
 
     // I'm pretty sure I should declare these functions outside document.ready(), right?
     // TODO Investigate javascript function declaration syntax
-    function registrationerror(event, text) {
-        $('strong#errortext').text(text);
-        $('div#registererrorbox').css('display', 'block');
-        event.preventDefault();
+    function registrationerror(eventoccurred, event, text) {
+        /*
+        We call credentialsValid everytime a user inputs text into the password fields. We don't want to constantly keep
+        bringing up the error div. So instead we display the error message in a tooltip on the confirmpasswordfield. We
+        still want to display the error box if the user clicks submit though and didn't read the tooltip. So we check if
+        the submit event happened, if so we stop it and display the error div. Until then we just display the tooltip.
+         */
+        if (eventoccurred) {
+            $('strong#errortext').text(text);
+            $('div#registererrorbox').css('display', 'block');
+            event.preventDefault();
+        }
+
+        $('input#confirmpasswordfield').attr('title', text);
     }
 
     $('.jshide').click(function() {

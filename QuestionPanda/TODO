@@ -1,8 +1,7 @@
 SUPER IMPORTANT
-TODO CREATE A REGISTER PAGE! See Consideration #3.
 
 LESS IMPORTANT (but still significant)
-TODO Only display 10 most recent answers and AJAX on next page
+TODO Add login button when the user accidentally clicks register
 TODO Add passwords for protected questions
 TODO Allow questions that expire
 TODO Allow voting on answers
