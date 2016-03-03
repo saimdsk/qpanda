@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -76,9 +76,17 @@ def askedquestion(request, question_id):
     except Question.DoesNotExist:
         return handler404(request, error='Question not found.')
 
+    try:
+        from_answer = int(request.GET.get('from'))
+        if from_answer < 0 or from_answer is None:
+            from_answer = 0
+    except TypeError:
+        from_answer = 0
+
     context = {'question': question,
                'answerform': AnswerForm(),
-               'answers': question.answer_set.order_by('-pub_date')[:10],
+               'answers': question.answer_set.order_by('-pub_date')[from_answer:from_answer+10],
+               'from_answer': from_answer+10,
                'userform': UserForm()}
 
     return render(request, 'qpanda/askedquestion.html', context)
@@ -177,7 +185,8 @@ def register(request):
             # and boom we've got the error message.
             print errormsg
 
-            return handler404(request, errormsg)
+            # apparently handler404 expects a str, so we're converting it here.
+            return handler404(request, str(errormsg))
 
     else:
         # need to write a regular register page where a user can sign up at. Not the main page.
@@ -189,16 +198,23 @@ def register(request):
 
 def ajax_more_answers(request, question_id):
     if request.is_ajax():
+        # django has a get_object_or_404 method that I should probably use...
         try:
             question = Question.objects.get(pk=question_id)
         except Question.DoesNotExist:
             return HttpResponse(status=404)
 
-        from_answer = int(request.GET.get('from'))
-        if from_answer is None:
+        try:
+            from_answer = int(request.GET.get('from'))
+            if from_answer is None:
+                from_answer = 0
+        except TypeError:
             from_answer = 0
 
         answers = question.answer_set.order_by('-pub_date')[from_answer:]
+
+        if len(answers) == 0:
+            return HttpResponseBadRequest()
 
         encoded = json_encode_answer(answers)
         response = JsonResponse(encoded)
@@ -207,5 +223,3 @@ def ajax_more_answers(request, question_id):
 
     else:
         return handler404(request)
-
-

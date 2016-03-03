@@ -2,7 +2,7 @@
 
 <div id="answers">
     <h4>Answers</h4>
-    <ul class="list-group" id="answerlist">
+    <ul class="list-group" id="answerlist" data-fromanswer="{{ from_answer|default:"0" }}">
         {% for a in answers %}
             <li class="list-group-item">
                 {% comment %}

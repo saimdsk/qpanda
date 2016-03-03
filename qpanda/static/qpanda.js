@@ -133,22 +133,26 @@ $(document).ready(function() {
             dest += '/'
         }
 
-        /*
-        TODO: Do some math to check what comments to load.
-        We have it set to get from answer 10 onwards. We need to change that. We need to check what comment the user is
-        currently at, get 10 more from that, and append a get parameter to the address bar so that if the user refreshes
-        the page, they will load the answers they were currently reading.
-         */
-        $.getJSON(dest + 'moreanswers/?from=10', function(data, status) {
-            if (status == 'success') {
-                deserialise(data)
-            } else {
-                console.log('AJAX request to ' + dest + ' failed...');
-            }
+        var answer_list = $('#answerlist');
+        var from_answer = parseInt(answer_list.attr("data-fromanswer"));
+        console.log(from_answer);
+        $.getJSON(dest + 'moreanswers/?from=' + from_answer, function(data) {
+                deserialise(data, from_answer+10);
+
+                // If the user refreshes the page after an ajax get, it will load the answers from the get request
+                // onwards. They won't have to click the getmoreanswers button to get to where they want.
+
+                // you can't change window.location because that triggers a reload, pushstate doesn't trigger reload.
+                window.history.pushState({}, '', dest + '?from=' + from_answer);
+            })
+        .fail(function() {
+            console.log('AJAX request to ' + dest + ' failed...');
         });
     });
 
-    function deserialise(data) {
+    function deserialise(data, from_answer) {
+        // from_answer will be used to set the next data-fromanswer attribute in the new answerlist.
+
         data2 = data['answers'];
         keys = Object.keys(data2);
 
@@ -159,8 +163,11 @@ $(document).ready(function() {
             user = data2[key];
 
             // We are just outputting whats in answers.html again pretty much.
+
+            // I don't think I should delete the <ul> and replace it with another one. I think I should just change the
+            // <li> contents within it. Especially since we are setting the data-fromanswer attr again in this function.
             if (i == 0) {
-                output += '<ul class="list-group" id="answerlist">';
+                output += '<ul class="list-group" id="answerlist" data-fromanswer="' + from_answer + '">';
             }
 
             output += '<li class="list-group-item">';
@@ -186,11 +193,13 @@ $(document).ready(function() {
             }
 
             // Leaving these console.logs in case they are needed in the future...
+            /*
             console.log('username: ' + user.username);
             console.log('answer text: ' + user.answer_text);
             console.log('pub_date: ' + user.pub_date);
             console.log('time_since: ' + user.time_since);
             console.log('locale date: ' + d);
+            */
         }
     }
 });
