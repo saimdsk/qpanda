@@ -31,3 +31,16 @@ user has javascript functionality if they submet an AJAX request, however it rem
 even when javascript is disabled. I'll still push this commit with the naturaltime conversion happening server side, and
 hopefully come back to making that conversion client side. But important features, i.e. registration DOES NOT work
 without javascript.
+
+3b. Building website for clients without javascript.
+Apparently there is still a significant number of users who do not have javascript enabled (around 1%). Those numbers
+were for the guardian, and lots of those views came from screen readers. However, I think I need to choose whether I'm
+going to support that 1%. This is 1% of a hobby project which I expect to get 0 visitors, but still. I wouldn't need to
+change much right now if I were to make it work javascript-less, but I might need to in the future.
+
+The change I'm thinking of right now is to wrap the register button in <a> tags and load the /register/ page that is
+designed to work without js.
+
+The more I think about it, the more complicated it seems to get. I need to pour serious though into this. More than the
+10 minutes I have so far. So right now I'm undecided, but I feel like I'm leaning to the idea of not supporting js-less
+clients.

@@ -45,6 +45,7 @@ $(document).ready(function() {
     });
 
     function passwordsmatch() {
+        // we don't need to keep searching the DOM for these objects. The variables should just be declared once.
         var password1 = $('input#passwordfield');
         var password2 = $('input#confirmpasswordfield');
 
@@ -70,7 +71,7 @@ $(document).ready(function() {
     }
 
 
-    $('input#hiddenregisterbutton').click(function(event) {
+    $('input.checkregistration').click(function(event) {
         var username = $('input#usernamefield');
         var password1 = $('input#passwordfield');
         var password2 = $('input#confirmpasswordfield');
@@ -95,6 +96,8 @@ $(document).ready(function() {
         }
     });
 
+    // I'm pretty sure I should declare these functions outside document.ready(), right?
+    // TODO Investigate javascript function declaration syntax
     function registrationerror(event, text) {
         $('strong#errortext').text(text);
         $('div#registererrorbox').css('display', 'block');

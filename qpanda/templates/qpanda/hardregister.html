@@ -1,0 +1,40 @@
+{% comment %}
+This view is only called when the user visits the register page manually. I.e. qpanda.co/register/. This is only going
+to happen if a user enters that in the address bar, and if they do, because our website is amazing and responsive we
+will display a register form for them.
+
+I merged the login and register form for functionality and UX. However that functionality requires hidden buttons and
+divs, javascript, and css. This page will hardly ever be called, so I don't want to mess around with the code I already
+have by including if/else statements and introducing new names for divs and buttons and everything. So I'm just going to
+write a template.
+
+qpanda.js will change the form action to /register/ on the register button click, but in case the user doesn't have
+javascript we need a separate register page that works without javascript. That is why we have hardcoded /register/
+instead of /login/. The other form has /login/ hardcoded but changes it when the user clicks register.
+
+Also, because we're assuming there is no javascript we will wrap the login button in <a> tags and redirect to /login/.
+{% endcomment %}
+
+<form id="authenticate" action="/register/?next={{ request.path }}" method="POST">
+    {% csrf_token %}
+    <p class="aboveinput">Username</p>
+    {{ userform.username }}
+    <p class="aboveinput">Password</p>
+    {{ userform.password }}
+    <p class="aboveinput">Confirm password</p>
+    <div class="has-feedback marginless">
+        <input type="password" id="confirmpasswordfield" class="authenticate" placeholder="Confirm password"/>
+        <span class="glyphicon glyphicon-remove form-control-feedback" id="registerfeedback" aria-hidden="true"></span>
+    </div>
+    <div id="registerlogin" class="centercontents">
+        <a href="/login/"><input type="button" class="button smbutton wd49" id="loginbutton" value="Login"/></a>
+        <input type="submit" class="button smbutton wd49 checkregistration" id="hardregisterbutton" value="Register"/>
+    </div>
+</form>
+
+<div id="registererrorbox" class="displaynone centercontents">
+    <div class="alert alert-danger fade in" id="error">
+        <button class="close jshide" id="close" aria-label="close">&times;</button>
+        <strong id="errortext">You didn't enter the form correctly.</strong>
+    </div>
+</div>

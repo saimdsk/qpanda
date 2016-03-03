@@ -2,6 +2,10 @@ from django.utils.crypto import get_random_string
 from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import naturaltime
 
+# We use a get parameter to return to a specific url after a form submit, but we don't want to redirect to a url which
+# we use for a POST submit.
+dont_redirect_here = ['/login/', '/answer/', '/register/', '/qpanda/question/']
+
 def gen_valid_pk():
     # We don't want a primary key for a Question to start with the letter t, as questions which start with t will be
     # reserved for temporary questions e.g. qpanda.co/tA83zqP will be a temporary question. But we're not going to

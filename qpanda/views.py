@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from .forms import QuestionForm, AnswerForm, UserForm
 from .models import Question, Answer
-from utils import gen_valid_pk, json_encode_answer
+from utils import gen_valid_pk, json_encode_answer, dont_redirect_here
 
 
 def index(request):
@@ -29,10 +29,10 @@ def askquestion(request):
 def nextURL(request):
     nexturl = request.GET.get('next')
 
-    if nexturl is not None:
-        return redirect(nexturl)
-    else:
+    if nexturl is None or nexturl in dont_redirect_here:
         return redirect('askquestion')
+    else:
+        return redirect(nexturl)
 
 
 def question(request):
@@ -140,9 +140,10 @@ def user_login(request):
             return HttpResponse("Incorrect username/password.")
 
     else:
-        # Display a page that a user can use to login. This can be the same as the one in the register view.
-        print 'have to include something in this else if block.'
-        return HttpResponse("Have to do something.")
+        context = {'questionform': QuestionForm(),
+                   'userform': UserForm(),
+                   'hardlogin': True}
+        return render(request, 'qpanda/askquestion.html', context)
 
 
 def user_logout(request):
@@ -176,11 +177,14 @@ def register(request):
             # and boom we've got the error message.
             print errormsg
 
+            return handler404(request, errormsg)
+
     else:
         # need to write a regular register page where a user can sign up at. Not the main page.
-        print 'have to include something in this if/else block.'
-
-    return HttpResponse("REGISTER")
+        context = {'questionform': QuestionForm(),
+                   'userform': UserForm(),
+                   'hardregistration': True}
+        return render(request, 'qpanda/askquestion.html', context)
 
 
 def ajax_more_answers(request, question_id):

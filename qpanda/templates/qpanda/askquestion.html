@@ -33,7 +33,11 @@
                         </div>
                     </div>
                 {%  endif %}
-                {% include 'qpanda/registerloginform.html' %}
+                {% if hardregistration %}
+                    {% include 'qpanda/hardregister.html' %}
+                {% else %}
+                    {% include 'qpanda/registerloginform.html' %}
+                {% endif %}
             </div>
         {% endif %}
     </div>
