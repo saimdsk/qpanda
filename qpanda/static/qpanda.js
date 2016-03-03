@@ -146,7 +146,6 @@ $(document).ready(function() {
     });
 
     function deserialise(data) {
-        console.log('deserialise');
         data2 = data['answers'];
         keys = Object.keys(data2);
 
@@ -173,7 +172,7 @@ $(document).ready(function() {
             }
 
             d = new Date(user.pub_date);
-            datespan = '<span class="time timeasked" title="' + d + '">x hours ago</span>';
+            datespan = '<span class="time timeasked" title="' + d + '">' + user.time_since + '</span>';
 
             output += datespan;
             output += '</div></li>';
@@ -187,6 +186,7 @@ $(document).ready(function() {
             console.log('username: ' + user.username);
             console.log('answer text: ' + user.answer_text);
             console.log('pub_date: ' + user.pub_date);
+            console.log('time_since: ' + user.time_since);
             console.log('locale date: ' + d);
         }
     }

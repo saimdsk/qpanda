@@ -1,10 +1,16 @@
-TODO Change pk of how answers work
+SUPER IMPORTANT
+TODO CREATE A REGISTER PAGE! See Consideration #3.
+
+LESS IMPORTANT (but still significant)
 TODO Only display 10 most recent answers and AJAX on next page
 TODO Add passwords for protected questions
 TODO Allow questions that expire
 TODO Allow voting on answers
 TODO Allow thread owner to delete answers
 TODO Allow editing of answers (by answerer not threadowner, threadowner can only delete)
+
+OPTIONAL
+TODO Change pk of how answers work
 
 I wrote a blogpost describing how to localise time client side instead of doing it server side here:
 http://yaseenkadir.tumblr.com/post/139552261122/localised-datetime-in-django

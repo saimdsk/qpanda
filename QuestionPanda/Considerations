@@ -16,7 +16,18 @@ the confirmpasswordfield) user editable elements will be sent, even when we only
 occur far more often than registers and removing that 3rd input element will be more bandwidth efficient.
 
 The are 2 possible implementations to remove the 3rd input field:
-    a.  In qpanda.js add the 3rd input field when the user clicks the register button. This is done client side and will
-        also save server bandwidth (a very little bit, but still a saving).
+    a.  In qpanda.js add the 3rd input field to the DOM when the user clicks the register button. This is done client
+        side and will also save server bandwidth (very little impact, but still a saving).
     b.  Send all 3 input fields from the server but on clicking the login button have qpanda.js remove the 3rd input
         field, so that it is not sent in the POST request.
+
+
+3. Convert to naturaltime client side or server side.
+When I use AJAX to submit load more answers, should I calculate the natural time (e.g. 3 hours ago) server side or
+client side? Oringally I thought to convert it client side but decided against it in case the user had blocked
+javascript functionality? Reasonable, right? Nope. AJAX, the name of a cleaning product and also stands for Asynchronous
+Javascript and XML. So that was silly of me to think of converting the time server side. So regardless, I know that the
+user has javascript functionality if they submet an AJAX request, however it reminded me that I need my website to work
+even when javascript is disabled. I'll still push this commit with the naturaltime conversion happening server side, and
+hopefully come back to making that conversion client side. But important features, i.e. registration DOES NOT work
+without javascript.

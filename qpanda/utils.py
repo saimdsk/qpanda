@@ -1,5 +1,6 @@
 from django.utils.crypto import get_random_string
 from django.contrib.auth.models import User
+from django.contrib.humanize.templatetags.humanize import naturaltime
 
 def gen_valid_pk():
     # We don't want a primary key for a Question to start with the letter t, as questions which start with t will be
@@ -23,9 +24,11 @@ def json_encode_answer(answers):
         # the list answers passed into this function is a sorted list. Dicts are not sorted, so instead we will choose
         # with keys which we can sort client side. I haven't sorted them client side though yet because I think a for
         # loop over javascript objects keys will sort them automatically (REALLY REALLY NEED TO CHECK THIS OUT THOUGH).
+
         a = answers[i]
         answers_dict[i] = {'username': a.owner.get_username(),
                            'pub_date': a.pub_date,
+                           'time_since': naturaltime(a.pub_date),
                            'answer_text': a.answer_text}
 
     # TODO Include time since asked?
