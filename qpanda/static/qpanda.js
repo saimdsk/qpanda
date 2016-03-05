@@ -48,12 +48,28 @@ $(document).ready(function() {
         // to actually submit the form. So what we do is hide the button and display and identical looking submit.
     });
 
+    $('input#usernamefield').on('input', function() {
+        passwordsmatch();
+        /*
+        Before this was added, there were problems with having an invalid username. If the user entered an invalid
+        username, then entered a valid password and invalid password, and then corrected the username, the error message
+        would still appear. It occurred because we only checked if the username was valid on the change of passwords,
+        not on the change of usernames.
+
+        TODO Check passwordsmatch only if the user has clicked on register
+        on input will be called frequently, even if the user is not registering. We should check if the user is
+        registering before we waste calling passwordsmatch and performing unnecessary computations.
+
+        TODO Branch passwordsmatch into passwordsvalid and usernamevalid
+         */
+    });
+
     $('input#passwordfield').on('input', function() {
-        passwordsmatch()
+        passwordsmatch();
     });
 
     $('input#confirmpasswordfield').on('input', function() {
-        passwordsmatch()
+        passwordsmatch();
     });
 
     function passwordsmatch() {
