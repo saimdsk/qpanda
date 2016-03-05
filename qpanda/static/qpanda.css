@@ -147,11 +147,11 @@ input.authenticate {
     width: 100%;
 }
 
-input.wd49 {
+.wd49 {
     width: 49%;
 }
 
-input.wd100 {
+.wd100 {
     width: 100%;
 }
 
@@ -223,7 +223,7 @@ div.rightalign {
     text-align: right;
 }
 
-input.button {
+.button {
     vertical-align: middle;
     background-color: #37A9E5;
     color: white;
@@ -231,17 +231,26 @@ input.button {
     /* Removed rounded buttons. Still unsure of that change though.*/
 }
 
-input.lgbutton {
+.lgbutton {
     padding: 10px 10px 10px 10px;
     font-size: 16px;
 }
-input.smbutton {
+.smbutton {
     padding: 5px 5px 5px 5px;
     font-size: 14px;
 }
 
-input.button:hover {
+.button:hover {
     background-color: #319ad0;
+}
+
+.unselectable {
+    background-color: #7b7c7c;
+}
+
+.unselectable:hover {
+    cursor: default;
+    background-color: #7b7c7c;
 }
 
 textarea.answerbar {
