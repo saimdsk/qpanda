@@ -33,14 +33,7 @@
         {% endfor %}
     </ul>
 
-    {% if all_answers %}
-        <div id="nomoreanswers" class="unselectable button lgbutton wd100 centercontents">No more answers</div>
-        {% comment %}
-        Lets just mimic the button. I put it in a div because putting it in a button would have the pointer cursor be
-        visible on hover. Even if you override the cursor using css it would still display the link pointer cursor for
-        a frame or 2 though. So instead we just put it in a div.
-        {% endcomment %}
-    {% else %}
+    {% if more_answers %}
         <input type="button" id="getmoreanswers" class="button lgbutton wd100" value="More Answers"/>
     {% endif %}
 

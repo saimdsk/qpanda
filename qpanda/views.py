@@ -89,12 +89,12 @@ def askedquestion(request, question_id):
                'from_answer': from_answer+10,
                'userform': UserForm()}
 
-    if from_answer + 11 > len(question.answer_set.order_by('-pub_date')):
+    if from_answer + 11 < len(question.answer_set.order_by('-pub_date')):
         # I wasn't sure whether to put "11" or "10+1". I think 10+1 makes it more readable. I'm doing it because arrays
         # use 0 indexing but length returns number of elements. So we check to see that the answers we are displaying
         # now do not go beyond the number of answers that exist. If they do go beyond the number of answers, we disable
         # the getmoreanswers button in answers.html.
-        context['all_answers'] = True
+        context['more_answers'] = True
 
     return render(request, 'qpanda/askedquestion.html', context)
 
@@ -223,7 +223,12 @@ def ajax_more_answers(request, question_id):
         if len(answers) == 0:
             return HttpResponseBadRequest()
 
-        encoded = json_encode_answer(answers)
+        more_answers = False
+        if from_answer + 11 < len(question.answer_set.order_by('-pub_date')):
+            more_answers = True
+            # if there aren't any more answers in the list we will remove the button that is used to AJAX more answers.
+
+        encoded = json_encode_answer(answers, more_answers)
         response = JsonResponse(encoded)
 
         return response

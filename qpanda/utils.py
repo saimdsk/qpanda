@@ -18,7 +18,7 @@ def gen_valid_pk():
     return pk
 
 
-def json_encode_answer(answers):
+def json_encode_answer(answers, more_answers=False):
     # question.answer_set() returns a python set and not a list (I believe?). The Django JSON Encoder cannot encode a
     # a set, so we choose what to fields to encode into a python dict. The django docs recommend using your own encoder
     # but I think this might be easier.
@@ -36,7 +36,9 @@ def json_encode_answer(answers):
                            'answer_text': a.answer_text}
 
     # TODO Include time since asked?
-    # Should we calculate the time since the question was asked server or client side?
+    # Should we calculate the time since the question was asked server or client side
 
-    json_dict = {'answers': answers_dict}
+    json_dict = {'answers': answers_dict,
+                 'more_answers': more_answers}
+
     return json_dict

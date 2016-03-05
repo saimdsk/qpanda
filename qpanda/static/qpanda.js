@@ -172,7 +172,6 @@ $(document).ready(function() {
 
         var answer_list = $('#answerlist');
         var from_answer = parseInt(answer_list.attr("data-fromanswer"));
-        console.log(from_answer);
         $.getJSON(dest + 'moreanswers/?from=' + from_answer, function(data) {
                 deserialise(data, from_answer+10);
 
@@ -190,14 +189,19 @@ $(document).ready(function() {
     function deserialise(data, from_answer) {
         // from_answer will be used to set the next data-fromanswer attribute in the new answerlist.
 
-        data2 = data['answers'];
-        keys = Object.keys(data2);
+        var more_answers = data['more_answers'];
+        if (!more_answers) {
+            $('input#getmoreanswers').remove();
+        }
 
-        output = '';
+        var data2 = data['answers'];
+        var keys = Object.keys(data2);
+
+        var output = '';
 
         for (var i=0; i < keys.length; i++) {
-            key = keys[i];
-            user = data2[key];
+            var key = keys[i];
+            var user = data2[key];
 
             // We are just outputting whats in answers.html again pretty much.
 
@@ -218,8 +222,8 @@ $(document).ready(function() {
                 output += '<span>Anonymous</span>';
             }
 
-            d = new Date(user.pub_date);
-            datespan = '<span class="time timeasked" title="' + d + '">' + user.time_since + '</span>';
+            var d = new Date(user.pub_date);
+            var datespan = '<span class="time timeasked" title="' + d + '">' + user.time_since + '</span>';
 
             output += datespan;
             output += '</div></li>';
