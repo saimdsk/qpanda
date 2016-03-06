@@ -76,7 +76,7 @@ h1#heading {
     the heading with the logo */
 }
 
-div#container {
+div.container {
     margin: 0 auto;
     max-width: 975px;
     min-width: 850px;
@@ -84,18 +84,13 @@ div#container {
 }
 
 div#maincontent {
-    float: left;
-    width: 76%;
     padding-right: 10px;
 }
 
 div#sidebar {
-    float: right;
     background-color: #ffffff;
     padding: 10px 10px 10px 10px;
     border: solid 1px #7b7b7b;
-    width: 23%;
-    height: 500px;
 }
 
 p.aboveinput {
@@ -143,7 +138,6 @@ input[type="text"], input[type="password"] {
 }
 
 input.authenticate {
-    min-width: 180px;
     width: 100%;
 }
 
