@@ -177,7 +177,7 @@ body {
 }
 
 div#askarea {
-    width: 800px;
+    /*width: 800px;*/
     margin: 0 auto;
 }
 
@@ -186,12 +186,14 @@ div#askline {
 }
 
 div#homepagelogin {
-    width: 30%;
+    max-width: 350px;
     margin: 50px auto 0px auto;
 }
 
 input.askbar {
-    width: 600px;
+    min-width: 200px;
+    width: 70%;
+    max-width: 500px;
     height: inherit;
     font-size: 20px;
     vertical-align: middle;
@@ -225,8 +227,11 @@ div.rightalign {
     background-color: #37A9E5;
     color: white;
     border: solid 1px #7b7b7b;
-    margin-bottom: 2px;
     /* Removed rounded buttons. Still unsure of that change though.*/
+}
+
+.authbutton {
+    margin-bottom: 2px;
 }
 
 .lgbutton {
