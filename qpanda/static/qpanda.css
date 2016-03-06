@@ -76,21 +76,22 @@ h1#heading {
     the heading with the logo */
 }
 
-div.container {
+div.container-fluid {
     margin: 0 auto;
     max-width: 975px;
-    min-width: 850px;
     /* width chosen based on this article https://www.newfangled.com/optimal-site-width/ */
 }
 
 div#maincontent {
-    padding-right: 10px;
+    /*padding-right: 10px;*/
 }
 
 div#sidebar {
+    margin: 0 auto;
     background-color: #ffffff;
     padding: 10px 10px 10px 10px;
     border: solid 1px #7b7b7b;
+    max-width: 350px;
 }
 
 p.aboveinput {
@@ -158,7 +159,9 @@ div.centercontents {
 }
 
 div#registerlogin {
-    margin-top: 7px;
+    margin-top: 0px;
+    /* Because we're nesting divs now, the margin-top in div will add up to something to large. So we cancel out one
+    margin-top. */
 }
 
 h4 {
@@ -222,6 +225,7 @@ div.rightalign {
     background-color: #37A9E5;
     color: white;
     border: solid 1px #7b7b7b;
+    margin-bottom: 2px;
     /* Removed rounded buttons. Still unsure of that change though.*/
 }
 
