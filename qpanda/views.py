@@ -215,15 +215,13 @@ def ajax_more_answers(request, question_id):
         except TypeError:
             from_answer = 0
 
-        answers = question.answer_set.order_by('-pub_date')[from_answer:]
+        answers = question.answer_set.order_by('-pub_date')[from_answer:from_answer+10]
 
         if len(answers) == 0:
             return HttpResponseBadRequest()
 
         more_answers = False
-
-        if from_answer + 9 < len(question.answer_set.order_by('-pub_date')):
-            # we use +9 instead of 10 because of the difference between array zero-indexing and lengths.
+        if from_answer + 10 < len(question.answer_set.order_by('-pub_date')):
             more_answers = True
             # if there aren't any more answers in the list we will remove the button that is used to AJAX more answers.
 
