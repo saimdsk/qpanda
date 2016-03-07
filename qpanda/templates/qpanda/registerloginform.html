@@ -4,20 +4,18 @@
     {{ userform.username }}
     <p class="aboveinput">Password</p>
     {{ userform.password }}
-    <div class="displaynone marginless" id="hiddenregister">
+    <div class="displaynone notopmargin" id="hiddenregister">
         <p class="aboveinput">Confirm password</p>
-        <div class="has-feedback marginless">
+        <div class="has-feedback notopmargin">
             <input type="password" id="confirmpasswordfield" class="authenticate" placeholder="Confirm password"/>
             <span class="glyphicon glyphicon-remove form-control-feedback" id="registerfeedback" aria-hidden="true">
             </span>
         </div>
     </div>
-    <div class="row">
-        <div id="registerlogin" class="col-md-12 centercontents">
-            <input type="submit" class="button authbutton smbutton wd100" id="loginbutton" value="Login"/>
-            <input type="button" class="button authbutton smbutton wd100" id="registerbutton" value="Register"/>
-            <input type="hidden" class="button authbutton smbutton checkregistration wd100" id="hiddenregisterbutton" value="Register"/>
-        </div>
+    <div id="registerlogin">
+        <input type="submit" class="button authbutton smbutton" id="loginbutton" value="Login"/>
+        <input type="button" class="button authbutton smbutton" id="registerbutton" value="Register"/>
+        <input type="hidden" class="button authbutton smbutton checkregistration wd100" id="hiddenregisterbutton" value="Register"/>
     </div>
 
 </form>

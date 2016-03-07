@@ -22,13 +22,15 @@ Also, because we're assuming there is no javascript we will wrap the login butto
     <p class="aboveinput">Password</p>
     {{ userform.password }}
     <p class="aboveinput">Confirm password</p>
-    <div class="has-feedback marginless">
+    <div class="has-feedback notopmargin">
         <input type="password" id="confirmpasswordfield" class="authenticate" placeholder="Confirm password"/>
         <span class="glyphicon glyphicon-remove form-control-feedback" id="registerfeedback" aria-hidden="true"></span>
     </div>
-    <div id="registerlogin" class="centercontents">
-        <a href="/login/"><input type="button" class="button smbutton wd49" id="loginbutton" value="Login"/></a>
-        <input type="submit" class="button smbutton wd49 checkregistration" id="hardregisterbutton" value="Register"/>
+    <div id="registerlogin" class="">
+        <a href="/login/"><input type="button" class="button authbutton smbutton" id="loginbutton" value="Login"/></a>
+        <input type="submit" class="button authbutton smbutton checkregistration" id="hardregisterbutton" value="Register"/>
+    </div>
+
     </div>
 </form>
 

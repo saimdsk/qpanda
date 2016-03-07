@@ -40,7 +40,12 @@ div {
     margin-top: 10px;
 }
 
+/* We added no top margin because we were doing in marginless was what should be done in notopmargin.*/
 div.marginless {
+    margin-top: 0px;
+}
+
+div.notopmargin {
     margin-top: 0px;
 }
 
@@ -159,7 +164,8 @@ div.centercontents {
 }
 
 div#registerlogin {
-    margin-top: 0px;
+    /*margin-top: 0px;*/
+    float: right;
     /* Because we're nesting divs now, the margin-top in div will add up to something to large. So we cancel out one
     margin-top. */
 }
@@ -174,6 +180,7 @@ h3#error {
 
 body {
     background-color: #effcff;
+    margin-bottom: 20px;
 }
 
 div#askarea {
@@ -227,6 +234,7 @@ div.rightalign {
     background-color: #37A9E5;
     color: white;
     border: solid 1px #7b7b7b;
+    min-width: 65px;
     /* Removed rounded buttons. Still unsure of that change though.*/
 }
 
@@ -235,7 +243,7 @@ div.rightalign {
 }
 
 .lgbutton {
-    padding: 10px 10px 10px 10px;
+    padding: 5px 10px 5px 10px;
     font-size: 16px;
 }
 .smbutton {
@@ -254,9 +262,8 @@ textarea.answerbar {
 
 input#askbutton {
     height: inherit;
-    width: 60px;
-    padding: 0px 0px 0px 0px;
-    border-radius: 0px;
+    /* because we want it to be as tall as the text input we set the height on the parent div and have both elements in
+    the div inherit the hiehg */
 }
 
 input#askbutton:hover {
