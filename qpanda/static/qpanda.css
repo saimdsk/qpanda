@@ -37,7 +37,7 @@ header a:focus, header a:hover {
 /* Because we put the header inside an <a> tag we need to overrride the default bootstrap and user css settings.*/
 
 div {
-    margin-top: 10px;
+    /*margin-top: 10px;*/
 }
 
 /* We added no top margin because we were doing in marginless was what should be done in notopmargin.*/
@@ -47,6 +47,13 @@ div.marginless {
 
 div.notopmargin {
     margin-top: 0px;
+}
+
+div.top10 {
+    margin-top: 20px;
+}
+div.top20 {
+    margin-top: 20px;
 }
 
 span#registerfeedback {
@@ -82,17 +89,18 @@ h1#heading {
 }
 
 div.container-fluid {
-    margin: 0 auto;
+    margin-bottom: 20px;
     max-width: 975px;
     /* width chosen based on this article https://www.newfangled.com/optimal-site-width/ */
 }
 
 div#maincontent {
+    margin-top: 20px;
     /*padding-right: 10px;*/
 }
 
 div#sidebar {
-    margin: 0 auto;
+    margin: 20px auto 0 auto    ;
     background-color: #ffffff;
     padding: 10px 10px 10px 10px;
     border: solid 1px #7b7b7b;
@@ -164,7 +172,7 @@ div.centercontents {
 }
 
 div#registerlogin {
-    /*margin-top: 0px;*/
+    margin-top: 5px;
     float: right;
     /* Because we're nesting divs now, the margin-top in div will add up to something to large. So we cancel out one
     margin-top. */
@@ -180,7 +188,9 @@ h3#error {
 
 body {
     background-color: #effcff;
-    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 6rem;
+    min-height: 100%;
 }
 
 div#askarea {
@@ -251,6 +261,11 @@ div.rightalign {
     font-size: 14px;
 }
 
+input#getmoreanswers {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 .button:hover {
     background-color: #319ad0;
 }
@@ -276,4 +291,27 @@ div#answers {
 
 span.timeasked {
     float: right;
+}
+
+footer {
+    background-color: #686868;
+    color: white;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+    /*
+    Thank you to Chris Bracco for saving me the hassle of having to figure out how to do the footer. If the page is long
+    enough the footer will display only when scrolled down. If the page is short the footer will be displayed as a
+    sticky footer at the bottom of the page.
+
+    http://cbracco.me/css-sticky-footer-effect/
+    */
+}
+
+html {
+    height: 100%;
+    box-sizing: border-box;
 }
