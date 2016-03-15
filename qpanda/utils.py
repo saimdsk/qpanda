@@ -30,10 +30,17 @@ def json_encode_answer(answers, more_answers=False):
         # loop over javascript objects keys will sort them automatically (REALLY REALLY NEED TO CHECK THIS OUT THOUGH).
 
         a = answers[i]
-        answers_dict[i] = {'username': a.owner.get_username(),
-                           'pub_date': a.pub_date,
-                           'time_since': naturaltime(a.pub_date),
-                           'answer_text': a.answer_text}
+
+        single_answer_dict = {'pub_date': a.pub_date,
+                              'time_since': naturaltime(a.pub_date),
+                              'answer_text': a.answer_text}
+
+        try:
+            single_answer_dict['username'] = a.owner.get_username()
+        except AttributeError:
+            single_answer_dict['username'] = 'Anonymous'
+
+        answers_dict[i] = single_answer_dict
 
     # TODO Include time since asked?
     # Should we calculate the time since the question was asked server or client side

@@ -1,9 +1,7 @@
 SUPER IMPORTANT
 
 LESS IMPORTANT (but still significant)
-TODO Choose anonymous if logged in
-Allow a user to choose whether their question will be asked anonymously or attached to their username if they are logged
-in.
+
 TODO Add passwords for protected questions
 TODO Allow questions that expire
 TODO Allow voting on answers
