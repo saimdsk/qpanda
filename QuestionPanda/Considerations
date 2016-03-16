@@ -44,3 +44,10 @@ designed to work without js.
 The more I think about it, the more complicated it seems to get. I need to pour serious though into this. More than the
 10 minutes I have so far. So right now I'm undecided, but I feel like I'm leaning to the idea of not supporting js-less
 clients.
+
+n - 1. Encrypting secret questions?
+It's numbered n-1, because this consideration is well in the future. However the idea is whether or not I should encrypt
+the question and answer data for a protected question. If a user chooses to ask a protected question (which requires the
+user to provide a key) should we use that key to encrypt the data too. I don't want to store the key server side, so
+on every request we would decrypt the data using the key (how would we know whether it was successfully decrypted?).
+

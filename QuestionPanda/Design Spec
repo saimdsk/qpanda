@@ -1,0 +1,72 @@
+A description of what I wish for this project to become.
+--------------------------------------------------------
+
+Overall
+I want it to be an easy, lightweight way for somebody to post something and receive feedback.
+
+First we're going to begin by building a tool which can be used by presenters to allow feedback during their
+presentations. They can include a link in their presentation (using the url shortener to make it simple) and receive
+audience feedback, making their presentation more engaging.
+
+It was inspired by a similar tool that my physics lecturer was using. This is designed to be much more lightweight,
+simpler, and a little more manageable. Even though we were in a physics lecturer, the users were responding with useless
+feedback. That includes me by the way. I remember submitting '#SixSeasonsAndAMovie' as an answer one time.
+
+I want to help the presenter ensure that the presentation doesn't get derailed by first world anarchists like me.
+
+That describes the inspiration. Eventually I would like for the website to have different functions. Live discussions
+where users comment on live events, yes. Forums that include posts according to topics, that allow comments, yes.
+Sending a link to a group chat as to whether you should were the light blue or dark blue shirt and allow them to vote,
+yes! (I like the light blue one, but whatever, my friends are dumb)
+
+I want it to be an easy, lightweight way for somebody to post something and receive feedback.
+
+That sentence above really describes what I'm going for. I'm going to move it to the top, but also include it here too.
+Don't worry I know I repeated myself.
+
+
+Questions
+The questions posted can be posted in a variety of ways. You should be able to ask a question anonymously, share the
+link and receive anonymous answers. You should also be able to ask a question, secure it so only people with a password
+or specific users can view it, and set the choices for responses, like a poll.
+
+I want to give users a lot of options (eventually, we'll start of basic at first). These options include:
+  - Password protection
+    Protecting a question with a password. Users can only view the question and answers once they have entered the
+    password.
+
+  - Expiry
+    Allowing questions to expire. We'll allow the user to choose the expiry (hours, weeks, months).
+
+  - Different answer options
+    Choosing the types of answers allowed. Allowing users to type in their answers, sure. Only allowing users to choose
+    from a list of possible choices, sure. Allowing users to post anonymously, or require an account.
+
+  - Answer visibility
+    Only allowing the question owner to view answers. The question owner can choose whether they want a user to view the
+    other answers. Allow question owner to remove answer (I don't want to allow this if I do extend the site to allow
+    forum-capabilities).
+
+  - User protection
+    Only allowing specific users registered with the site to view answers.
+
+  - Question encryption
+    Added a consideration for this, because I'm not sure whether it will be practical. It's consideration n-1 (in this
+    commit atleast). Encrypt the question and answer using a user-provided key.
+
+  - Answer voting
+    Allow users to vote on answer.
+
+  - Make live
+    Choose a time to make a question live. You can set a time e.g. 19:28 21/10/2015, or create a question, store it and
+    choose when to make it live.
+
+  - Survey
+    Allow users to create surveys (which include multiple questions and answer sections).
+
+  - Chaining
+    This is similar to a survey. After responding to a question forward to a new question.
+
+  - Multi-Authentication
+    A user can protect multiple questions with one password, and if the user is authenticated against one of these, they
+    will be authenticated for all of them. Especially useful if a presenter has multiple questions chained together.
