@@ -6,7 +6,7 @@
     query. But yes. You can just use the linux '../'. And I realise now as I type this that I should have searched
     'how to submit form to parent url'. Saying 'higher level domain' was showing stuff about top level domains.
     {% endcomment %}
-    <div class="row">
+    <div class="row" id="maincontent">
         {% if mainerror %}
             {% include 'qpanda/mainerror.html' %}
         {%  endif %}
@@ -35,7 +35,7 @@
                                 <strong>{{ registererror }}</strong>
                             </div>
                         </div>
-                    {%  endif %}
+                    {% endif %}
                     {% if hardregistration %}
                         {% include 'qpanda/hardregister.html' %}
                     {% else %}

@@ -12,11 +12,11 @@ class UserForm(ModelForm):
         model = User
         fields = ['username', 'password']
         widgets = {
-            'username': TextInput(attrs={'class': 'authenticate',
+            'username': TextInput(attrs={'class': 'auth',
                                          'id': 'usernamefield',
                                          'placeholder': 'Username',
                                          'type': 'text'}),
-            'password': TextInput(attrs={'class': 'authenticate',
+            'password': TextInput(attrs={'class': 'auth',
                                          'id': 'passwordfield',
                                          'placeholder': 'Password',
                                          'type': 'password'})

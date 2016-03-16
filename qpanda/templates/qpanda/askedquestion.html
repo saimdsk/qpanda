@@ -4,10 +4,10 @@
 {% block container %}
 
     <div class="row">
-        <div class="col-sm-12 col-sm-9 col-md-9 top20" id="maincontent">
+        <div class="col-sm-12 col-sm-9 col-md-9" id="maincontent">
             {% block maincontent %}
                 {% if question %}
-                    <h3 id="question_text">{{ question.question_text }}</h3>
+                    <h3 id="questiontext">{{ question.question_text }}</h3>
                     <p>
                         Asked by
                             {% if question.owner %}
