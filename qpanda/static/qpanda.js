@@ -175,40 +175,37 @@ $(document).ready(function() {
         a solution that gets the previous answers.
         */
 
-        // Apparently I should be using const. Const is block level unlike var which is function level.
-
         var currenturl, dest, pushto, from_answer, popto, moreanswers;
-        if (event.state == null) {
-            console.log(window.location.href);
 
+        // If we're on the page qpanda.co/1234567/?from=10 and we press back to go to qpanda.co/1234567.
+        // qpanda.co/1234567/?from=10 will have event.state as null and qpanda.co/1234567 will never pop.
+        if (event.state == null) {
             currenturl = window.location.pathname;
+
             if (currenturl[currenturl.length -1] !== '/') {
                 currenturl += '/';
             }
+
             dest = currenturl + 'moreanswers/?from=0';
-            pushto = currenturl + '?from=10';
-            from_answer = 0;
+            pushto = currenturl + 'moreanswers/?from=10';
+            from_answer = 10;
             moreanswers = false;
 
-            jsongetanswers(dest, pushto, dest, from_answer, moreanswers);
+            jsongetanswers(dest, currenturl, pushto, from_answer, moreanswers);
         }
+
+        // e.g. going from qpanda.co/1234567/?from=20 to qpanda.co/1234567/?from=10
         else {
             pushto = event.state['pushto'];
             popto = event.state['popto'];
             from_answer = event.state['from_answer'];
-
             currenturl = window.location.pathname;
+
             if (currenturl[currenturl.length -1] !== '/') {
                 currenturl += '/';
             }
 
             dest = currenturl + 'moreanswers/?from=' + from_answer;
-
-            console.log('--------------------------------------');
-            console.log('dest: ' + pushto);
-            console.log('popto: ' + popto);
-            console.log('from: ' + from_answer);
-            console.log('--------------------------------------');
 
             jsongetanswers(dest, popto, pushto, from_answer+10, false)
         }
@@ -218,15 +215,10 @@ $(document).ready(function() {
         /*
         dest = destination of get request
         popto = the dictionary that we need to use to know what to pop back to
-        pushto = the url that we push to
+        pushto = the url that will be used to get more answers
         from_answer = the answer we use as a reference point.
         moreanswers = boolean to see if we want more answers. If true get more, else get previous answers.
          */
-
-        console.log('desturl: ' + dest);
-        console.log('popto: ' + popto);
-        console.log('pushto: ' + pushto);
-        console.log('from_answer: ' + from_answer);
 
         $.getJSON(dest, function(data) {
             if (moreanswers) {
@@ -235,7 +227,7 @@ $(document).ready(function() {
             }
 
             else {
-                deserialise(data, from_answer-10);
+                deserialise(data, from_answer);
             }
         })
         .fail(function() {
@@ -245,12 +237,9 @@ $(document).ready(function() {
 
     $('input#getmoreanswers').click(function() {
         var currenturl = window.location.pathname;
-
-        /*
-        window.location.pathname returns whats in the address bar following the .com .co or whatever TLD we're using. If
-        however if we don't add the trailing slash the ajax request will be made to qpanda.co/1234567moreanswers. That's
-        why we check for the slash.
-        */
+        // window.location.pathname returns whats in the address bar following the .com .co or whatever TLD we're using.
+        // If however if we don't add the trailing slash the ajax request will be made to qpanda.co/1234567moreanswers.
+        // That's why we check for the slash.
 
         if (currenturl[currenturl.length -1] !== '/') {
             currenturl += '/'
@@ -258,11 +247,8 @@ $(document).ready(function() {
 
         var answer_list = $('#answerlist');
         var from_answer = parseInt(answer_list.attr("data-fromanswer"));
-
-        /*
-        SUPER SUPER IMPORTANT
-        FIX THIS. SUPER SUPER HACKED TOGETHER!
-         */
+        // data-fromanswer tells you the answer index it is displaying up to. I.e. If the answers with index 0 to 9 are
+        // being displayed data-fromanswer will have a value of 10.
 
         if (from_answer < 0 ) {
             from_answer = 10;
@@ -276,31 +262,10 @@ $(document).ready(function() {
         } else {
             popto = window.location.pathname + '?from=' + (from_answer-10);
         }
+
         var pushto = window.location.pathname + '?from=' + (from_answer);
 
         jsongetanswers(desturl, popto, pushto, from_answer, true);
-
-        /*
-        $.getJSON(currenturl + 'moreanswers/?from=' + from_answer, function(data) {
-                deserialise(data, from_answer+10);
-
-                // If the user refreshes the page after an ajax get, it will load the answers from the get request
-                // onwards. They won't have to click the getmoreanswers button to get to where they want.
-
-                // you can't change window.location because that triggers a reload, pushstate doesn't trigger reload.
-                var prevstate;
-                if (from_answer < 10) {
-                    prevstate = {'popto': window.location.href};
-                }
-
-                else {
-                    prevstate = {'popto': window.location.href + '?from=' + from_answer};
-                }
-                window.history.pushState(prevstate, '', currenturl + '?from=' + from_answer);
-            })
-        .fail(function() {
-            console.log('AJAX request to ' + currenturl + ' failed...');
-        });*/
     });
 
     function deserialise(data, from_answer) {
