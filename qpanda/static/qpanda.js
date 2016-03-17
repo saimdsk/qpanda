@@ -2,8 +2,14 @@
  * Created by yaseen on 2/17/16.
  */
 
+// TODO Pick a style
+// I'm using underscores e.g. 'from_answer', camelcased e.g. 'credentialsValid()', and regular e.g. 'registerselected'.
+
 $(document).ready(function() {
-    
+
+    var registerselected = false;
+    var password1, password2, registerfeedback;
+
     $('span.time').each(function(i, obj) {
         // Instead of even using seconds/milliseconds since epoch django can convert datetimefield to an RFC 2822 compliant
         // formatted date, which javascript can use to construct a date. Even easier than before!
@@ -17,20 +23,12 @@ $(document).ready(function() {
         var sharelink = $('#sharelink');
         sharelink.attr('type', 'text');
         sharelink.select();
+        /* This highlights the sharelink text to make it easy to copy and paste the link. */
     });
 
     $('input#registerbutton').click(function() {
-        /*
-        We're programmers and we use our keyboards very often. As much as possible actually. Using the keyboard is just
-        much easier than switching back and forth between the mouse/touchpad and keyboard. When I submit forms I love
-        typing [tab] typing [tab] typing [tab] typing [tab]... and so on until [enter]. So with our form I investigated
-        how it worked. I knew that I was going to run into the problem where if a user clicked on register but actually
-        wanted to log in.
+        registerselected = true;
 
-        Because the login submit is closest to the form I realised that if a user clicked register but pressed enter
-        after filling in the password form, it would call login and not register. However because I'm changing the form
-        action attribute either button will still submit to /register/.
-         */
         // There is one form for login or register because that's awesome UX. If we are registering a user, upon
         // clicking register we will display a hidden element and focus on it for the user to confirm their password.
 
@@ -39,6 +37,8 @@ $(document).ready(function() {
         // display the confirm password input field and give it focus.
 
         $('form#authenticate').attr('action', '/register/?next=' + window.location.pathname);
+        /* this is used for redirecting to the next page. If the user logs in on the homepage or an askedquestion page
+           we should redirect to that page on register or login. */
 
         $(this).attr('type', 'hidden');
         $('input#loginbutton').attr('type', 'hidden');
@@ -49,35 +49,30 @@ $(document).ready(function() {
     });
 
     $('input#usernamefield').on('input', function() {
-        passwordsmatch();
-        /*
-        Before this was added, there were problems with having an invalid username. If the user entered an invalid
-        username, then entered a valid password and invalid password, and then corrected the username, the error message
-        would still appear. It occurred because we only checked if the username was valid on the change of passwords,
-        not on the change of usernames.
-
-        TODO Check passwordsmatch only if the user has clicked on register
-        on input will be called frequently, even if the user is not registering. We should check if the user is
-        registering before we waste calling passwordsmatch and performing unnecessary computations.
-
-        TODO Branch passwordsmatch into passwordsvalid and usernamevalid
-         */
+        if (registerselected) {
+            passwordsmatch()
+        }
+        // TODO Branch passwordsmatch into passwordsvalid and usernamevalid
     });
 
     $('input#passwordfield').on('input', function() {
-        passwordsmatch();
+        if (registerselected) {
+            passwordsmatch();
+        }
     });
 
     $('input#confirmpasswordfield').on('input', function() {
-        passwordsmatch();
+        if (registerselected) {
+            passwordsmatch();
+        }
     });
 
     function passwordsmatch() {
-        // we don't need to keep searching the DOM for these objects. The variables should just be declared once.
-        var password1 = $('input#passwordfield');
-        var password2 = $('input#confirmpasswordfield');
-
-        var registerfeedback = $('#registerfeedback');
+        if (password1 == null || password2 == null || registerfeedback == null) {
+            password1 = $('input#passwordfield');
+            password2 = $('input#confirmpasswordfield');
+            registerfeedback = $('#registerfeedback');
+        }
 
         if (password2.val().length == 0) {
             registerfeedback.css('display', 'none');
@@ -87,14 +82,14 @@ $(document).ready(function() {
             registerfeedback.attr('class', 'glyphicon glyphicon-remove form-control-feedback fade in');
             registerfeedback.css('display', 'block');
             registerfeedback.css('color', '#a94442');
-            password2.attr('class', 'authenticate confirmpasswordfielderror');
+            password2.attr('class', 'auth confirmpasswordfielderror');
         }
 
         else {
             registerfeedback.attr('class', 'glyphicon glyphicon-ok form-control-feedback fade in');
             registerfeedback.css('display', 'block');
             registerfeedback.css('color', '#3c763d');
-            password2.attr('class', 'authenticate confirmpasswordfieldsuccess');
+            password2.attr('class', 'auth confirmpasswordfieldsuccess');
             password2.attr('title', 'Credentials are valid.')
         }
     }
@@ -104,10 +99,10 @@ $(document).ready(function() {
         credentialsValid(true, event);
     });
 
-    function credentialsValid(eventoccurred, event) {
+    function credentialsValid(formsubmit, event) {
+        /* the usage of formsubmit is explained in the registrationerror function */
+
         var username = $('input#usernamefield');
-        var password1 = $('input#passwordfield');
-        var password2 = $('input#confirmpasswordfield');
 
         var re = /^[a-zA-Z-_][a-zA-Z0-9-_]{4,}$/;
 
@@ -117,38 +112,37 @@ $(document).ready(function() {
             errormessage = 'Username needs to be atleast 5 characters.';
             // TODO Figure out how to deal with a long error message.
         }
+
         else if (!re.test(username.val())) {
             errormessage = 'Username can only contain letters, numbers, underscores, and hyphens.';
         }
+
         else if (password1.val() != password2.val()) {
             errormessage = 'Passwords do not match.';
         }
+
         else if(password1.val().length < 6) {
             errormessage = 'Password needs to be atleast 6 characters.';
         }
+
         else {
             return true;
         }
 
-        if (eventoccurred) {
-            registrationerror(true, event, errormessage);
-        }
-        else {
-            registrationerror(false, event, errormessage)
-        }
+        registrationerror(formsubmit, event, errormessage);
+
         return false;
     }
 
-    // I'm pretty sure I should declare these functions outside document.ready(), right?
-    // TODO Investigate javascript function declaration syntax
-    function registrationerror(eventoccurred, event, text) {
+    function registrationerror(formsubmit, event, text) {
         /*
-        We call credentialsValid everytime a user inputs text into the password fields. We don't want to constantly keep
-        bringing up the error div. So instead we display the error message in a tooltip on the confirmpasswordfield. We
-        still want to display the error box if the user clicks submit though and didn't read the tooltip. So we check if
-        the submit event happened, if so we stop it and display the error div. Until then we just display the tooltip.
+        We call credentialsValid every time a user inputs text into the password fields. We don't need to display the
+        error div on every keystroke so instead we display the error message in a tooltip on the confirmpasswordfield.
+        We still want to display the error box if the user clicks submit though and didn't read the tooltip. So we check
+        if the submit event happened, if so we stop it and display the error div. Until then we just display the tooltip.
          */
-        if (eventoccurred) {
+
+        if (formsubmit) {
             $('strong#errortext').text(text);
             $('div#registererrorbox').css('display', 'block');
             event.preventDefault();
@@ -173,8 +167,84 @@ $(document).ready(function() {
         // This is based on consideration 1. We don't need all of boostrap.js just for this functionality.
     });
 
+    window.onpopstate = function(event) {
+        /*
+        When we use getmoreanswers it submits an ajax request for more answers and changes the window.location bar to
+        show the updated url. If the user reloads the page, they will be returned to the current answers they are
+        viewing. However if you click back it will load the previous url but keep the same answers. We need to implement
+        a solution that gets the previous answers.
+        */
+
+        // Apparently I should be using const. Const is block level unlike var which is function level.
+
+        var currenturl, dest, pushto, from_answer, popto, moreanswers;
+        if (event.state == null) {
+            console.log(window.location.href);
+
+            currenturl = window.location.pathname;
+            if (currenturl[currenturl.length -1] !== '/') {
+                currenturl += '/';
+            }
+            dest = currenturl + 'moreanswers/?from=0';
+            pushto = currenturl + '?from=10';
+            from_answer = 0;
+            moreanswers = false;
+
+            jsongetanswers(dest, pushto, dest, from_answer, moreanswers);
+        }
+        else {
+            pushto = event.state['pushto'];
+            popto = event.state['popto'];
+            from_answer = event.state['from_answer'];
+
+            currenturl = window.location.pathname;
+            if (currenturl[currenturl.length -1] !== '/') {
+                currenturl += '/';
+            }
+
+            dest = currenturl + 'moreanswers/?from=' + from_answer;
+
+            console.log('--------------------------------------');
+            console.log('dest: ' + pushto);
+            console.log('popto: ' + popto);
+            console.log('from: ' + from_answer);
+            console.log('--------------------------------------');
+
+            jsongetanswers(dest, popto, pushto, from_answer+10, false)
+        }
+    };
+
+    function jsongetanswers(dest, popto, pushto, from_answer, moreanswers) {
+        /*
+        dest = destination of get request
+        popto = the dictionary that we need to use to know what to pop back to
+        pushto = the url that we push to
+        from_answer = the answer we use as a reference point.
+        moreanswers = boolean to see if we want more answers. If true get more, else get previous answers.
+         */
+
+        console.log('desturl: ' + dest);
+        console.log('popto: ' + popto);
+        console.log('pushto: ' + pushto);
+        console.log('from_answer: ' + from_answer);
+
+        $.getJSON(dest, function(data) {
+            if (moreanswers) {
+                deserialise(data, from_answer+10);
+                window.history.pushState({'from_answer': from_answer, 'pushto': pushto, 'popto': popto}, '', pushto);
+            }
+
+            else {
+                deserialise(data, from_answer-10);
+            }
+        })
+        .fail(function() {
+            console.log('AJAX request to ' + dest + ' failed...');
+        });
+    }
+
     $('input#getmoreanswers').click(function() {
-        dest = window.location.pathname;
+        var currenturl = window.location.pathname;
 
         /*
         window.location.pathname returns whats in the address bar following the .com .co or whatever TLD we're using. If
@@ -182,24 +252,55 @@ $(document).ready(function() {
         why we check for the slash.
         */
 
-        if (dest[dest.length -1] !== '/') {
-            dest += '/'
+        if (currenturl[currenturl.length -1] !== '/') {
+            currenturl += '/'
         }
 
         var answer_list = $('#answerlist');
         var from_answer = parseInt(answer_list.attr("data-fromanswer"));
-        $.getJSON(dest + 'moreanswers/?from=' + from_answer, function(data) {
+
+        /*
+        SUPER SUPER IMPORTANT
+        FIX THIS. SUPER SUPER HACKED TOGETHER!
+         */
+
+        if (from_answer < 0 ) {
+            from_answer = 10;
+        }
+
+        var desturl = currenturl + 'moreanswers/?from=' + from_answer;
+        var popto;
+
+        if (from_answer <= 10) {
+            popto = window.location.pathname
+        } else {
+            popto = window.location.pathname + '?from=' + (from_answer-10);
+        }
+        var pushto = window.location.pathname + '?from=' + (from_answer);
+
+        jsongetanswers(desturl, popto, pushto, from_answer, true);
+
+        /*
+        $.getJSON(currenturl + 'moreanswers/?from=' + from_answer, function(data) {
                 deserialise(data, from_answer+10);
 
                 // If the user refreshes the page after an ajax get, it will load the answers from the get request
                 // onwards. They won't have to click the getmoreanswers button to get to where they want.
 
                 // you can't change window.location because that triggers a reload, pushstate doesn't trigger reload.
-                window.history.pushState({}, '', dest + '?from=' + from_answer);
+                var prevstate;
+                if (from_answer < 10) {
+                    prevstate = {'popto': window.location.href};
+                }
+
+                else {
+                    prevstate = {'popto': window.location.href + '?from=' + from_answer};
+                }
+                window.history.pushState(prevstate, '', currenturl + '?from=' + from_answer);
             })
         .fail(function() {
-            console.log('AJAX request to ' + dest + ' failed...');
-        });
+            console.log('AJAX request to ' + currenturl + ' failed...');
+        });*/
     });
 
     function deserialise(data, from_answer) {
@@ -207,11 +308,15 @@ $(document).ready(function() {
 
         var more_answers = data['more_answers'];
         if (!more_answers) {
-            $('input#getmoreanswers').remove();
+            $('input#getmoreanswers').hide();
+        } else {
+            $('input#getmoreanswers').show();
         }
 
         var data2 = data['answers'];
         var keys = Object.keys(data2);
+
+        /* It's called data2 because it is a dict within a dict and I don't know what else to call it. */
 
         var output = '';
 
@@ -231,7 +336,7 @@ $(document).ready(function() {
             output += '<div>' + user.answer_text + '</div>';
             output += '<div class="answerfooter">';
 
-            if (user.username != '') {
+            if (user.username != 'Anonymous') {
                 output +='<a id="username">' + user.username + '</a>';
             }
             else {
@@ -239,24 +344,14 @@ $(document).ready(function() {
             }
 
             var d = new Date(user.pub_date);
-            var datespan = '<span class="time timeasked" title="' + d + '">' + user.time_since + '</span>';
+            output += '<span class="time timeasked" title="' + d + '">' + user.time_since + '</span>';
 
-            output += datespan;
             output += '</div></li>';
 
             if (i == keys.length-1) {
                 output += '</ul>';
                 $('ul#answerlist').replaceWith(output);
             }
-
-            // Leaving these console.logs in case they are needed in the future...
-            /*
-            console.log('username: ' + user.username);
-            console.log('answer text: ' + user.answer_text);
-            console.log('pub_date: ' + user.pub_date);
-            console.log('time_since: ' + user.time_since);
-            console.log('locale date: ' + d);
-            */
         }
     }
 });
