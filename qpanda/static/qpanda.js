@@ -2,6 +2,10 @@
  * Created by yaseen on 2/17/16.
  */
 
+// Before reading any further, please realise that I do not understand javascript. I learnt a little bit over 2 years
+// ago and that was from following a tutorial. I've done absolutely no research or learning about how to write good
+// javascript. Instead I just write the code as I need it. So if it looks like it is hacked together, you're right.
+
 // TODO Pick a style
 // I'm using underscores e.g. 'from_answer', camelcased e.g. 'credentialsValid()', and regular e.g. 'registerselected'.
 
@@ -9,10 +13,12 @@ $(document).ready(function() {
 
     var registerselected = false;
     var password1, password2, registerfeedback;
+    // these variables were constantly being retrieved from the DOM by jquery on keyboard input. So instead they're
+    // assigned once.
 
     $('span.time').each(function(i, obj) {
-        // Instead of even using seconds/milliseconds since epoch django can convert datetimefield to an RFC 2822 compliant
-        // formatted date, which javascript can use to construct a date. Even easier than before!
+        // Instead of even using seconds/milliseconds since epoch django can convert datetimefield to an RFC 2822
+        // compliant formatted date, which javascript can use to construct a date. Even easier than before!
         var rfc2822datestring = $(this).attr('title');
         var d = new Date(rfc2822datestring);
 
@@ -155,12 +161,6 @@ $(document).ready(function() {
         // We use the bootstrap alerts to display our other errors. When we submit the form we want to validate
         $('div#registererrorbox').hide();
     });
-
-    /*
-    To be totally honest. I wrote a little bit of javascript years ago. I'm guessing that I'm ordering the components
-    of my code horribly. But I promise I'll fix it eventually. I'm just learning on the fly, and unfortunately the
-    javascript is going to be the most loosely-organised and hacked together part of this project.
-     */
 
     $('.close[data-dismiss="alert"]').click(function() {
         $(this).parent().remove();
