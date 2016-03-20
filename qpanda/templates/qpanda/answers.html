@@ -10,7 +10,7 @@
                 to a specific answer, edit links, username links, etc. We need to make changes in
                 order to customise the look of the site.
                 {% endcomment %}
-                <div>
+                <div class="answertext">
                     {{ a.answer_text }}
                 </div>
 
@@ -21,11 +21,11 @@
                     return nothing and the default filter will be used instead.
                     {% endcomment %}
                     {% if a.owner %}
-                        <a id="username">{{ a.owner.get_username|default:"Anonymous" }}</a>
+                        <span class="username"><a>{{ a.owner.get_username|default:"Anonymous" }}</a></span>
                     {% else %}
-                        <span>Anonymous</span>
+                        <span class="username">Anonymous</span>
                     {% endif %}
-                    <span class="time timeasked" title="{{ a.pub_date|date:"r" }}">
+                    <span class="time anstime" title="{{ a.pub_date|date:"r" }}">
                         {{ a.pub_date|naturaltime }}
                     </span>
                 </div>

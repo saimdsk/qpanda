@@ -56,24 +56,24 @@ $(document).ready(function() {
 
     $('input#usernamefield').on('input', function() {
         if (registerselected) {
-            passwordsmatch()
+            checkAuthDetails()
         }
-        // TODO Branch passwordsmatch into passwordsvalid and usernamevalid
     });
 
     $('input#passwordfield').on('input', function() {
         if (registerselected) {
-            passwordsmatch();
+            checkAuthDetails();
         }
     });
 
     $('input#confirmpasswordfield').on('input', function() {
         if (registerselected) {
-            passwordsmatch();
+            checkAuthDetails();
         }
     });
 
-    function passwordsmatch() {
+    function checkAuthDetails() {
+        // Called every time there is a keyboard input in the auth fields.
         if (password1 == null || password2 == null || registerfeedback == null) {
             password1 = $('input#passwordfield');
             password2 = $('input#confirmpasswordfield');
@@ -112,7 +112,7 @@ $(document).ready(function() {
 
         var re = /^[a-zA-Z-_][a-zA-Z0-9-_]{4,}$/;
 
-        errormessage = '';
+        var errormessage = '';
 
         if (username.val().length < 5) {
             errormessage = 'Username needs to be atleast 5 characters.';
@@ -213,10 +213,10 @@ $(document).ready(function() {
 
     function jsongetanswers(dest, popto, pushto, from_answer, moreanswers) {
         /*
-        dest = destination of get request
-        popto = the dictionary that we need to use to know what to pop back to
-        pushto = the url that will be used to get more answers
-        from_answer = the answer we use as a reference point.
+        dest = destination of json get request
+        popto = the url that we'll popto (if the back button is clicked)
+        pushto = the url that we will push (using pushState)
+        from_answer = the answer we use as a reference point in the json request
         moreanswers = boolean to see if we want more answers. If true get more, else get previous answers.
          */
 
@@ -283,39 +283,39 @@ $(document).ready(function() {
 
         /* It's called data2 because it is a dict within a dict and I don't know what else to call it. */
 
-        var output = '';
+        $('#answerlist').attr('data-fromanswer', from_answer);
+        var answers = $('.list-group-item');
 
-        for (var i=0; i < keys.length; i++) {
+        for (var i=0; i < answers.length && i < keys.length; i++) {
             var key = keys[i];
-            var user = data2[key];
+            var jsonanswer = data2[key];
+            var a = answers[i];
 
-            // We are just outputting whats in answers.html again pretty much.
-
-            // I don't think I should delete the <ul> and replace it with another one. I think I should just change the
-            // <li> contents within it. Especially since we are setting the data-fromanswer attr again in this function.
-            if (i == 0) {
-                output += '<ul class="list-group" id="answerlist" data-fromanswer="' + from_answer + '">';
+            // set answer text
+            var answertext = $(a).find(".answertext").html(jsonanswer.answer_text);
+            // set answer username
+            if (jsonanswer.username != 'Anonymous') {
+                $(a).find("span.username").html('<a>' + jsonanswer.username + '</a>');
+            } else {
+                $(a).find("span.username").html('Anonymous');
             }
+            // set answer date
+            var d = new Date(jsonanswer.pub_date);
+            var answerdate = $(a).find('span.anstime');
+            answerdate.attr('title', d);
+            answerdate.html(jsonanswer.time_since);
 
-            output += '<li class="list-group-item">';
-            output += '<div>' + user.answer_text + '</div>';
-            output += '<div class="answerfooter">';
-
-            if (user.username != 'Anonymous') {
-                output +='<a id="username">' + user.username + '</a>';
+            if (!$(a).is(':visible')) {
+                $(a).show();
             }
-            else {
-                output += '<span>Anonymous</span>';
-            }
+        }
 
-            var d = new Date(user.pub_date);
-            output += '<span class="time timeasked" title="' + d + '">' + user.time_since + '</span>';
-
-            output += '</div></li>';
-
-            if (i == keys.length-1) {
-                output += '</ul>';
-                $('ul#answerlist').replaceWith(output);
+        if (answers.length > keys.length) {
+            for (i = keys.length; i < answers.length; i++) {
+                // if we load a page with only a few answers, we hide the old answers. We can't remove them because if
+                // we press back the answer won't be displayed.
+                a = answers[i];
+                $(a).hide();
             }
         }
     }

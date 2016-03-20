@@ -141,6 +141,10 @@ div#registerlogin {
     float: right;
 }
 
+div#registererrorbox {
+    margin-top: 3px;
+}
+
 h4 {
     font-family: "Helvetica";
 }
@@ -258,7 +262,7 @@ div#answers {
     margin-top: 20px;
 }
 
-span.timeasked {
+span.anstime {
     float: right;
 }
 
