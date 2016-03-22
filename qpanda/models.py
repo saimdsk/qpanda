@@ -14,7 +14,7 @@ class Question(models.Model):
     # to qpanda.co/212 to look at another question. Django's get_random_string() will produce a random string made up of
     # 62 possible letters. 62**7 = 3 521 614 606 208L. So 3 trillion possible questions. Do you think that's enough?
 
-    question_text = models.CharField(verbose_name='Question',max_length=200)
+    question_text = models.CharField(verbose_name='Question', max_length=200)
     # verbose name was added for when the QuestionForm is rendered
 
     pub_date = models.DateTimeField('date published')

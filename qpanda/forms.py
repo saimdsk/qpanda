@@ -31,7 +31,8 @@ class UserForm(ModelForm):
         # username must start with a letter or '-' or '_'.
         # It can only contain letters, numbers, '-', and '_'.
         # It must be atleast 5 characters long.
-            # we use {4,} because it only checks that the closest [] is x characters long.
+        # we use {4,} because it only checks that the closest [] is x characters long.
+
         if rules.match(data) is None:
             # failed the regex.
             if len(data) < 5:
