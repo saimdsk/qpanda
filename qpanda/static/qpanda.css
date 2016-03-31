@@ -284,6 +284,10 @@ footer {
     */
 }
 
+a.nounderline:hover {
+    text-decoration: none;
+}
+
 a.darklink {
     color: rgba(235, 235, 235, 1);
     font-weight: bold;

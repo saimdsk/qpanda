@@ -2,7 +2,7 @@
     <h4>Welcome to QuestionPanda!</h4>
     {% if user.is_authenticated %}
         <p>Welcome {{ user.username }}</p>
-        <a href="/logout/?next={{ request.path }}">
+        <a href="/logout/?next={{ request.path }}" class="nounderline">
             <input type="button" class="button smbutton wd100" value="Logout">
         </a>
     {% else %}
