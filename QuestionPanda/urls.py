@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', views.user_login, name='user_login'),
     url(r'^logout/', views.user_logout, name='user_logout'),
+    url(r'^question/', views.question, name='question'),
     url(r'^register/', views.register, name='register'),
     url(r'^(?P<question_id>[a-zA-Z0-9]+)/moreanswers', views.ajax_more_answers, name='ajax_more_answers'),
     url(r'^(?P<question_id>[a-zA-Z0-9]+)/answer/', views.answer_question, name='answerquestion'),
