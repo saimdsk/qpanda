@@ -42,9 +42,6 @@ def json_encode_answer(answers, more_answers=False):
 
         answers_dict[i] = single_answer_dict
 
-    # TODO Include time since asked?
-    # Should we calculate the time since the question was asked server or client side
-
     json_dict = {'answers': answers_dict,
                  'more_answers': more_answers}
 

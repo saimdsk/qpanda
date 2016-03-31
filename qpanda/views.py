@@ -78,7 +78,7 @@ def question(request):
 
 
 # Display a question that has been asked and any accompanying answers.
-def asked_question(request, question_id):
+def asked_question(request, question_id, error=None):
     try:
         question = Question.objects.get(pk=question_id)
     except Question.DoesNotExist:
@@ -97,6 +97,9 @@ def asked_question(request, question_id):
                'answers': question.answer_set.order_by('-pub_date')[from_answer:from_answer+10],
                'from_answer': from_answer+10,
                'userform': UserForm()}
+
+    if error is not None:
+        context['mainerror'] = error
 
     if from_answer + 10 < len(question.answer_set.order_by('-pub_date')):
         # If there are more than 10 answers we display a button allowing the user to send an AJAX for more answers.
@@ -118,20 +121,13 @@ def answer_question(request, question_id):
         if form.is_valid():
             text = form.cleaned_data['answer_text']
         else:
-            context = {'question': question,
-                       'mainerror': 'Please enter a valid answer.',
-                       'user_asking': question.owner.get_username(),
-                       'answerform': AnswerForm(),
-                       'answers': question.answer_set.order_by('-pub_date')[:10],
-                       'userform': UserForm()}
-
             # TODO Do redirect instead of making dict with error message.
             # this still loads qpanda.co/abc1234/answer. Reloading this page will resubmit the invalid form data.
             # Instead we should just hand redirect this to asked_question. I don't like it when a website tells me that
             # when I'm reloading a page, I'm resubmitting data. Fix this. I did spend time earlier trying to figure out
             # how to redirect and pass an error but gave up, because it became too difficult. I think I need to
             # reattempt finding a solution.
-            return render(request, 'qpanda/askedquestion.html', context)
+            return asked_question(request, question_id, error='Please enter a valid answer')
 
         if request.user.is_authenticated():
             owner = request.user
@@ -163,7 +159,7 @@ def user_login(request):
             # TODO: Change handler404 to redirect to both asked_question and ask_question.
             # If the user was on an asked_question page before attempting to log in they should be redirected to that
             # same page. As of now we redirect to a standard 404 page.
-            return HttpResponse("Incorrect username/password.")
+            return handler404(request, error=u'Incorrect username or password.')
 
     else:
         # In the case that the user manually enters qpanda.co/login we should still display a login page.
@@ -201,11 +197,11 @@ def register(request):
             firsterrorkey = form.errors.keys()[0]
             # could be multiple errors, we don't want to overwhelm the user so we'll just display one.
             errordict = form.errors.as_data()
-            # this returns a dict instead of enclosing the error in a html tags.
+            # this returns a dict instead of enclosing the error in a html tag.
             errormsg = unicode(errordict[firsterrorkey])[20:-4]
             # and boom we've got the error message.
 
-            # This is a hack. I did atleast 2 google searches and gave up figuring out how to de-encapsulate the
+            # This is a hack. I did at least 2 google searches and gave up figuring out how to de-encapsulate the
             # ValidationError.
 
             return handler404(request, errormsg)
@@ -248,6 +244,8 @@ def ajax_more_answers(request, question_id):
         else:
             more_answers = False
 
+        # I had trouble when I tried to dictify the answers list. I think it's because is it is a set. So instead I had
+        # to write my own dictionary creator in json_encode_answers.
         encoded = json_encode_answer(answers, more_answers)
         response = JsonResponse(encoded)
 

@@ -284,6 +284,15 @@ footer {
     */
 }
 
+a.darklink {
+    color: rgba(235, 235, 235, 1);
+    font-weight: bold;
+}
+
+a.darklink:hover {
+    color: white;
+}
+
 html {
     height: 100%;
     box-sizing: border-box;
